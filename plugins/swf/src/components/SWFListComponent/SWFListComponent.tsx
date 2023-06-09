@@ -25,7 +25,7 @@ export const SWFListComponent = () => {
     swfApi.listSwfs().then(value => {
       setItems(value.items);
     });
-  });
+  }, [swfApi]);
 
   return (
     <div>
