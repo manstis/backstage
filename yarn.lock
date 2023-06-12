@@ -9294,25 +9294,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@backstage/plugin-swf-backend@^0.0.0, @backstage/plugin-swf-backend@workspace:^, @backstage/plugin-swf-backend@workspace:plugins/swf-backend":
-  version: 0.0.0-use.local
-  resolution: "@backstage/plugin-swf-backend@workspace:plugins/swf-backend"
-  dependencies:
-    "@backstage/backend-common": "workspace:^"
-    "@backstage/cli": "workspace:^"
-    "@backstage/config": "workspace:^"
-    "@types/express": "*"
-    "@types/supertest": ^2.0.8
-    express: ^4.17.1
-    express-promise-router: ^4.1.0
-    msw: ^1.0.0
-    node-fetch: ^2.6.7
-    supertest: ^6.2.4
-    winston: ^3.2.1
-    yn: ^4.0.0
-  languageName: unknown
-  linkType: soft
-
 "@backstage/plugin-tech-insights-backend-module-jsonfc@workspace:^, @backstage/plugin-tech-insights-backend-module-jsonfc@workspace:plugins/tech-insights-backend-module-jsonfc":
   version: 0.0.0-use.local
   resolution: "@backstage/plugin-tech-insights-backend-module-jsonfc@workspace:plugins/tech-insights-backend-module-jsonfc"
@@ -19890,35 +19871,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"backstage-plugin-swf@^0.0.0, backstage-plugin-swf@workspace:plugins/swf":
-  version: 0.0.0-use.local
-  resolution: "backstage-plugin-swf@workspace:plugins/swf"
-  dependencies:
-    "@backstage/backend-plugin-api": "workspace:^"
-    "@backstage/cli": "workspace:^"
-    "@backstage/core-app-api": "workspace:^"
-    "@backstage/core-components": "workspace:^"
-    "@backstage/core-plugin-api": "workspace:^"
-    "@backstage/dev-utils": "workspace:^"
-    "@backstage/errors": "workspace:^"
-    "@backstage/plugin-swf-backend": "workspace:^"
-    "@backstage/test-utils": "workspace:^"
-    "@backstage/theme": "workspace:^"
-    "@material-ui/core": ^4.9.13
-    "@material-ui/icons": ^4.9.1
-    "@material-ui/lab": ^4.0.0-alpha.60
-    "@testing-library/jest-dom": ^5.10.1
-    "@testing-library/react": ^12.1.3
-    "@testing-library/user-event": ^14.0.0
-    "@types/node": "*"
-    cross-fetch: ^3.1.5
-    msw: ^1.0.0
-    react-use: ^17.2.4
-  peerDependencies:
-    react: ^16.13.1 || ^17.0.0
-  languageName: unknown
-  linkType: soft
-
 "badge-maker@npm:^3.3.0":
   version: 3.3.1
   resolution: "badge-maker@npm:3.3.1"
@@ -24956,7 +24908,6 @@ __metadata:
     "@types/react": "*"
     "@types/react-dom": "*"
     "@types/zen-observable": ^0.8.0
-    backstage-plugin-swf: ^0.0.0
     cross-env: ^7.0.0
     cypress: ^10.0.0
     eslint-plugin-cypress: ^2.10.3
@@ -25051,7 +25002,6 @@ __metadata:
     "@backstage/plugin-search-backend-module-pg": "workspace:^"
     "@backstage/plugin-search-backend-node": "workspace:^"
     "@backstage/plugin-search-common": "workspace:^"
-    "@backstage/plugin-swf-backend": ^0.0.0
     "@backstage/plugin-tech-insights-backend": "workspace:^"
     "@backstage/plugin-tech-insights-backend-module-jsonfc": "workspace:^"
     "@backstage/plugin-tech-insights-node": "workspace:^"

@@ -23,6 +23,33 @@ export interface RouterOptions {
   logger: Logger;
 }
 
+const swf1 =
+  '{\n' +
+  '  "id": "hello_world",\n' +
+  '  "version": "1.0",\n' +
+  '  "specVersion": "0.8",\n' +
+  '  "name": "Hello World Workflow",\n' +
+  '  "description": "JSON based hello world workflow",\n' +
+  '  "start": "Inject Hello World",\n' +
+  '  "states": [\n' +
+  '    {\n' +
+  '      "name": "Inject Hello World",\n' +
+  '      "type": "inject",\n' +
+  '      "data": {\n' +
+  '        "greeting": "Hello World"\n' +
+  '      },\n' +
+  '      "transition": "Inject Mantra"\n' +
+  '    },\n' +
+  '    {\n' +
+  '      "name": "Inject Mantra",\n' +
+  '      "type": "inject",\n' +
+  '      "data": {\n' +
+  '        "mantra": "Serverless Workflow is awesome!"\n' +
+  '      },\n' +
+  '      "end": true\n' +
+  '    }\n' +
+  '  ]\n' +
+  '}';
 export async function createRouter(
   options: RouterOptions,
 ): Promise<express.Router> {
@@ -37,7 +64,7 @@ export async function createRouter(
   });
 
   const result: SwfListResult = {
-    items: [{ text: 'hello' }, { text: 'world' }],
+    items: [{ definition: swf1 }],
     limit: 0,
     offset: 0,
     totalCount: 1,
