@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 export type SwfItem = {
-  text: string;
+  definition: string;
 };
 
 export type SwfListResult = {

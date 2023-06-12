@@ -13,9 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useApi } from '@backstage/core-plugin-api';
 import { swfApiRef, SwfItem } from '../../api';
+import {
+  MermaidDiagram,
+  Specification,
+} from '@severlessworkflow/sdk-typescript';
+import mermaid from 'mermaid';
+import svgPanZoom from 'svg-pan-zoom';
 
 export const SWFListComponent = () => {
   const swfApi = useApi(swfApiRef);
@@ -27,11 +33,56 @@ export const SWFListComponent = () => {
     });
   }, [swfApi]);
 
+  const diagramContainerRef = useRef<HTMLDivElement>(null);
+  const updateDiagram = useCallback((content: string) => {
+    if (!diagramContainerRef.current) {
+      return;
+    }
+
+    try {
+      const workflow: Specification.Workflow =
+        Specification.Workflow.fromSource(content);
+      const mermaidSourceCode = workflow.states
+        ? new MermaidDiagram(workflow).sourceCode()
+        : '';
+
+      if (mermaidSourceCode?.length > 0) {
+        diagramContainerRef.current.innerHTML = mermaidSourceCode;
+        diagramContainerRef.current.removeAttribute('data-processed');
+        // @ts-ignore
+        mermaid.init(diagramContainerRef.current);
+        svgPanZoom(diagramContainerRef.current.getElementsByTagName('svg')[0], {
+          controlIconsEnabled: true,
+        });
+        diagramContainerRef.current.getElementsByTagName(
+          'svg',
+        )[0].style.maxWidth = '';
+        diagramContainerRef.current.getElementsByTagName(
+          'svg',
+        )[0].style.height = '100%';
+      } else {
+        diagramContainerRef.current.innerHTML =
+          'Create a workflow to see its preview here.';
+      }
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.error(e);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (items !== undefined) {
+      updateDiagram(items[0].definition);
+    }
+  }, [items, updateDiagram]);
+
   return (
     <div>
-      {items?.map(i => (
-        <p>{i.text}</p>
-      ))}
+      <div
+        style={{ height: '100%', textAlign: 'center', opacity: 1 }}
+        ref={diagramContainerRef}
+        className="mermaid"
+      />
     </div>
   );
 };
