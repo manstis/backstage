@@ -16,7 +16,7 @@
 import { createApiRef } from '@backstage/core-plugin-api';
 
 export type SwfItem = {
-  text: string;
+  definition: string;
 };
 
 export type SwfListResult = {
