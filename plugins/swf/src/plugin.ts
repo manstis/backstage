@@ -20,7 +20,7 @@ import {
   discoveryApiRef,
 } from '@backstage/core-plugin-api';
 
-import { rootRouteRef } from './routes';
+import { definitionsRouteRef, rootRouteRef } from './routes';
 import { swfApiRef, SwfClient } from './api';
 
 export const swfPlugin = createPlugin({
@@ -36,13 +36,14 @@ export const swfPlugin = createPlugin({
   ],
   routes: {
     root: rootRouteRef,
+    definitions: definitionsRouteRef,
   },
 });
 
 export const SwfPage = swfPlugin.provide(
   createRoutableExtension({
-    name: 'SwfPage',
-    component: () => import('./components/SWFPage').then(m => m.SWFPage),
+    name: 'SWFPage',
+    component: () => import('./components/Router').then(m => m.Router),
     mountPoint: rootRouteRef,
   }),
 );

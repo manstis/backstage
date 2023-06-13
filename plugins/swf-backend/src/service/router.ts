@@ -17,7 +17,7 @@ import { errorHandler } from '@backstage/backend-common';
 import express from 'express';
 import Router from 'express-promise-router';
 import { Logger } from 'winston';
-import { SwfListResult } from '@backstage/plugin-swf-common';
+import { SwfItem, SwfListResult } from '@backstage/plugin-swf-common';
 
 export interface RouterOptions {
   logger: Logger;
@@ -25,7 +25,7 @@ export interface RouterOptions {
 
 const swf1 =
   '{\n' +
-  '  "id": "hello_world",\n' +
+  '  "id": "swf1",\n' +
   '  "version": "1.0",\n' +
   '  "specVersion": "0.8",\n' +
   '  "name": "Hello World Workflow",\n' +
@@ -53,31 +53,84 @@ const swf1 =
 
 const swf2 =
   '{\n' +
-  '  "id": "hello_world2",\n' +
+  '  "id": "swf2",\n' +
   '  "version": "1.0",\n' +
-  '  "specVersion": "0.8",\n' +
-  '  "name": "Hello World Workflow2",\n' +
-  '  "description": "JSON based hello world workflow",\n' +
-  '  "start": "Inject Hello World",\n' +
-  '  "states": [\n' +
+  '  "name": "Provision Quarkus cloud application",\n' +
+  '  "description": "Provision Quarkus cloud application",\n' +
+  '  "errors": [\n' +
   '    {\n' +
-  '      "name": "Inject Hello World",\n' +
-  '      "type": "inject",\n' +
-  '      "data": {\n' +
-  '        "greeting": "Hello World"\n' +
-  '      },\n' +
-  '      "transition": "Inject Mantra"\n' +
+  '      "name": "execution error",\n' +
+  '      "code": "java.util.concurrent.CompletionException"\n' +
+  '    }\n' +
+  '  ],\n' +
+  '  "start": "waitForEvent",\n' +
+  '  "events": [\n' +
+  '    {\n' +
+  '      "name": "resumeEvent",\n' +
+  '      "source": "",\n' +
+  '      "type": "resume"\n' +
   '    },\n' +
   '    {\n' +
-  '      "name": "Inject Mantra",\n' +
-  '      "type": "inject",\n' +
-  '      "data": {\n' +
-  '        "mantra": "Serverless Workflow is awesome!"\n' +
+  '      "name": "waitEvent",\n' +
+  '      "source": "",\n' +
+  '      "type": "wait"\n' +
+  '    }\n' +
+  '  ],\n' +
+  '  "functions": [\n' +
+  '    {\n' +
+  '      "name": "printInstanceId",\n' +
+  '      "type": "custom",\n' +
+  '      "operation": "service:java:org.kie.kogito.examples.PrintService::printKogitoProcessId"\n' +
+  '    }\n' +
+  '  ],\n' +
+  '  "states": [\n' +
+  '    {\n' +
+  '      "name": "waitForEvent",\n' +
+  '      "type": "callback",\n' +
+  '      "action": {\n' +
+  '        "name": "publishAction",\n' +
+  '        "eventRef": {\n' +
+  '          "triggerEventRef": "resumeEvent",\n' +
+  '          "data": "{move: \\"This is the initial data in the model\\"}"\n' +
+  '        }\n' +
   '      },\n' +
+  '      "eventRef": "waitEvent",\n' +
+  '      "eventDataFilter": {\n' +
+  '        "data": ".result",\n' +
+  '        "toStateData": ".move"\n' +
+  '      },\n' +
+  '      "onErrors": [\n' +
+  '        {\n' +
+  '          "errorRef": "execution error",\n' +
+  '          "end": true\n' +
+  '        }\n' +
+  '      ],\n' +
+  '      "transition": "finish"\n' +
+  '    },\n' +
+  '    {\n' +
+  '      "name": "finish",\n' +
+  '      "type": "operation",\n' +
+  '      "actions": [\n' +
+  '        {\n' +
+  '          "name": "printInstanceId",\n' +
+  '          "functionRef": {\n' +
+  '            "refName": "printInstanceId"\n' +
+  '          }\n' +
+  '        }\n' +
+  '      ],\n' +
   '      "end": true\n' +
   '    }\n' +
   '  ]\n' +
   '}';
+
+const items: SwfItem[] = [
+  { id: 'swf1', title: 'Hello world', definition: swf1 },
+  {
+    id: 'swf2',
+    title: 'Provision Quarkus cloud application',
+    definition: swf2,
+  },
+];
 export async function createRouter(
   options: RouterOptions,
 ): Promise<express.Router> {
@@ -92,16 +145,24 @@ export async function createRouter(
   });
 
   const result: SwfListResult = {
-    items: [
-      { title: 'Hello world', definition: swf1 },
-      { title: 'Provision Quarkus cloud application', definition: swf2 },
-    ],
+    items: items,
     limit: 0,
     offset: 0,
     totalCount: 2,
   };
-  router.get('/workflows', async (_, res) => {
+  router.get('/items', async (_, res) => {
     res.status(200).json(result);
+  });
+  router.get('/items/:swfId', async (req, res) => {
+    const {
+      params: { swfId },
+    } = req;
+    const item = items.find(i => i.id === swfId);
+    if (item !== undefined) {
+      res.status(200).json(item);
+    } else {
+      res.status(404);
+    }
   });
 
   router.use(errorHandler());

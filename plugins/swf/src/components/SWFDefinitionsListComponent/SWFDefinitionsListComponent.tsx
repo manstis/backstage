@@ -20,26 +20,40 @@ import {
   Progress,
   ResponseErrorPanel,
 } from '@backstage/core-components';
-import { useApi } from '@backstage/core-plugin-api';
+import { useApi, useRouteRef } from '@backstage/core-plugin-api';
 import useAsync from 'react-use/lib/useAsync';
 import { swfApiRef } from '../../api';
 import { SwfItem } from '@backstage/plugin-swf-common';
 import Pageview from '@material-ui/icons/Pageview';
 import PlayArrow from '@material-ui/icons/PlayArrow';
 import Subscriptions from '@material-ui/icons/Subscriptions';
+import { definitionsRouteRef } from '../../routes';
+import { useNavigate } from 'react-router-dom';
 
 type SwfItemsTableProps = {
   items: SwfItem[];
 };
 
 export const SwfItemsTable = ({ items }: SwfItemsTableProps) => {
-  const columns: TableColumn[] = [{ title: 'Title', field: 'title' }];
+  const navigate = useNavigate();
+  const definitionLink = useRouteRef(definitionsRouteRef);
 
-  const data = items.map(item => {
+  interface Row {
+    id: string;
+    title: string;
+  }
+
+  const columns: TableColumn[] = [{ title: 'Title', field: 'title' }];
+  const data: Row[] = items.map(item => {
     return {
+      id: item.id,
       title: item.title,
     };
   });
+
+  const doView = (rowData: Row) => {
+    navigate(definitionLink({ swfId: rowData.id }));
+  };
 
   return (
     <Table
@@ -69,11 +83,7 @@ export const SwfItemsTable = ({ items }: SwfItemsTableProps) => {
         {
           icon: () => <Pageview />,
           tooltip: 'View',
-          disabled: true,
-          onClick: (event, rowData) => {
-            // eslint-disable-next-line no-console
-            console.log(event, rowData);
-          },
+          onClick: (_, rowData) => doView(rowData as Row),
         },
       ]}
     />
