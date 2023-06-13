@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 export type SwfItem = {
+  id: string;
   title: string;
   definition: string;
 };

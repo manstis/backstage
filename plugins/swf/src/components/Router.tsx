@@ -13,14 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { createRouteRef, createSubRouteRef } from '@backstage/core-plugin-api';
 
-export const rootRouteRef = createRouteRef({
-  id: 'swf',
-});
+import React from 'react';
+import { Route, Routes } from 'react-router-dom';
+import { definitionsRouteRef } from '../routes';
+import { SWFPage } from './SWFPage';
+import { SWFDefinitionViewerPage } from './SWFDefinitionViewerPage';
 
-export const definitionsRouteRef = createSubRouteRef({
-  id: 'swf/items',
-  parent: rootRouteRef,
-  path: '/items/:swfId',
-});
+export const Router = () => {
+  return (
+    <Routes>
+      <Route path="/" element={<SWFPage />} />
+      <Route
+        path={definitionsRouteRef.path}
+        element={<SWFDefinitionViewerPage />}
+      />
+    </Routes>
+  );
+};
