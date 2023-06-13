@@ -13,13 +13,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export type SwfItem = {
-  definition: string;
-};
-
-export type SwfListResult = {
-  items: SwfItem[];
-  totalCount: number;
-  offset: number;
-  limit: number;
-};
+export { SWFDefinitionViewerComponent } from './SWFDefinitionViewerComponent';

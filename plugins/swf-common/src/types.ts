@@ -13,6 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { SwfClient } from './SwfClient';
-export type { SwfClientOptions } from './SwfClient';
-export { swfApiRef } from './api';
+export type SwfItem = {
+  title: string;
+  definition: string;
+};
+
+export type SwfListResult = {
+  items: SwfItem[];
+  totalCount: number;
+  offset: number;
+  limit: number;
+};

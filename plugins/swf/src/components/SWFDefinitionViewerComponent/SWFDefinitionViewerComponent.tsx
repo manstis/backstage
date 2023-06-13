@@ -15,7 +15,8 @@
  */
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useApi } from '@backstage/core-plugin-api';
-import { swfApiRef, SwfItem } from '../../api';
+import { swfApiRef } from '../../api';
+import { SwfItem } from '@backstage/plugin-swf-common';
 import {
   MermaidDiagram,
   Specification,
@@ -23,7 +24,7 @@ import {
 import mermaid from 'mermaid';
 import svgPanZoom from 'svg-pan-zoom';
 
-export const SWFListComponent = () => {
+export const SWFDefinitionViewerComponent = () => {
   const swfApi = useApi(swfApiRef);
   const [items, setItems] = useState<SwfItem[]>();
 

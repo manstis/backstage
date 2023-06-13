@@ -13,4 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { SWFListComponent } from './SWFListComponent';
+import { createApiRef } from '@backstage/core-plugin-api';
+import { SwfListResult } from '@backstage/plugin-swf-common';
+
+export interface SwfApi {
+  listSwfs(): Promise<SwfListResult>;
+}
+
+export const swfApiRef = createApiRef<SwfApi>({
+  id: 'plugin.swf.api',
+});
