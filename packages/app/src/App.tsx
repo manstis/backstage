@@ -112,7 +112,7 @@ import { PuppetDbPage } from '@backstage/plugin-puppetdb';
 import { DevToolsPage } from '@backstage/plugin-devtools';
 import { customDevToolsPage } from './components/devtools/CustomDevToolsPage';
 import { CatalogUnprocessedEntitiesPage } from '@backstage/plugin-catalog-unprocessed-entities';
-import { SwfPage } from 'backstage-plugin-swf';
+import { SwfPage } from '@backstage/plugin-swf';
 
 const app = createApp({
   apis,

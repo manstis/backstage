@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 import { ResponseError } from '@backstage/errors';
-import { SwfApi, SwfListResult } from './types';
+import { SwfApi } from './api';
 import { DiscoveryApi } from '@backstage/core-plugin-api';
+import { SwfListResult } from '@backstage/plugin-swf-common';
 
 export interface SwfClientOptions {
   discoveryApi: DiscoveryApi;

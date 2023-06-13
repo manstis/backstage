@@ -24,6 +24,7 @@
   "dependencies": {
     "@backstage/backend-common": "workspace:^",
     "@backstage/config": "workspace:^",
+    "@backstage/plugin-swf-common": "workspace:^",
     "@types/express": "*",
     "express": "^4.17.1",
     "express-promise-router": "^4.1.0",

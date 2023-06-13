@@ -17,7 +17,7 @@ import { errorHandler } from '@backstage/backend-common';
 import express from 'express';
 import Router from 'express-promise-router';
 import { Logger } from 'winston';
-import { SwfListResult } from '../api/types';
+import { SwfListResult } from '@backstage/plugin-swf-common';
 
 export interface RouterOptions {
   logger: Logger;
@@ -29,6 +29,34 @@ const swf1 =
   '  "version": "1.0",\n' +
   '  "specVersion": "0.8",\n' +
   '  "name": "Hello World Workflow",\n' +
+  '  "description": "JSON based hello world workflow",\n' +
+  '  "start": "Inject Hello World",\n' +
+  '  "states": [\n' +
+  '    {\n' +
+  '      "name": "Inject Hello World",\n' +
+  '      "type": "inject",\n' +
+  '      "data": {\n' +
+  '        "greeting": "Hello World"\n' +
+  '      },\n' +
+  '      "transition": "Inject Mantra"\n' +
+  '    },\n' +
+  '    {\n' +
+  '      "name": "Inject Mantra",\n' +
+  '      "type": "inject",\n' +
+  '      "data": {\n' +
+  '        "mantra": "Serverless Workflow is awesome!"\n' +
+  '      },\n' +
+  '      "end": true\n' +
+  '    }\n' +
+  '  ]\n' +
+  '}';
+
+const swf2 =
+  '{\n' +
+  '  "id": "hello_world2",\n' +
+  '  "version": "1.0",\n' +
+  '  "specVersion": "0.8",\n' +
+  '  "name": "Hello World Workflow2",\n' +
   '  "description": "JSON based hello world workflow",\n' +
   '  "start": "Inject Hello World",\n' +
   '  "states": [\n' +
@@ -64,10 +92,13 @@ export async function createRouter(
   });
 
   const result: SwfListResult = {
-    items: [{ definition: swf1 }],
+    items: [
+      { title: 'Hello world', definition: swf1 },
+      { title: 'Provision Quarkus cloud application', definition: swf2 },
+    ],
     limit: 0,
     offset: 0,
-    totalCount: 1,
+    totalCount: 2,
   };
   router.get('/workflows', async (_, res) => {
     res.status(200).json(result);

@@ -24,9 +24,9 @@ import {
   HeaderLabel,
   SupportButton,
 } from '@backstage/core-components';
-import { SWFListComponent } from '../SWFListComponent';
+import { SWFDefinitionsListComponent } from '../SWFDefinitionsListComponent';
 
-export const SWFComponent = () => (
+export const SWFPage = () => (
   <Page themeId="tool">
     <Header
       title="Serverless Workflow"
@@ -42,7 +42,7 @@ export const SWFComponent = () => (
       <Grid container spacing={3} direction="column">
         <Grid item>
           <InfoCard title="Workflows">
-            <SWFListComponent />
+            <SWFDefinitionsListComponent />
           </InfoCard>
         </Grid>
       </Grid>
