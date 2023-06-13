@@ -16,7 +16,7 @@
 import { ResponseError } from '@backstage/errors';
 import { SwfApi } from './api';
 import { DiscoveryApi } from '@backstage/core-plugin-api';
-import { SwfListResult } from '@backstage/plugin-swf-common';
+import { SwfItem, SwfListResult } from '@backstage/plugin-swf-common';
 
 export interface SwfClientOptions {
   discoveryApi: DiscoveryApi;
@@ -26,9 +26,19 @@ export class SwfClient implements SwfApi {
   constructor(options: SwfClientOptions) {
     this.discoveryApi = options.discoveryApi;
   }
+
+  async getSwf(swfId: string): Promise<SwfItem> {
+    const baseUrl = await this.discoveryApi.getBaseUrl('swf');
+    const res = await fetch(`${baseUrl}/items/${swfId}`);
+    if (!res.ok) {
+      throw await ResponseError.fromResponse(res);
+    }
+    const data: SwfItem = await res.json();
+    return data;
+  }
   async listSwfs(): Promise<SwfListResult> {
     const baseUrl = await this.discoveryApi.getBaseUrl('swf');
-    const res = await fetch(`${baseUrl}/workflows`);
+    const res = await fetch(`${baseUrl}/items`);
     if (!res.ok) {
       throw await ResponseError.fromResponse(res);
     }

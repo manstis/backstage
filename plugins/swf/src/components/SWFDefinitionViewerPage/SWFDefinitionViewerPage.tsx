@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { useApi } from '@backstage/core-plugin-api';
+import { useApi, useRouteRefParams } from '@backstage/core-plugin-api';
 import { swfApiRef } from '../../api';
 import { SwfItem } from '@backstage/plugin-swf-common';
 import {
@@ -23,16 +23,28 @@ import {
 } from '@severlessworkflow/sdk-typescript';
 import mermaid from 'mermaid';
 import svgPanZoom from 'svg-pan-zoom';
+import { definitionsRouteRef } from '../../routes';
+import {
+  Content,
+  ContentHeader,
+  Header,
+  HeaderLabel,
+  InfoCard,
+  Page,
+  SupportButton,
+} from '@backstage/core-components';
+import { Grid } from '@material-ui/core';
 
-export const SWFDefinitionViewerComponent = () => {
+export const SWFDefinitionViewerPage = () => {
   const swfApi = useApi(swfApiRef);
-  const [items, setItems] = useState<SwfItem[]>();
+  const [item, setItem] = useState<SwfItem>();
+  const { swfId } = useRouteRefParams(definitionsRouteRef);
 
   useEffect(() => {
-    swfApi.listSwfs().then(value => {
-      setItems(value.items);
+    swfApi.getSwf(swfId).then(value => {
+      setItem(value);
     });
-  }, [swfApi]);
+  }, [swfApi, swfId]);
 
   const diagramContainerRef = useRef<HTMLDivElement>(null);
   const updateDiagram = useCallback((content: string) => {
@@ -72,18 +84,36 @@ export const SWFDefinitionViewerComponent = () => {
   }, []);
 
   useEffect(() => {
-    if (items !== undefined) {
-      updateDiagram(items[0].definition);
+    if (item !== undefined) {
+      updateDiagram(item.definition);
     }
-  }, [items, updateDiagram]);
+  }, [item, updateDiagram]);
 
   return (
-    <div>
-      <div
-        style={{ height: '100%', textAlign: 'center', opacity: 1 }}
-        ref={diagramContainerRef}
-        className="mermaid"
-      />
-    </div>
+    <Page themeId="tool">
+      <Header
+        title="Serverless Workflow"
+        subtitle="Where all your SWF needs come to life!"
+      >
+        <HeaderLabel label="Owner" value="Team X" />
+        <HeaderLabel label="Lifecycle" value="Alpha" />
+      </Header>
+      <Content>
+        <ContentHeader title="Serverless Workflow - Definition">
+          <SupportButton>Orchestrate things with stuff.</SupportButton>
+        </ContentHeader>
+        <Grid container spacing={3} direction="column">
+          <Grid item>
+            <InfoCard title={item?.title}>
+              <div
+                style={{ height: '100%', textAlign: 'center', opacity: 1 }}
+                ref={diagramContainerRef}
+                className="mermaid"
+              />
+            </InfoCard>
+          </Grid>
+        </Grid>
+      </Content>
+    </Page>
   );
 };

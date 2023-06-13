@@ -14,9 +14,11 @@
  * limitations under the License.
  */
 import { createApiRef } from '@backstage/core-plugin-api';
-import { SwfListResult } from '@backstage/plugin-swf-common';
+import { SwfItem, SwfListResult } from '@backstage/plugin-swf-common';
 
 export interface SwfApi {
+  getSwf(swfId: string): Promise<SwfItem>;
+
   listSwfs(): Promise<SwfListResult>;
 }
 
