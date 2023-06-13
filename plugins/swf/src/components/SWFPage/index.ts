@@ -13,23 +13,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { createApiRef } from '@backstage/core-plugin-api';
-
-export type SwfItem = {
-  definition: string;
-};
-
-export type SwfListResult = {
-  items: SwfItem[];
-  totalCount: number;
-  offset: number;
-  limit: number;
-};
-
-export interface SwfApi {
-  listSwfs(): Promise<SwfListResult>;
-}
-
-export const swfApiRef = createApiRef<SwfApi>({
-  id: 'plugin.swf.api',
-});
+export { SWFPage } from './SWFPage';

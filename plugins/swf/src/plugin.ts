@@ -42,8 +42,7 @@ export const swfPlugin = createPlugin({
 export const SwfPage = swfPlugin.provide(
   createRoutableExtension({
     name: 'SwfPage',
-    component: () =>
-      import('./components/SWFComponent').then(m => m.SWFComponent),
+    component: () => import('./components/SWFPage').then(m => m.SWFPage),
     mountPoint: rootRouteRef,
   }),
 );
