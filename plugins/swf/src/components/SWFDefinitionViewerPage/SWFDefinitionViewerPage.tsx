@@ -13,16 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useApi, useRouteRefParams } from '@backstage/core-plugin-api';
 import { swfApiRef } from '../../api';
-import { SwfItem } from '@backstage/plugin-swf-common';
-import {
-  MermaidDiagram,
-  Specification,
-} from '@severlessworkflow/sdk-typescript';
-import mermaid from 'mermaid';
-import svgPanZoom from 'svg-pan-zoom';
 import { definitionsRouteRef } from '../../routes';
 import {
   Content,
@@ -34,60 +27,59 @@ import {
   SupportButton,
 } from '@backstage/core-components';
 import { Grid } from '@material-ui/core';
+import {
+  EnvelopeContentType,
+  EnvelopeMapping,
+  ChannelType,
+  EditorEnvelopeLocator,
+} from '@kie-tools-core/editor/dist/api';
+import { EmbeddedEditorFile } from '@kie-tools-core/editor/dist/channel';
+import {
+  EmbeddedEditor,
+  useEditorRef,
+} from '@kie-tools-core/editor/dist/embedded';
 
 export const SWFDefinitionViewerPage = () => {
+  const { editorRef } = useEditorRef();
+  const [embeddedEditorFile, setEmbeddedEditorFile] =
+    useState<EmbeddedEditorFile>();
+
   const swfApi = useApi(swfApiRef);
-  const [item, setItem] = useState<SwfItem>();
+  const [title, setTitle] = useState<string>();
   const { swfId } = useRouteRefParams(definitionsRouteRef);
 
-  useEffect(() => {
-    swfApi.getSwf(swfId).then(value => {
-      setItem(value);
+  const editorEnvelopeLocator = useMemo(
+    () =>
+      new EditorEnvelopeLocator(window.location.origin, [
+        new EnvelopeMapping({
+          type: 'swf',
+          filePathGlob: '*.swf',
+          resourcesPathPrefix: '',
+          envelopeContent: {
+            type: EnvelopeContentType.PATH,
+            path: 'serverless-workflow-diagram-editor-envelope.html',
+          },
+        }),
+      ]),
+    [],
+  );
+
+  const setContent = useCallback((path: string, content: string) => {
+    setEmbeddedEditorFile({
+      path: path,
+      getFileContents: async () => content,
+      isReadOnly: false,
+      fileExtension: 'swf',
+      fileName: 'fileName',
     });
-  }, [swfApi, swfId]);
-
-  const diagramContainerRef = useRef<HTMLDivElement>(null);
-  const updateDiagram = useCallback((content: string) => {
-    if (!diagramContainerRef.current) {
-      return;
-    }
-
-    try {
-      const workflow: Specification.Workflow =
-        Specification.Workflow.fromSource(content);
-      const mermaidSourceCode = workflow.states
-        ? new MermaidDiagram(workflow).sourceCode()
-        : '';
-
-      if (mermaidSourceCode?.length > 0) {
-        diagramContainerRef.current.innerHTML = mermaidSourceCode;
-        diagramContainerRef.current.removeAttribute('data-processed');
-        // @ts-ignore
-        mermaid.init(diagramContainerRef.current);
-        svgPanZoom(diagramContainerRef.current.getElementsByTagName('svg')[0], {
-          controlIconsEnabled: true,
-        });
-        diagramContainerRef.current.getElementsByTagName(
-          'svg',
-        )[0].style.maxWidth = '';
-        diagramContainerRef.current.getElementsByTagName(
-          'svg',
-        )[0].style.height = '100%';
-      } else {
-        diagramContainerRef.current.innerHTML =
-          'Create a workflow to see its preview here.';
-      }
-    } catch (e) {
-      // eslint-disable-next-line no-console
-      console.error(e);
-    }
   }, []);
 
   useEffect(() => {
-    if (item !== undefined) {
-      updateDiagram(item.definition);
-    }
-  }, [item, updateDiagram]);
+    swfApi.getSwf(swfId).then(value => {
+      setTitle(value.title);
+      setContent('fileName.swf', value.definition);
+    });
+  }, [swfApi, swfId, setContent]);
 
   return (
     <Page themeId="tool">
@@ -104,12 +96,18 @@ export const SWFDefinitionViewerPage = () => {
         </ContentHeader>
         <Grid container spacing={3} direction="column">
           <Grid item>
-            <InfoCard title={item?.title}>
-              <div
-                style={{ height: '100%', textAlign: 'center', opacity: 1 }}
-                ref={diagramContainerRef}
-                className="mermaid"
-              />
+            <InfoCard title={title || ''}>
+              <div style={{ height: '500px' }}>
+                {embeddedEditorFile && (
+                  <EmbeddedEditor
+                    ref={editorRef}
+                    file={embeddedEditorFile}
+                    channelType={ChannelType.ONLINE}
+                    editorEnvelopeLocator={editorEnvelopeLocator}
+                    locale="en"
+                  />
+                )}
+              </div>
             </InfoCard>
           </Grid>
         </Grid>
