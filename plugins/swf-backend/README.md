@@ -12,3 +12,9 @@ start` in the root directory, and then navigating to [/swf](http://localhost:300
 You can also serve the plugin in isolation by running `yarn start` in the plugin directory.
 This method of serving the plugin provides quicker iteration speed and a faster startup and hot reloads.
 It is only meant for local development, and the setup for it can be found inside the [/dev](/dev) directory.
+
+## Serverless Workflow
+
+You need to build the Quarkus application for the kogito swf runtime.
+
+Be sure to run `yarn build:swf`!!
