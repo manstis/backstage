@@ -124,14 +124,6 @@ const swf2 =
   '  ]\n' +
   '}';
 
-const items: SwfItem[] = [
-  { id: 'swf1', title: 'Hello world', definition: swf1 },
-  {
-    id: 'swf2',
-    title: 'Provision Quarkus cloud application',
-    definition: swf2,
-  },
-];
 export async function createRouter(
   options: RouterOptions,
 ): Promise<express.Router> {
@@ -145,13 +137,25 @@ export async function createRouter(
     response.json({ status: 'ok' });
   });
 
-  const result: SwfListResult = {
-    items: items,
-    limit: 0,
-    offset: 0,
-    totalCount: 2,
-  };
   router.get('/items', async (_, res) => {
+    const serviceRes = await fetch(
+      `http://localhost:8899/management/processes`,
+    );
+    const data = await serviceRes.json();
+    const items = data.map(swfId => {
+      const swfItem: SwfItem = {
+        id: swfId,
+        title: swfId,
+        definition: '',
+      };
+      return swfItem;
+    });
+    const result: SwfListResult = {
+      items: items,
+      limit: 0,
+      offset: 0,
+      totalCount: items.length,
+    };
     res.status(200).json(result);
   });
 
