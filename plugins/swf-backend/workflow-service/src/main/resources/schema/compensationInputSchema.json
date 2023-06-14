@@ -1,0 +1,13 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Compensation Input",
+  "description": "Schema for compensation workflow",
+  "type": "object",
+  "properties": {
+    "shouldCompensate": {
+      "description": "Indicates if the compensation for the workflow should be executed",
+      "type": "boolean"
+    }
+  },
+  "required": ["shouldCompensate"]
+}
