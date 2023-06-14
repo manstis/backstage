@@ -29,12 +29,22 @@ export class SwfClient implements SwfApi {
 
   async getSwf(swfId: string): Promise<SwfItem> {
     const baseUrl = await this.discoveryApi.getBaseUrl('swf');
-    const res = await fetch(`${baseUrl}/items/${swfId}`);
+    const res = await fetch(
+      `${baseUrl}/workflow-service/management/processes/sources?uri=hello.sw.json`,
+    );
     if (!res.ok) {
       throw await ResponseError.fromResponse(res);
     }
-    const data: SwfItem = await res.json();
-    return data;
+    const data = await res.json();
+
+    // hack just to create SwfItem since the back is just returning the definition from kogito workflow
+    const swfItem: SwfItem = {
+      id: data.id,
+      title: data.name,
+      definition: JSON.stringify(data),
+    };
+
+    return swfItem;
   }
   async listSwfs(): Promise<SwfListResult> {
     const baseUrl = await this.discoveryApi.getBaseUrl('swf');
