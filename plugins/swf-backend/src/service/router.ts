@@ -165,6 +165,33 @@ export async function createRouter(
     }
   });
 
+  // starting kogito runtime as a child process
+  const childProcess = require('child_process');
+  childProcess.exec(
+    'java -Dquarkus.http.port=8899 -jar ../../plugins/swf-backend/workflow-service/target/quarkus-app/quarkus-run.jar',
+    (error, stdout, stderr) => {
+      if (error) {
+        console.error(`error: ${error.message}`);
+        return;
+      }
+
+      if (stderr) {
+        console.error(`stderr: ${stderr}`);
+        return;
+      }
+
+      console.log(`stdout:\n${stdout}`);
+    },
+  );
+
+  // proxy
+  const httpProxy = require('express-http-proxy');
+  const kogitoRuntimeProxy = httpProxy('http://localhost:8899');
+  router.use('/workflow-service', async (req, res, next) => {
+    console.log('proxying request to kogito on', req.path);
+    kogitoRuntimeProxy(req, res, next);
+  });
+
   router.use(errorHandler());
   return router;
 }
