@@ -24,5 +24,6 @@ export default async function createPlugin(
     eventBroker: env.eventBroker,
     config: env.config,
     logger: env.logger,
+    discovery: env.discovery,
   });
 }

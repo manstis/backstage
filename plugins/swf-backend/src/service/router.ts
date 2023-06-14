@@ -23,17 +23,19 @@ import fetch from 'node-fetch';
 import { EventBroker } from '@backstage/plugin-events-node';
 import { topic } from '@backstage/plugin-swf-common';
 import { Config } from '@backstage/config';
+import { DiscoveryApi } from '@backstage/core-plugin-api';
 
 export interface RouterOptions {
   eventBroker: EventBroker;
   config: Config;
   logger: Logger;
+  discovery: DiscoveryApi;
 }
 
 export async function createRouter(
   options: RouterOptions,
 ): Promise<express.Router> {
-  const { eventBroker, config, logger } = options;
+  const { eventBroker, config, logger, discovery } = options;
 
   const router = Router();
   router.use(express.json());
@@ -92,6 +94,18 @@ export async function createRouter(
 
     // When complete return to Backstage
     res.status(200).json(swfItem);
+  });
+
+  // call BS Scaffolder actions
+  router.get('/actions', async (req, res) => {
+    const scaffolderUrl = await discovery.getBaseUrl('scaffolder');
+    const response = await fetch(`${scaffolderUrl}/v2/actions`);
+    const json = await response.json();
+    res.status(response.status).json(json);
+  });
+
+  router.post('/actions/:id', async (req, res) => {
+    res.status(200);
   });
 
   // starting kogito runtime as a child process
