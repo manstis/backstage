@@ -30,7 +30,8 @@ export async function startStandaloneServer(
   const logger = options.logger.child({ service: 'swf-backend' });
   logger.debug('Starting application server...');
   const router = await createRouter({
-    logger,
+    logger = logger,
+    discoveryApi = null,
   });
 
   let service = createServiceBuilder(module)
