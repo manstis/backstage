@@ -18,6 +18,7 @@ import express from 'express';
 import Router from 'express-promise-router';
 import { Logger } from 'winston';
 import { SwfItem, SwfListResult } from '@backstage/plugin-swf-common';
+import { ExecException } from 'child_process';
 
 export interface RouterOptions {
   logger: Logger;
@@ -153,23 +154,30 @@ export async function createRouter(
   router.get('/items', async (_, res) => {
     res.status(200).json(result);
   });
+
+  // @ts-ignore
   router.get('/items/:swfId', async (req, res) => {
     const {
       params: { swfId },
     } = req;
-    const item = items.find(i => i.id === swfId);
-    if (item !== undefined) {
-      res.status(200).json(item);
-    } else {
-      res.status(404);
-    }
+    const res2 = await fetch(
+      `http://localhost:8899/management/processes/${swfId}/source`,
+    );
+    const data = await res2.json();
+    const title = data.name;
+    const swfItem: SwfItem = {
+      id: swfId,
+      title: title,
+      definition: JSON.stringify(data),
+    };
+    res.status(200).json(swfItem);
   });
 
   // starting kogito runtime as a child process
   const childProcess = require('child_process');
   childProcess.exec(
     'java -Dquarkus.http.port=8899 -jar ../../plugins/swf-backend/workflow-service/target/quarkus-app/quarkus-run.jar',
-    (error, stdout, stderr) => {
+    (error: ExecException | null, stdout: string, stderr: string) => {
       if (error) {
         console.error(`error: ${error.message}`);
         return;
@@ -183,14 +191,6 @@ export async function createRouter(
       console.log(`stdout:\n${stdout}`);
     },
   );
-
-  // proxy
-  const httpProxy = require('express-http-proxy');
-  const kogitoRuntimeProxy = httpProxy('http://localhost:8899');
-  router.use('/workflow-service', async (req, res, next) => {
-    console.log('proxying request to kogito on', req.path);
-    kogitoRuntimeProxy(req, res, next);
-  });
 
   router.use(errorHandler());
   return router;
