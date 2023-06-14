@@ -19,9 +19,11 @@ import Router from 'express-promise-router';
 import { Logger } from 'winston';
 import { SwfItem, SwfListResult } from '@backstage/plugin-swf-common';
 import { ExecException } from 'child_process';
+import { DiscoveryApi } from '@backstage/core-plugin-api';
 
 export interface RouterOptions {
   logger: Logger;
+  discoveryApi: DiscoveryApi;
 }
 
 const swf1 =
@@ -127,8 +129,8 @@ const swf2 =
 export async function createRouter(
   options: RouterOptions,
 ): Promise<express.Router> {
-  const { logger } = options;
-
+  const logger = options.logger;
+  const discovery = options.discoveryApi;
   const router = Router();
   router.use(express.json());
 
@@ -175,6 +177,18 @@ export async function createRouter(
       definition: JSON.stringify(data),
     };
     res.status(200).json(swfItem);
+  });
+
+  // call BS Scaffolder actions
+  router.get('/actions', async (req, res) => {
+    const scaffolderUrl = await discovery.getBaseUrl('scaffolder');
+    const response = await fetch(`${scaffolderUrl}/v2/actions`);
+    const json = await response.json();
+    res.status(response.status).json(json);
+  });
+
+  router.post('/actions/:id', async (req, res) => {
+    res.status(200);
   });
 
   // starting kogito runtime as a child process

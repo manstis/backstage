@@ -27,5 +27,6 @@ export default async function createPlugin(
   // needs a logger
   return await createRouter({
     logger: env.logger,
+    discoveryApi: env.discovery,
   });
 }
