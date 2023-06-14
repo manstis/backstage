@@ -160,16 +160,20 @@ export async function createRouter(
     const {
       params: { swfId },
     } = req;
-    const res2 = await fetch(
+
+    // Delegate to kogito service
+    const wsRequest = await fetch(
       `http://localhost:8899/management/processes/${swfId}/source`,
     );
-    const data = await res2.json();
-    const title = data.name;
+    const wsResponse = await wsRequest.json();
+    const title = wsResponse.name;
     const swfItem: SwfItem = {
       id: swfId,
       title: title,
-      definition: JSON.stringify(data),
+      definition: JSON.stringify(wsResponse),
     };
+
+    // When complete return to Backstage
     res.status(200).json(swfItem);
   });
 
