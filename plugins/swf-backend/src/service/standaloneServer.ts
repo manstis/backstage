@@ -26,6 +26,7 @@ export interface ServerOptions {
   logger: Logger;
   eventBroker: EventBroker;
   config: Config;
+  discovery: DiscoveryApi;
 }
 
 export async function startStandaloneServer(
@@ -37,6 +38,7 @@ export async function startStandaloneServer(
     logger: logger,
     eventBroker: options.eventBroker,
     config: options.config,
+    discovery: options.discovery
   });
 
   let service = createServiceBuilder(module)
