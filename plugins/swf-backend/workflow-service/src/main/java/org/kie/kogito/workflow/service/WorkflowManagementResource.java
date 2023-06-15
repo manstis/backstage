@@ -24,8 +24,8 @@ public class WorkflowManagementResource {
     @Path("/")
     public List<ProcessMetadataDTO> getProcessesIds() {
         return processes.processIds().stream()
-                .map(pid->processes.processById(pid))
-                .map(p->new ProcessMetadataDTO(p.id(), p.name()))
+                .map(processes::processById)
+                .map(p -> new ProcessMetadataDTO(p.id(), p.name()))
                 .collect(Collectors.toList());
     }
 }
