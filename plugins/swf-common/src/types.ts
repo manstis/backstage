@@ -15,7 +15,7 @@
  */
 export type SwfItem = {
   id: string;
-  title: string;
+  name: string;
   definition: string;
 };
 

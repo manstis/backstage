@@ -9030,12 +9030,13 @@ __metadata:
     "@backstage/config": "workspace:^"
     "@backstage/plugin-swf-common": "workspace:^"
     "@types/express": "*"
+    "@types/node-fetch": ^2.6.4
     "@types/supertest": ^2.0.8
     express: ^4.17.1
     express-http-proxy: ^1.6.3
     express-promise-router: ^4.1.0
     msw: ^1.0.0
-    node-fetch: ^2.6.7
+    node-fetch: ^2.6.4
     supertest: ^6.2.4
     winston: ^3.2.1
     yn: ^4.0.0
@@ -17377,7 +17378,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node-fetch@npm:^2.5.0, @types/node-fetch@npm:^2.5.12, @types/node-fetch@npm:^2.5.7, @types/node-fetch@npm:^2.6.1":
+"@types/node-fetch@npm:^2.5.0, @types/node-fetch@npm:^2.5.12, @types/node-fetch@npm:^2.5.7, @types/node-fetch@npm:^2.6.1, @types/node-fetch@npm:^2.6.4":
   version: 2.6.4
   resolution: "@types/node-fetch@npm:2.6.4"
   dependencies:
@@ -34331,7 +34332,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-fetch@npm:^2.6.0, node-fetch@npm:^2.6.1, node-fetch@npm:^2.6.11, node-fetch@npm:^2.6.5, node-fetch@npm:^2.6.7":
+"node-fetch@npm:^2.6.0, node-fetch@npm:^2.6.1, node-fetch@npm:^2.6.11, node-fetch@npm:^2.6.4, node-fetch@npm:^2.6.5, node-fetch@npm:^2.6.7":
   version: 2.6.11
   resolution: "node-fetch@npm:2.6.11"
   dependencies:

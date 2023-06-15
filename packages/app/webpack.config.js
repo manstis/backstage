@@ -22,7 +22,6 @@ const webpack = require('webpack');
 
 module.exports = {
   mode: 'development',
-  devtool: 'source-map',
   entry: {
     'envelope/serverless-workflow-diagram-editor-envelope':
       './envelope/ServerlessWorkflowDiagramEditorEnvelopeApp.ts',
