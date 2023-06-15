@@ -3,24 +3,13 @@
     "baseUrl": "./",
     "target": "es5",
     "module": "esnext",
-    "sourceMap": true,
-    "jsx": "react",
     "outDir": "./dist",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "lib": ["es6", "dom", "es2018.promise", "es2019"],
-    "noUnusedLocals": true,
-    "declarationDir": "./dist",
-    "declaration": true
+    "noUnusedLocals": true
   },
-  "preserveSymlinks": true,
-  "include": ["envelope"],
-  "exclude": [
-    "packages/*/src",
-    "plugins/*/src",
-    "plugins/*/dev",
-    "plugins/*/migrations"
-  ]
+  "include": ["envelope"]
 }

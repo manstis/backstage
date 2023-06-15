@@ -40,14 +40,14 @@ export const SwfItemsTable = ({ items }: SwfItemsTableProps) => {
 
   interface Row {
     id: string;
-    title: string;
+    name: string;
   }
 
-  const columns: TableColumn[] = [{ title: 'Title', field: 'title' }];
+  const columns: TableColumn[] = [{ title: 'Name', field: 'name' }];
   const data: Row[] = items.map(item => {
     return {
       id: item.id,
-      title: item.title,
+      name: item.name,
     };
   });
 
