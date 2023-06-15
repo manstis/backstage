@@ -45,7 +45,7 @@ export const SWFDefinitionViewerPage = () => {
     useState<EmbeddedEditorFile>();
 
   const swfApi = useApi(swfApiRef);
-  const [title, setTitle] = useState<string>();
+  const [name, setName] = useState<string>();
   const { swfId } = useRouteRefParams(definitionsRouteRef);
 
   const editorEnvelopeLocator = useMemo(
@@ -76,7 +76,7 @@ export const SWFDefinitionViewerPage = () => {
 
   useEffect(() => {
     swfApi.getSwf(swfId).then(value => {
-      setTitle(value.title);
+      setName(value.name);
       setContent('fileName.swf', value.definition);
     });
   }, [swfApi, swfId, setContent]);
@@ -96,7 +96,7 @@ export const SWFDefinitionViewerPage = () => {
         </ContentHeader>
         <Grid container spacing={3} direction="column">
           <Grid item>
-            <InfoCard title={title || ''}>
+            <InfoCard title={name || ''}>
               <div style={{ height: '500px' }}>
                 {embeddedEditorFile && (
                   <EmbeddedEditor

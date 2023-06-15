@@ -19,110 +19,11 @@ import Router from 'express-promise-router';
 import { Logger } from 'winston';
 import { SwfItem, SwfListResult } from '@backstage/plugin-swf-common';
 import { ExecException } from 'child_process';
+import fetch from 'node-fetch';
 
 export interface RouterOptions {
   logger: Logger;
 }
-
-const swf1 =
-  '{\n' +
-  '  "id": "swf1",\n' +
-  '  "version": "1.0",\n' +
-  '  "specVersion": "0.8",\n' +
-  '  "name": "Hello World Workflow",\n' +
-  '  "description": "JSON based hello world workflow",\n' +
-  '  "start": "Inject Hello World",\n' +
-  '  "states": [\n' +
-  '    {\n' +
-  '      "name": "Inject Hello World",\n' +
-  '      "type": "inject",\n' +
-  '      "data": {\n' +
-  '        "greeting": "Hello World"\n' +
-  '      },\n' +
-  '      "transition": "Inject Mantra"\n' +
-  '    },\n' +
-  '    {\n' +
-  '      "name": "Inject Mantra",\n' +
-  '      "type": "inject",\n' +
-  '      "data": {\n' +
-  '        "mantra": "Serverless Workflow is awesome!"\n' +
-  '      },\n' +
-  '      "end": true\n' +
-  '    }\n' +
-  '  ]\n' +
-  '}';
-
-const swf2 =
-  '{\n' +
-  '  "id": "swf2",\n' +
-  '  "version": "1.0",\n' +
-  '  "name": "Provision Quarkus cloud application",\n' +
-  '  "description": "Provision Quarkus cloud application",\n' +
-  '  "errors": [\n' +
-  '    {\n' +
-  '      "name": "execution error",\n' +
-  '      "code": "java.util.concurrent.CompletionException"\n' +
-  '    }\n' +
-  '  ],\n' +
-  '  "start": "waitForEvent",\n' +
-  '  "events": [\n' +
-  '    {\n' +
-  '      "name": "resumeEvent",\n' +
-  '      "source": "",\n' +
-  '      "type": "resume"\n' +
-  '    },\n' +
-  '    {\n' +
-  '      "name": "waitEvent",\n' +
-  '      "source": "",\n' +
-  '      "type": "wait"\n' +
-  '    }\n' +
-  '  ],\n' +
-  '  "functions": [\n' +
-  '    {\n' +
-  '      "name": "printInstanceId",\n' +
-  '      "type": "custom",\n' +
-  '      "operation": "service:java:org.kie.kogito.examples.PrintService::printKogitoProcessId"\n' +
-  '    }\n' +
-  '  ],\n' +
-  '  "states": [\n' +
-  '    {\n' +
-  '      "name": "waitForEvent",\n' +
-  '      "type": "callback",\n' +
-  '      "action": {\n' +
-  '        "name": "publishAction",\n' +
-  '        "eventRef": {\n' +
-  '          "triggerEventRef": "resumeEvent",\n' +
-  '          "data": "{move: \\"This is the initial data in the model\\"}"\n' +
-  '        }\n' +
-  '      },\n' +
-  '      "eventRef": "waitEvent",\n' +
-  '      "eventDataFilter": {\n' +
-  '        "data": ".result",\n' +
-  '        "toStateData": ".move"\n' +
-  '      },\n' +
-  '      "onErrors": [\n' +
-  '        {\n' +
-  '          "errorRef": "execution error",\n' +
-  '          "end": true\n' +
-  '        }\n' +
-  '      ],\n' +
-  '      "transition": "finish"\n' +
-  '    },\n' +
-  '    {\n' +
-  '      "name": "finish",\n' +
-  '      "type": "operation",\n' +
-  '      "actions": [\n' +
-  '        {\n' +
-  '          "name": "printInstanceId",\n' +
-  '          "functionRef": {\n' +
-  '            "refName": "printInstanceId"\n' +
-  '          }\n' +
-  '        }\n' +
-  '      ],\n' +
-  '      "end": true\n' +
-  '    }\n' +
-  '  ]\n' +
-  '}';
 
 export async function createRouter(
   options: RouterOptions,
@@ -142,10 +43,10 @@ export async function createRouter(
       `http://localhost:8899/management/processes`,
     );
     const data = await serviceRes.json();
-    const items = data.map(swfId => {
+    const items = data.map((swf: SwfItem) => {
       const swfItem: SwfItem = {
-        id: swfId,
-        title: swfId,
+        id: swf.id,
+        name: swf.name,
         definition: '',
       };
       return swfItem;
@@ -170,10 +71,10 @@ export async function createRouter(
       `http://localhost:8899/management/processes/${swfId}/source`,
     );
     const wsResponse = await wsRequest.json();
-    const title = wsResponse.name;
+    const name = wsResponse.name;
     const swfItem: SwfItem = {
       id: swfId,
-      title: title,
+      name: name,
       definition: JSON.stringify(wsResponse),
     };
 

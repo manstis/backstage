@@ -8,6 +8,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 
 import org.kie.kogito.process.Processes;
+import org.kie.kogito.workflow.api.ProcessMetadataDTO;
 
 @Path("/management/processes")
 public class WorkflowManagementResource {
@@ -21,7 +22,10 @@ public class WorkflowManagementResource {
 
     @GET
     @Path("/")
-    public List<String> getProcessesIds() {
-        return processes.processIds().stream().sorted().collect(Collectors.toList());
+    public List<ProcessMetadataDTO> getProcessesIds() {
+        return processes.processIds().stream()
+                .map(pid->processes.processById(pid))
+                .map(p->new ProcessMetadataDTO(p.id(), p.name()))
+                .collect(Collectors.toList());
     }
 }
