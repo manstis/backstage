@@ -8412,10 +8412,12 @@ __metadata:
     "@backstage/plugin-catalog-common": "workspace:^"
     "@backstage/plugin-catalog-react": "workspace:^"
     "@backstage/plugin-scaffolder-common": "workspace:^"
+    "@backstage/plugin-swf": "workspace:^"
     "@backstage/test-utils": "workspace:^"
     "@backstage/theme": "workspace:^"
     "@backstage/types": "workspace:^"
     "@backstage/version-bridge": "workspace:^"
+    "@kie-tools-core/editor": ^0.29.0
     "@material-ui/core": ^4.12.2
     "@material-ui/icons": ^4.9.1
     "@material-ui/lab": 4.0.0-alpha.61
@@ -8482,6 +8484,8 @@ __metadata:
     "@codemirror/language": ^6.0.0
     "@codemirror/legacy-modes": ^6.1.0
     "@codemirror/view": ^6.0.0
+    "@kie-tools-core/editor": ^0.29.0
+    "@kie-tools/serverless-workflow-diagram-editor-envelope": ^0.29.0
     "@material-ui/core": ^4.12.2
     "@material-ui/icons": ^4.9.1
     "@material-ui/lab": 4.0.0-alpha.61
@@ -9071,6 +9075,7 @@ __metadata:
     "@backstage/test-utils": "workspace:^"
     "@backstage/theme": "workspace:^"
     "@kie-tools-core/editor": ^0.29.0
+    "@kie-tools/serverless-workflow-diagram-editor-envelope": ^0.29.0
     "@material-ui/core": ^4.9.13
     "@material-ui/icons": ^4.9.1
     "@material-ui/lab": ^4.0.0-alpha.60

@@ -62,6 +62,7 @@ export class ServerlessWorkflowEntityProvider
   supportsEventTopics(): string[] {
     return [topic];
   }
+
   async onEvent(params: EventParams): Promise<void> {
     if (params.topic !== topic) {
       return;

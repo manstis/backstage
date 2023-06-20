@@ -27,6 +27,9 @@ import { errorApiRef, useApi } from '@backstage/core-plugin-api';
 import { useTemplateParameterSchema } from '../../hooks/useTemplateParameterSchema';
 import { Stepper, type StepperProps } from '../Stepper/Stepper';
 import { SecretsContextProvider } from '../../../secrets/SecretsContext';
+import { ChannelType } from '@kie-tools-core/editor/dist/api';
+import { EmbeddedEditor } from '@kie-tools-core/editor/dist/embedded';
+import { useServerlessWorkflowEditor } from '@backstage/plugin-swf';
 
 const useStyles = makeStyles<BackstageTheme>(() => ({
   markdown: {
@@ -83,6 +86,9 @@ export const Workflow = (workflowProps: WorkflowProps): JSX.Element | null => {
     }
   }, [error, errorApi]);
 
+  const { swfFile, swfEditorRef, swfEditorEnvelopeLocator } =
+    useServerlessWorkflowEditor(manifest?.name, manifest?.type);
+
   if (error) {
     return props.onError(error);
   }
@@ -102,6 +108,17 @@ export const Workflow = (workflowProps: WorkflowProps): JSX.Element | null => {
           noPadding
           titleTypographyProps={{ component: 'h2' }}
         >
+          {manifest.type === 'serverless-workflow' && swfFile && (
+            <div style={{ height: '500px' }}>
+              <EmbeddedEditor
+                ref={swfEditorRef}
+                file={swfFile}
+                channelType={ChannelType.ONLINE}
+                editorEnvelopeLocator={swfEditorEnvelopeLocator}
+                locale="en"
+              />
+            </div>
+          )}
           <Stepper manifest={manifest} {...props} />
         </InfoCard>
       )}
