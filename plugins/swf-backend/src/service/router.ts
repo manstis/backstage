@@ -22,16 +22,18 @@ import { ExecException } from 'child_process';
 import fetch from 'node-fetch';
 import { EventBroker } from '@backstage/plugin-events-node';
 import { topic } from '@backstage/plugin-swf-common';
+import { Config } from '@backstage/config';
 
 export interface RouterOptions {
   eventBroker: EventBroker;
+  config: Config;
   logger: Logger;
 }
 
 export async function createRouter(
   options: RouterOptions,
 ): Promise<express.Router> {
-  const { eventBroker, logger } = options;
+  const { eventBroker, config, logger } = options;
 
   const router = Router();
   router.use(express.json());
@@ -41,9 +43,16 @@ export async function createRouter(
     response.json({ status: 'ok' });
   });
 
+  const kogitoBaseUrl =
+    config.getOptionalString('swf.baseUrl') ?? 'http://localhost';
+  const kogitoPort = config.getOptionalString('swf.port') ?? '8899';
+  logger.info(
+    `Using kogito Serverless Workflow Url of: ${kogitoBaseUrl}:${kogitoPort}`,
+  );
+
   router.get('/items', async (_, res) => {
     const serviceRes = await fetch(
-      `http://localhost:8899/management/processes`,
+      `${kogitoBaseUrl}:${kogitoPort}/management/processes`,
     );
     const data = await serviceRes.json();
     const items: SwfItem[] = data.map((swf: SwfItem) => {
@@ -71,7 +80,7 @@ export async function createRouter(
 
     // Delegate to kogito service
     const wsRequest = await fetch(
-      `http://localhost:8899/management/processes/${swfId}/source`,
+      `${kogitoBaseUrl}:${kogitoPort}/management/processes/${swfId}/source`,
     );
     const wsResponse = await wsRequest.json();
     const name = wsResponse.name;
@@ -88,7 +97,7 @@ export async function createRouter(
   // starting kogito runtime as a child process
   const childProcess = require('child_process');
   childProcess.exec(
-    'java -Dquarkus.http.port=8899 -jar ../../plugins/swf-backend/workflow-service/target/quarkus-app/quarkus-run.jar',
+    `java -Dquarkus.http.port=${kogitoPort} -jar ../../plugins/swf-backend/workflow-service/target/quarkus-app/quarkus-run.jar`,
     (error: ExecException | null, stdout: string, stderr: string) => {
       if (error) {
         console.error(`error: ${error.message}`);
@@ -111,7 +120,7 @@ export async function createRouter(
   while (polling) {
     try {
       const healthCheckResponse = await fetch(
-        `http://localhost:8899/management/processes`,
+        `${kogitoBaseUrl}:${kogitoPort}/management/processes`,
       );
       polling = !healthCheckResponse.ok;
       if (!healthCheckResponse.ok) {
