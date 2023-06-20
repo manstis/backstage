@@ -9028,6 +9028,8 @@ __metadata:
     "@backstage/backend-common": "workspace:^"
     "@backstage/cli": "workspace:^"
     "@backstage/config": "workspace:^"
+    "@backstage/plugin-events-backend": "workspace:^"
+    "@backstage/plugin-events-node": "workspace:^"
     "@backstage/plugin-swf-common": "workspace:^"
     "@types/express": "*"
     "@types/node-fetch": ^2.6.4
@@ -9043,7 +9045,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@backstage/plugin-swf-common@workspace:^, @backstage/plugin-swf-common@workspace:plugins/swf-common":
+"@backstage/plugin-swf-common@^0.0.0, @backstage/plugin-swf-common@workspace:^, @backstage/plugin-swf-common@workspace:plugins/swf-common":
   version: 0.0.0-use.local
   resolution: "@backstage/plugin-swf-common@workspace:plugins/swf-common"
   dependencies:
@@ -19192,21 +19194,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-<<<<<<< HEAD
-"ajv-errors@npm:~3.0.0":
-  version: 3.0.0
-  resolution: "ajv-errors@npm:3.0.0"
-  peerDependencies:
-    ajv: ^8.0.1
-  checksum: f3d1610a104fa776c2f90534acbe2113842a40d5ee446062da9e956ae6de6959afc997da1e3948c47316faa225255fc2d9d97aacd0803f47998fb38156d3d03c
-=======
 "ajv-errors@npm:^1.0.0":
   version: 1.0.1
   resolution: "ajv-errors@npm:1.0.1"
   peerDependencies:
     ajv: ">=5.0.0"
   checksum: 2c9fc02cf58f9aae5bace61ebd1b162e1ea372ae9db5999243ba5e32a9a78c0d635d29ae085f652c61c941a43af0b2b1acdb255e29d44dc43a6e021085716d8c
->>>>>>> 84639ec1a610 (KOGITO-9350: Move from Mermaid to Stunner SWF viewer)
+  languageName: node
+  linkType: hard
+
+"ajv-errors@npm:~3.0.0":
+  version: 3.0.0
+  resolution: "ajv-errors@npm:3.0.0"
+  peerDependencies:
+    ajv: ^8.0.1
+  checksum: f3d1610a104fa776c2f90534acbe2113842a40d5ee446062da9e956ae6de6959afc997da1e3948c47316faa225255fc2d9d97aacd0803f47998fb38156d3d03c
   languageName: node
   linkType: hard
 
@@ -19270,15 +19272,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 "ajv@npm:^8.0.0, ajv@npm:^8.10.0, ajv@npm:^8.12.0, ajv@npm:^8.6.0, ajv@npm:^8.6.3, ajv@npm:^8.8.0, ajv@npm:^8.8.2":
-=======
-"ajv@npm:^8.0.0, ajv@npm:^8.1.0, ajv@npm:^8.10.0, ajv@npm:^8.11.0, ajv@npm:^8.12.0, ajv@npm:^8.6.3, ajv@npm:^8.8.0":
->>>>>>> e3863c3f4151 (Add SWF viewer)
-=======
-"ajv@npm:^8.0.0, ajv@npm:^8.10.0, ajv@npm:^8.11.0, ajv@npm:^8.12.0, ajv@npm:^8.6.3, ajv@npm:^8.8.0":
->>>>>>> 84639ec1a610 (KOGITO-9350: Move from Mermaid to Stunner SWF viewer)
   version: 8.12.0
   resolution: "ajv@npm:8.12.0"
   dependencies:
@@ -19797,19 +19791,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-<<<<<<< HEAD
 "astring@npm:^1.8.1":
   version: 1.8.6
   resolution: "astring@npm:1.8.6"
   bin:
     astring: bin/astring
   checksum: 6f034d2acef1dac8bb231e7cc26c573d3c14e1975ea6e04f20312b43d4f462f963209bc64187d25d477a182dc3c33277959a0156ab7a3617aa79b1eac4d88e1f
-=======
+  languageName: node
+  linkType: hard
+
 "async-each@npm:^1.0.1":
   version: 1.0.6
   resolution: "async-each@npm:1.0.6"
   checksum: d237e8c39348d5f1441edbd3893692912afbacaf83a2ccce8978ebeea804529a8838654b12208fbbc08c8b0411a1248948ee9bf9291ebe1921aabd5b613bc5db
->>>>>>> 84639ec1a610 (KOGITO-9350: Move from Mermaid to Stunner SWF viewer)
   languageName: node
   linkType: hard
 
@@ -20975,7 +20969,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-<<<<<<< HEAD
 "cacache@npm:^17.0.0":
   version: 17.1.3
   resolution: "cacache@npm:17.1.3"
@@ -20993,7 +20986,9 @@ __metadata:
     tar: ^6.1.11
     unique-filename: ^3.0.0
   checksum: 385756781e1e21af089160d89d7462b7ed9883c978e848c7075b90b73cb823680e66092d61513050164588387d2ca87dd6d910e28d64bc13a9ac82cd8580c796
-=======
+  languageName: node
+  linkType: hard
+
 "cache-base@npm:^1.0.1":
   version: 1.0.1
   resolution: "cache-base@npm:1.0.1"
@@ -21008,7 +21003,6 @@ __metadata:
     union-value: ^1.0.0
     unset-value: ^1.0.0
   checksum: 9114b8654fe2366eedc390bad0bcf534e2f01b239a888894e2928cb58cdc1e6ea23a73c6f3450dcfd2058aa73a8a981e723cd1e7c670c047bf11afdc65880107
->>>>>>> 84639ec1a610 (KOGITO-9350: Move from Mermaid to Stunner SWF viewer)
   languageName: node
   linkType: hard
 
@@ -23132,11 +23126,11 @@ __metadata:
   linkType: hard
 
 "d3-array@npm:2 - 3, d3-array@npm:2.10.0 - 3, d3-array@npm:^3.1.6":
-  version: 3.2.4
-  resolution: "d3-array@npm:3.2.4"
+  version: 3.2.3
+  resolution: "d3-array@npm:3.2.3"
   dependencies:
     internmap: 1 - 2
-  checksum: a5976a6d6205f69208478bb44920dd7ce3e788c9dceb86b304dbe401a4bfb42ecc8b04c20facde486e9adcb488b5d1800d49393a3f81a23902b68158e12cddd0
+  checksum: 41d6a4989b73e0d2649a880b2f29a7e7cc059db0eba36cd29a79e0118ebdf6b78922a84cde0733cd54cb4072f3442ec44f3563902e00ea42892442d60e99f961
   languageName: node
   linkType: hard
 
@@ -23378,9 +23372,9 @@ __metadata:
   linkType: hard
 
 "dayjs@npm:^1.10.4":
-  version: 1.11.8
-  resolution: "dayjs@npm:1.11.8"
-  checksum: 4fe04b6df98ba6e5f89b49d80bba603cbf01e21a1b4a24ecb163c94c0ba5324a32ac234a139cee654f89d5277a2bcebca5347e6676c28a0a6d1a90f1d34a42b8
+  version: 1.10.4
+  resolution: "dayjs@npm:1.10.4"
+  checksum: d248d6aa1e04f8577a94978e5194c1023347bc08b7c2766d4a4d50b0b69382d3f4fd912b9fcb64ffad4ee2947d53cd8e5d707f49b14817eb7810959d8d95c938
   languageName: node
   linkType: hard
 
@@ -24422,11 +24416,11 @@ __metadata:
   linkType: hard
 
 "envinfo@npm:^7.7.3":
-  version: 7.8.1
-  resolution: "envinfo@npm:7.8.1"
+  version: 7.9.0
+  resolution: "envinfo@npm:7.9.0"
   bin:
     envinfo: dist/cli.js
-  checksum: de736c98d6311c78523628ff127af138451b162e57af5293c1b984ca821d0aeb9c849537d2fde0434011bed33f6bca5310ca2aab8a51a3f28fc719e89045d648
+  checksum: 133583b07510309374b91c943f436c12cecc2d7b8520d65b699a80713773d130ccccb55fe6204d5b6a700b85357b6106d8d0dcf6ac24809cb44b24841e40543f
   languageName: node
   linkType: hard
 
@@ -25753,12 +25747,14 @@ __metadata:
     "@backstage/plugin-scaffolder-backend": "workspace:^"
     "@backstage/plugin-scaffolder-backend-module-confluence-to-markdown": "workspace:^"
     "@backstage/plugin-scaffolder-backend-module-rails": "workspace:^"
+    "@backstage/plugin-scaffolder-common": "workspace:^"
     "@backstage/plugin-search-backend": "workspace:^"
     "@backstage/plugin-search-backend-module-elasticsearch": "workspace:^"
     "@backstage/plugin-search-backend-module-pg": "workspace:^"
     "@backstage/plugin-search-backend-node": "workspace:^"
     "@backstage/plugin-search-common": "workspace:^"
     "@backstage/plugin-swf-backend": ^0.0.0
+    "@backstage/plugin-swf-common": ^0.0.0
     "@backstage/plugin-tech-insights-backend": "workspace:^"
     "@backstage/plugin-tech-insights-backend-module-jsonfc": "workspace:^"
     "@backstage/plugin-tech-insights-node": "workspace:^"
@@ -25911,12 +25907,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-<<<<<<< HEAD
 "exponential-backoff@npm:^3.1.1":
   version: 3.1.1
   resolution: "exponential-backoff@npm:3.1.1"
   checksum: 3d21519a4f8207c99f7457287291316306255a328770d320b401114ec8481986e4e467e854cb9914dd965e0a1ca810a23ccb559c642c88f4c7f55c55778a9b48
-=======
+  languageName: node
+  linkType: hard
+
 "express-http-proxy@npm:^1.6.3":
   version: 1.6.3
   resolution: "express-http-proxy@npm:1.6.3"
@@ -25925,7 +25922,6 @@ __metadata:
     es6-promise: ^4.1.1
     raw-body: ^2.3.0
   checksum: 67fa357a29404e22778cfa59e60cdf410d876caeeaab7d34946d40ac6555cfcc666a0fd28fc087149b1f9bbb8349b057ad575485331126b1b99b696ab2528488
->>>>>>> aecd4b2f2be8 (inserting workflow-service integrated with proxy and plugin UI)
   languageName: node
   linkType: hard
 
@@ -26256,18 +26252,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fast-xml-parser@npm:4.2.4":
-  version: 4.2.4
-  resolution: "fast-xml-parser@npm:4.2.4"
-  dependencies:
-    strnum: ^1.0.5
-  bin:
-    fxparser: src/cli/cli.js
-  checksum: d3b4d0c0152c09f98def792769fca6bb3fa1d597f9745d9564451c239089bd86bdf573c9263b4944860028cb7edb81752d64399c1aff8b87c9225ecef96905f7
-  languageName: node
-  linkType: hard
-
-"fast-xml-parser@npm:^4.1.2":
+"fast-xml-parser@npm:4.2.4, fast-xml-parser@npm:^4.1.2":
   version: 4.2.4
   resolution: "fast-xml-parser@npm:4.2.4"
   dependencies:
@@ -29451,17 +29436,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-<<<<<<< HEAD
 "is-obj@npm:^2.0.0":
   version: 2.0.0
   resolution: "is-obj@npm:2.0.0"
   checksum: c9916ac8f4621962a42f5e80e7ffdb1d79a3fab7456ceaeea394cd9e0858d04f985a9ace45be44433bf605673c8be8810540fe4cc7f4266fc7526ced95af5a08
-=======
+  languageName: node
+  linkType: hard
+
 "is-path-cwd@npm:^2.2.0":
   version: 2.2.0
   resolution: "is-path-cwd@npm:2.2.0"
   checksum: 46a840921bb8cc0dc7b5b423a14220e7db338072a4495743a8230533ce78812dc152548c86f4b828411fe98c5451959f07cf841c6a19f611e46600bd699e8048
->>>>>>> 84639ec1a610 (KOGITO-9350: Move from Mermaid to Stunner SWF viewer)
   languageName: node
   linkType: hard
 
@@ -34192,7 +34177,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-<<<<<<< HEAD
 "nimma@npm:0.2.2":
   version: 0.2.2
   resolution: "nimma@npm:0.2.2"
@@ -34212,14 +34196,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nise@npm:^5.1.2":
-  version: 5.1.2
-  resolution: "nise@npm:5.1.2"
-=======
 "nise@npm:^5.1.0, nise@npm:^5.1.2":
   version: 5.1.4
   resolution: "nise@npm:5.1.4"
->>>>>>> e3863c3f4151 (Add SWF viewer)
   dependencies:
     "@sinonjs/commons": ^2.0.0
     "@sinonjs/fake-timers": ^10.0.2
@@ -39557,19 +39536,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-<<<<<<< HEAD
-"safe-stable-stringify@npm:^1.1":
-  version: 1.1.1
-  resolution: "safe-stable-stringify@npm:1.1.1"
-  checksum: e32a30720e8a2e3043b8b96733f015c1aa7a21a5a328074ce917b8afe4d26b4308c186c74fa92131e5f794b1efc63caa32defafceaa2981accaaedbc8b2c861c
-=======
 "safe-regex@npm:^1.1.0":
   version: 1.1.0
   resolution: "safe-regex@npm:1.1.0"
   dependencies:
     ret: ~0.1.10
   checksum: 9a8bba57c87a841f7997b3b951e8e403b1128c1a4fd1182f40cc1a20e2d490593d7c2a21030fadfea320c8e859219019e136f678c6689ed5960b391b822f01d5
->>>>>>> 84639ec1a610 (KOGITO-9350: Move from Mermaid to Stunner SWF viewer)
+  languageName: node
+  linkType: hard
+
+"safe-stable-stringify@npm:^1.1":
+  version: 1.1.1
+  resolution: "safe-stable-stringify@npm:1.1.1"
+  checksum: e32a30720e8a2e3043b8b96733f015c1aa7a21a5a328074ce917b8afe4d26b4308c186c74fa92131e5f794b1efc63caa32defafceaa2981accaaedbc8b2c861c
   languageName: node
   linkType: hard
 
@@ -39587,9 +39566,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-<<<<<<< HEAD
-"sax@npm:>=0.6.0":
-=======
 "sass-loader@npm:^10.3.1":
   version: 10.4.1
   resolution: "sass-loader@npm:10.4.1"
@@ -39628,15 +39604,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sax@npm:1.2.1":
-  version: 1.2.1
-  resolution: "sax@npm:1.2.1"
-  checksum: 8dca7d5e1cd7d612f98ac50bdf0b9f63fbc964b85f0c4e2eb271f8b9b47fd3bf344c4d6a592e69ecf726d1485ca62cd8a52e603bbc332d18a66af25a9a1045ad
-  languageName: node
-  linkType: hard
-
 "sax@npm:>=0.6.0, sax@npm:^1.2.4":
->>>>>>> 84639ec1a610 (KOGITO-9350: Move from Mermaid to Stunner SWF viewer)
   version: 1.2.4
   resolution: "sax@npm:1.2.4"
   checksum: d3df7d32b897a2c2f28e941f732c71ba90e27c24f62ee918bd4d9a8cfb3553f2f81e5493c7f0be94a11c1911b643a9108f231dd6f60df3fa9586b5d2e3e9e1fe
@@ -40247,9 +40215,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-<<<<<<< HEAD
-"sinon@npm:^14.0.2":
-=======
 "sinon@npm:^11.1.1":
   version: 11.1.2
   resolution: "sinon@npm:11.1.2"
@@ -40264,8 +40229,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sinon@npm:^14.0.1, sinon@npm:^14.0.2":
->>>>>>> e3863c3f4151 (Add SWF viewer)
+"sinon@npm:^14.0.2":
   version: 14.0.2
   resolution: "sinon@npm:14.0.2"
   dependencies:
@@ -40786,21 +40750,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-<<<<<<< HEAD
 "ssri@npm:^10.0.0":
   version: 10.0.4
   resolution: "ssri@npm:10.0.4"
   dependencies:
     minipass: ^5.0.0
   checksum: fb14da9f8a72b04eab163eb13a9dda11d5962cd2317f85457c4e0b575e9a6e0e3a6a87b5bf122c75cb36565830cd5f263fb457571bf6f1587eb5f95d095d6165
-=======
+  languageName: node
+  linkType: hard
+
 "ssri@npm:^6.0.1":
   version: 6.0.2
   resolution: "ssri@npm:6.0.2"
   dependencies:
     figgy-pudding: ^3.5.1
   checksum: 7c2e5d442f6252559c8987b7114bcf389fe5614bf65de09ba3e6f9a57b9b65b2967de348fcc3acccff9c069adb168140dd2c5fc2f6f4a779e604a27ef1f7d551
->>>>>>> 84639ec1a610 (KOGITO-9350: Move from Mermaid to Stunner SWF viewer)
   languageName: node
   linkType: hard
 
@@ -41405,17 +41369,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"stylis@npm:4.1.3":
+"stylis@npm:4.1.3, stylis@npm:^4.0.6":
   version: 4.1.3
   resolution: "stylis@npm:4.1.3"
   checksum: d04dbffcb9bf2c5ca8d8dc09534203c75df3bf711d33973ea22038a99cc475412a350b661ebd99cbc01daa50d7eedcf0d130d121800eb7318759a197023442a6
-  languageName: node
-  linkType: hard
-
-"stylis@npm:^4.0.6":
-  version: 4.2.0
-  resolution: "stylis@npm:4.2.0"
-  checksum: 0eb6cc1b866dc17a6037d0a82ac7fa877eba6a757443e79e7c4f35bacedbf6421fadcab4363b39667b43355cbaaa570a3cde850f776498e5450f32ed2f9b7584
   languageName: node
   linkType: hard
 
@@ -43143,7 +43100,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-<<<<<<< HEAD
 "urijs@npm:^1.19.11":
   version: 1.19.11
   resolution: "urijs@npm:1.19.11"
@@ -43151,8 +43107,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"url-parse@npm:^1.5.10":
-=======
 "urix@npm:^0.1.0":
   version: 0.1.0
   resolution: "urix@npm:0.1.0"
@@ -43177,8 +43131,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"url-parse@npm:^1.5.8":
->>>>>>> 84639ec1a610 (KOGITO-9350: Move from Mermaid to Stunner SWF viewer)
+"url-parse@npm:^1.5.10":
   version: 1.5.10
   resolution: "url-parse@npm:1.5.10"
   dependencies:
@@ -43626,9 +43579,9 @@ __metadata:
   linkType: hard
 
 "vscode-languageserver-types@npm:^3.15.1":
-  version: 3.17.3
-  resolution: "vscode-languageserver-types@npm:3.17.3"
-  checksum: fbc8221297261f659a6482875ff2a419dc9d55965dc53745797da569ff9f819cd832e6f2699017baadd946548bbfe212e3f6971f3d960f12dc0ee9c629dacc07
+  version: 3.15.1
+  resolution: "vscode-languageserver-types@npm:3.15.1"
+  checksum: 28c1cb0d5b7ad7c719015a6eb5f774c000fe68c41bbd4a3fd0cbe6d862f27eec075d6bfb14c9d86c22d0e8711c2df8194295bf1e7d6ac0c359cab348c5e14887
   languageName: node
   linkType: hard
 
@@ -44306,7 +44259,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-<<<<<<< HEAD
+"worker-farm@npm:^1.7.0":
+  version: 1.7.0
+  resolution: "worker-farm@npm:1.7.0"
+  dependencies:
+    errno: ~0.1.7
+  checksum: eab917530e1feddf157ec749e9c91b73a886142daa7fdf3490bccbf7b548b2576c43ab8d0a98e72ac755cbc101ca8647a7b1ff2485fddb9e8f53c40c77f5a719
+  languageName: node
+  linkType: hard
+
 "wrap-ansi-cjs@npm:wrap-ansi@^7.0.0, wrap-ansi@npm:^7.0.0":
   version: 7.0.0
   resolution: "wrap-ansi@npm:7.0.0"
@@ -44315,14 +44276,6 @@ __metadata:
     string-width: ^4.1.0
     strip-ansi: ^6.0.0
   checksum: a790b846fd4505de962ba728a21aaeda189b8ee1c7568ca5e817d85930e06ef8d1689d49dbf0e881e8ef84436af3a88bc49115c2e2788d841ff1b8b5b51a608b
-=======
-"worker-farm@npm:^1.7.0":
-  version: 1.7.0
-  resolution: "worker-farm@npm:1.7.0"
-  dependencies:
-    errno: ~0.1.7
-  checksum: eab917530e1feddf157ec749e9c91b73a886142daa7fdf3490bccbf7b548b2576c43ab8d0a98e72ac755cbc101ca8647a7b1ff2485fddb9e8f53c40c77f5a719
->>>>>>> 84639ec1a610 (KOGITO-9350: Move from Mermaid to Stunner SWF viewer)
   languageName: node
   linkType: hard
 
