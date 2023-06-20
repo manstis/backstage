@@ -104,8 +104,17 @@ export async function createRouter(
     res.status(response.status).json(json);
   });
 
-  router.post('/actions/:id', async (req, res) => {
-    res.status(200);
+  router.post('/actions/:actionId', async (req, res) => {
+    const { actionId } = req.params;
+    const scaffolderUrl = await discovery.getBaseUrl('scaffolder');
+    const requestBody = req.body;
+    const wsRequest = await fetch(`${scaffolderUrl}/v2/actions/${actionId}`, {
+      method: 'POST',
+      body: JSON.stringify(requestBody),
+      headers: { 'content-type': 'application/json' },
+    });
+    const response = await wsRequest.json();
+    res.status(wsRequest.status).json(response);
   });
 
   // starting kogito runtime as a child process
