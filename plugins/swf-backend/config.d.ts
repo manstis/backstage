@@ -13,16 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { createRouter } from '@backstage/plugin-swf-backend';
-import { Router } from 'express';
-import { PluginEnvironment } from '../types';
-
-export default async function createPlugin(
-  env: PluginEnvironment,
-): Promise<Router> {
-  return await createRouter({
-    eventBroker: env.eventBroker,
-    config: env.config,
-    logger: env.logger,
-  });
+export interface Config {
+  swf?: {
+    /**
+     * kogito service root URL
+     * @visibility backend
+     */
+    baseUrl: string;
+    /**
+     * kogito service root URL
+     * @visibility backend
+     */
+    port: string;
+  };
 }

@@ -182,11 +182,14 @@ kafka:
 allure:
   baseUrl: http://localhost:5050/allure-docker-service
 
+swf:
+  baseUrl: http://localhost
+  port: 8899
+
 integrations:
   github:
     - host: github.com
-      token: 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
-  #   token: ${GITHUB_TOKEN}
+      token: ${GITHUB_TOKEN}
   ### Example for how to add your GitHub Enterprise instance using the API:
   # - host: ghe.example.net
   #   apiBaseUrl: https://ghe.example.net/api/v3
