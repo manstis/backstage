@@ -24,10 +24,10 @@
   },
   "dependencies": {
     "@backstage/backend-common": "workspace:^",
-    "@backstage/plugin-events-backend": "workspace:^",
     "@backstage/config": "workspace:^",
-    "@backstage/plugin-swf-common": "workspace:^",
+    "@backstage/plugin-events-backend": "workspace:^",
     "@backstage/plugin-events-node": "workspace:^",
+    "@backstage/plugin-swf-common": "workspace:^",
     "@types/express": "*",
     "@types/node-fetch": "^2.6.4",
     "express": "^4.17.1",
