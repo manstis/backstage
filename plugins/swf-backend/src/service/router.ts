@@ -45,7 +45,7 @@ export async function createRouter(
 
   const kogitoBaseUrl =
     config.getOptionalString('swf.baseUrl') ?? 'http://localhost';
-  const kogitoPort = config.getOptionalString('swf.port') ?? '8899';
+  const kogitoPort = config.getOptionalNumber('swf.port') ?? 8899;
   logger.info(
     `Using kogito Serverless Workflow Url of: ${kogitoBaseUrl}:${kogitoPort}`,
   );

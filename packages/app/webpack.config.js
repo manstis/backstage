@@ -51,6 +51,10 @@ module.exports = {
           copy: [
             { source: './dist/editor', destination: './public/' },
             { source: './dist/envelope', destination: './public/swf/items/' },
+            {
+              source: './dist/envelope',
+              destination: './public/create/templates/default/',
+            },
           ],
         },
       },
