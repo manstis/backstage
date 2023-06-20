@@ -32,5 +32,6 @@
       "description": "Scaffolder Action Id"
     }
   },
+  "required": ["actionId"],
   "additionalProperties": false
 }

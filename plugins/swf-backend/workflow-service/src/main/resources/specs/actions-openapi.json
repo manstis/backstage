@@ -80,8 +80,13 @@
           "defaultNamespace": {
             "type": "string",
             "description": "The default namespace"
+          },
+          "actionId": {
+            "type": "string",
+            "description": "Scaffolder Action Id"
           }
         },
+        "required": ["actionId"],
         "additionalProperties": false
       }
     }
