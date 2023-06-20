@@ -384,6 +384,25 @@ export async function createRouter(
       });
       res.json(actionsList);
     })
+    // to be used by swf to trigger actions
+    .post('/v2/actions/:actionId', async (req, res) => {
+      const { actionId } = req.params;
+      console.log('Body request == ');
+      const body = req.body;
+      console.log(body);
+      const action: TemplateAction = await actionRegistry.get(actionId);
+      const outputMap = {};
+      const mockContext = {
+        input: body,
+        templateInfo: {},
+        workspacePath: '',
+        output(name: string, value: JsonValue) {
+          outputMap[name] = value;
+        },
+      };
+      const actionPromise = await action.handler(mockContext);
+      res.json(outputMap);
+    })
     .post('/v2/tasks', async (req, res) => {
       const templateRef: string = req.body.templateRef;
       const { kind, namespace, name } = parseEntityRef(templateRef, {

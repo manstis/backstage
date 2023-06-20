@@ -1,0 +1,88 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Workflow Actions for BS API",
+    "description": "Workflow Actions BS API",
+    "version": "0.0.1"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:7007/api/swf"
+    }
+  ],
+  "paths": {
+    "/actions/{actionId}": {
+      "post": {
+        "operationId": "runAction",
+        "parameters": [
+          {
+            "name": "actionId",
+            "in": "path",
+            "required": true,
+            "description": "The action Id from BS Scaffolder",
+            "example": "catalog:fetch",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Input parameters for the action in BS",
+          "required": true,
+          "content": {
+            "application/json;charset=utf-8": {
+              "schema": {
+                "$ref": "#/definitions/input"
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "default response",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "input": {
+        "type": "object",
+        "properties": {
+          "entityRef": {
+            "type": "string",
+            "description": "Entity reference of the entity to get"
+          },
+          "entityRefs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Entity references of the entities to get"
+          },
+          "optional": {
+            "type": "boolean",
+            "description": "Allow the entity or entities to optionally exist. Default: false"
+          },
+          "defaultKind": {
+            "type": "string",
+            "description": "The default kind"
+          },
+          "defaultNamespace": {
+            "type": "string",
+            "description": "The default namespace"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}
