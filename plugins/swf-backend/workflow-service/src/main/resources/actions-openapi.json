@@ -32,7 +32,7 @@
           "content": {
             "application/json;charset=utf-8": {
               "schema": {
-                "$ref": "#/definitions/input"
+                "$ref": "#/components/schemas/input"
               }
             }
           }
@@ -55,6 +55,7 @@
   "components": {
     "schemas": {
       "input": {
+        "title": "input",
         "type": "object",
         "properties": {
           "entityRef": {
