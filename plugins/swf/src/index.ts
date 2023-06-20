@@ -14,3 +14,7 @@
  * limitations under the License.
  */
 export { swfPlugin, SwfPage } from './plugin';
+export { SwfClient } from './api/SwfClient';
+export type { SwfClientOptions } from './api/SwfClient';
+export { swfApiRef } from './api';
+export { useServerlessWorkflowEditor } from './hooks/useServerlessWorkflowEditor';
