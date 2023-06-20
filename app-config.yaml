@@ -45,6 +45,8 @@ backend:
     allow:
       - host: example.com
       - host: '*.mozilla.org'
+      # kogito Serverless Workflow service
+      - host: localhost:8899
   # workingDirectory: /tmp # Use this to configure a working directory for the scaffolder, defaults to the OS temp-dir
 
 # See README.md in the proxy-backend plugin for information on the configuration format
@@ -183,7 +185,8 @@ allure:
 integrations:
   github:
     - host: github.com
-      token: ${GITHUB_TOKEN}
+      token: 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
+  #   token: ${GITHUB_TOKEN}
   ### Example for how to add your GitHub Enterprise instance using the API:
   # - host: ghe.example.net
   #   apiBaseUrl: https://ghe.example.net/api/v3
@@ -227,6 +230,7 @@ catalog:
         - System
         - Domain
         - Location
+        - Template
 
   processors:
     ldapOrg:

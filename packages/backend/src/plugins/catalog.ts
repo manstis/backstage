@@ -20,6 +20,7 @@ import { Router } from 'express';
 import { PluginEnvironment } from '../types';
 import { DemoEventBasedEntityProvider } from './DemoEventBasedEntityProvider';
 import { UnprocessedEntitesModule } from '@backstage/plugin-catalog-backend-module-unprocessed';
+import { ServerlessWorkflowEntityProvider } from './ServerlessWorkflowEntityProvider';
 
 export default async function createPlugin(
   env: PluginEnvironment,
@@ -33,6 +34,16 @@ export default async function createPlugin(
     eventBroker: env.eventBroker,
   });
   builder.addEntityProvider(demoProvider);
+
+  // SWF Entity Provider
+  const swfProvider = new ServerlessWorkflowEntityProvider({
+    reader: env.reader,
+    kogitoServiceUrl: 'http://localhost:8899',
+    eventBroker: env.eventBroker,
+    logger: env.logger,
+    env: 'development',
+  });
+  builder.addEntityProvider(swfProvider);
 
   const { processingEngine, router } = await builder.build();
 
