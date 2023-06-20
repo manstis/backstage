@@ -20,15 +20,18 @@ import { Logger } from 'winston';
 import { SwfItem, SwfListResult } from '@backstage/plugin-swf-common';
 import { ExecException } from 'child_process';
 import fetch from 'node-fetch';
+import { EventBroker } from '@backstage/plugin-events-node';
+import { topic } from '@backstage/plugin-swf-common';
 
 export interface RouterOptions {
+  eventBroker: EventBroker;
   logger: Logger;
 }
 
 export async function createRouter(
   options: RouterOptions,
 ): Promise<express.Router> {
-  const { logger } = options;
+  const { eventBroker, logger } = options;
 
   const router = Router();
   router.use(express.json());
@@ -43,7 +46,7 @@ export async function createRouter(
       `http://localhost:8899/management/processes`,
     );
     const data = await serviceRes.json();
-    const items = data.map((swf: SwfItem) => {
+    const items: SwfItem[] = data.map((swf: SwfItem) => {
       const swfItem: SwfItem = {
         id: swf.id,
         name: swf.name,
@@ -100,6 +103,35 @@ export async function createRouter(
       console.log(`stdout:\n${stdout}`);
     },
   );
+
+  // We need to ensure the service is running!
+  // The Quarkus application appears to lack a health endpoint.
+  let retryCount = 0;
+  let polling = true;
+  while (polling) {
+    try {
+      const healthCheckResponse = await fetch(
+        `http://localhost:8899/management/processes`,
+      );
+      polling = !healthCheckResponse.ok;
+      if (!healthCheckResponse.ok) {
+        // Throw local error to re-use retry mechanism.
+        throw new Error('Retry');
+      }
+    } catch (e) {
+      if (retryCount > 5) {
+        retryCount++;
+        logger.error(
+          'Kogito failed to start. Serverless Workflow Templates could not be loaded.',
+        );
+        polling = false;
+      }
+    }
+  }
+  await eventBroker.publish({
+    topic: topic,
+    eventPayload: {},
+  });
 
   router.use(errorHandler());
   return router;
