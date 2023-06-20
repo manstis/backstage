@@ -1,0 +1,52 @@
+{
+  "id": "example",
+  "version": "1.0",
+  "name": "Workflow BS Actions example",
+  "description": "An example of how a workflow can call actions on BS Scaffolder",
+  "functions": [
+    {
+      "name": "runActionFunction",
+      "operation": "actions-openapi.json#runAction"
+    }
+  ],
+  "start": "Start Actions Workflow",
+  "states": [
+    {
+      "name": "Start Actions Workflow",
+      "type": "inject",
+      "data": {
+        "startMessage": "Actions Workflow started!"
+      },
+      "transition": "Execute Action on SWF Plugin"
+    },
+    {
+      "name": "Execute Action on SWF Plugin",
+      "type": "operation",
+      "actionMode": "sequential",
+      "actions": [
+        {
+          "name": "Run Action",
+          "functionRef": {
+            "refName": "runActionFunction",
+            "arguments": {
+              "actionId": ".actionId",
+              "entityRef": ".entityRef"
+            }
+          },
+          "actionDataFilter": {
+            "toStateData": ".actionResult"
+          }
+        }
+      ],
+      "transition": "Complete Workflow"
+    },
+    {
+      "name": "Complete Workflow",
+      "type": "inject",
+      "data": {
+        "endMessage": "Actions Workflow Completed!"
+      },
+      "end": true
+    }
+  ]
+}
