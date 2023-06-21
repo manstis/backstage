@@ -63,7 +63,10 @@ import {
   IdentityApi,
   IdentityApiGetIdentityRequest,
 } from '@backstage/plugin-auth-node';
-import { TemplateAction } from '@backstage/plugin-scaffolder-node';
+import {
+  ActionContext,
+  TemplateAction,
+} from '@backstage/plugin-scaffolder-node';
 import {
   PermissionEvaluator,
   PermissionRuleParams,
@@ -74,6 +77,8 @@ import {
   PermissionRule,
 } from '@backstage/plugin-permission-node';
 import { scaffolderActionRules, scaffolderTemplateRules } from './rules';
+import { PassThrough } from 'stream';
+import fs from 'fs-extra';
 
 /**
  *
@@ -391,16 +396,20 @@ export async function createRouter(
       const body = req.body;
       console.log(body);
       const action: TemplateAction = await actionRegistry.get(actionId);
-      const outputMap = {};
-      const mockContext = {
+      const outputMap: any = {};
+      const mockContext: ActionContext<JsonObject> = {
         input: body,
-        templateInfo: {},
         workspacePath: '',
+        logger: logger,
+        logStream: new PassThrough(),
+        createTemporaryDirectory: async () => {
+          return await fs.mkdtemp(`${actionId}_step-${0}-`);
+        },
         output(name: string, value: JsonValue) {
           outputMap[name] = value;
         },
       };
-      const actionPromise = await action.handler(mockContext);
+      await action.handler(mockContext);
       res.json(outputMap);
     })
     .post('/v2/tasks', async (req, res) => {
