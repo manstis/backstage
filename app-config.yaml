@@ -185,6 +185,8 @@ allure:
 swf:
   baseUrl: http://localhost
   port: 8899
+  workflow-service:
+        path: ../../plugins/swf-backend/workflow-service/target/quarkus-app/quarkus-run.jar
 
 integrations:
   github:

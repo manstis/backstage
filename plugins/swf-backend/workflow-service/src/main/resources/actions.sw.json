@@ -3,7 +3,7 @@
   "version": "1.0",
   "name": "Workflow BS Actions example",
   "description": "An example of how a workflow can call actions on BS Scaffolder",
-  "dataInputSchema": "specs/actions-openapi.json#components/schema/input",
+  "dataInputSchema": "schemas/actions-workflow-input.json",
   "functions": [
     {
       "name": "runActionFunction",
