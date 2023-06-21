@@ -28,7 +28,7 @@
         ],
         "requestBody": {
           "description": "Input parameters for the action in BS",
-          "required": true,
+          "required": false,
           "content": {
             "application/json;charset=utf-8": {
               "schema": {
