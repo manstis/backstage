@@ -51,6 +51,9 @@ export async function createRouter(
   logger.info(
     `Using kogito Serverless Workflow Url of: ${kogitoBaseUrl}:${kogitoPort}`,
   );
+  const kogitoJarPath =
+    config.getOptionalString('swf.workflow-service.path') ??
+    '../../plugins/swf-backend/workflow-service/target/quarkus-app/quarkus-run.jar';
 
   router.get('/items', async (_, res) => {
     const serviceRes = await fetch(
@@ -120,7 +123,7 @@ export async function createRouter(
   // starting kogito runtime as a child process
   const childProcess = require('child_process');
   childProcess.exec(
-    `java -Dquarkus.http.port=${kogitoPort} -jar ../../plugins/swf-backend/workflow-service/target/quarkus-app/quarkus-run.jar`,
+    `java -Dquarkus.http.port=${kogitoPort} -jar ${kogitoJarPath}`,
     (error: ExecException | null, stdout: string, stderr: string) => {
       if (error) {
         console.error(`error: ${error.message}`);
