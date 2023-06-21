@@ -3,7 +3,7 @@
   "version": "1.0",
   "name": "Workflow Error example",
   "description": "An example of how compensation works",
-  "dataInputSchema": "specs/compensation-workflow-input.json",
+  "dataInputSchema": "schemas/compensation-workflow-input.json",
   "start": "printStatus",
   "states": [
     {
