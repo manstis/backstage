@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Content,
   InfoCard,
@@ -21,7 +21,7 @@ import {
   Progress,
 } from '@backstage/core-components';
 import { stringifyEntityRef } from '@backstage/catalog-model';
-import { makeStyles } from '@material-ui/core';
+import { Button, Dialog, DialogTitle, makeStyles } from '@material-ui/core';
 import { BackstageTheme } from '@backstage/theme';
 import { errorApiRef, useApi } from '@backstage/core-plugin-api';
 import { useTemplateParameterSchema } from '../../hooks/useTemplateParameterSchema';
@@ -88,6 +88,7 @@ export const Workflow = (workflowProps: WorkflowProps): JSX.Element | null => {
 
   const { swfFile, swfEditorRef, swfEditorEnvelopeLocator } =
     useServerlessWorkflowEditor(manifest?.name, manifest?.type);
+  const [open, setOpen] = useState<boolean>(false);
 
   if (error) {
     return props.onError(error);
@@ -109,15 +110,29 @@ export const Workflow = (workflowProps: WorkflowProps): JSX.Element | null => {
           titleTypographyProps={{ component: 'h2' }}
         >
           {manifest.type === 'serverless-workflow' && swfFile && (
-            <div style={{ height: '500px' }}>
-              <EmbeddedEditor
-                ref={swfEditorRef}
-                file={swfFile}
-                channelType={ChannelType.ONLINE}
-                editorEnvelopeLocator={swfEditorEnvelopeLocator}
-                locale="en"
-              />
-            </div>
+            <>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={_ => setOpen(true)}
+              >
+                View Serverless Workflow
+              </Button>
+              <Dialog onClose={_ => setOpen(false)} open={open}>
+                <DialogTitle>{manifest.title}</DialogTitle>
+                <div
+                  style={{ height: '500px', width: '500px', padding: '10px' }}
+                >
+                  <EmbeddedEditor
+                    ref={swfEditorRef}
+                    file={swfFile}
+                    channelType={ChannelType.ONLINE}
+                    editorEnvelopeLocator={swfEditorEnvelopeLocator}
+                    locale="en"
+                  />
+                </div>
+              </Dialog>
+            </>
           )}
           <Stepper manifest={manifest} {...props} />
         </InfoCard>

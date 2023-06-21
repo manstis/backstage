@@ -97,7 +97,7 @@ export async function createRouter(
   });
 
   // call BS Scaffolder actions
-  router.get('/actions', async (req, res) => {
+  router.get('/actions', async (_, res) => {
     const scaffolderUrl = await discovery.getBaseUrl('scaffolder');
     const response = await fetch(`${scaffolderUrl}/v2/actions`);
     const json = await response.json();
@@ -137,13 +137,12 @@ export async function createRouter(
   );
 
   // We need to ensure the service is running!
-  // The Quarkus application appears to lack a health endpoint.
   let retryCount = 0;
   let polling = true;
   while (polling) {
     try {
       const healthCheckResponse = await fetch(
-        `${kogitoBaseUrl}:${kogitoPort}/management/processes`,
+        `${kogitoBaseUrl}:${kogitoPort}/q/health`,
       );
       polling = !healthCheckResponse.ok;
       if (!healthCheckResponse.ok) {

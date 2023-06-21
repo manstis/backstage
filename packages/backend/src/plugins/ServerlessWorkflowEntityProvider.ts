@@ -27,7 +27,11 @@ import {
   EventSubscriber,
 } from '@backstage/plugin-events-node';
 import { SwfItem, topic } from '@backstage/plugin-swf-common';
-import { TemplateEntityV1beta3 } from '@backstage/plugin-scaffolder-common';
+import {
+  TemplateEntityV1beta3,
+  TemplateParametersV1beta3,
+} from '@backstage/plugin-scaffolder-common';
+import YAML from 'yaml';
 
 export class ServerlessWorkflowEntityProvider
   implements EntityProvider, EventSubscriber
@@ -55,6 +59,51 @@ export class ServerlessWorkflowEntityProvider
     eventBroker.subscribe(this);
   }
 
+  makeBackstageTemplateParameters(
+    item: SwfItem,
+    openApiDefinitions: any,
+  ): TemplateParametersV1beta3 | undefined {
+    const id: string = item.id;
+    const oaPaths: any = openApiDefinitions.paths;
+    const oaData: any = oaPaths[`/${id}`];
+    if (oaData === undefined) {
+      this.logger.error(
+        `Unable to locate OpenAPI definition for '${id}'. Zero parameters will be available.`,
+      );
+      return undefined;
+    }
+    const oaPostData: any = oaData.post;
+    if (oaPostData === undefined) {
+      this.logger.error(
+        `Unable to locate OpenAPI POST definition for '${id}'. Zero parameters will be available.`,
+      );
+      return undefined;
+    }
+    const oaParameterData: any = oaPostData.parameters;
+    if (oaParameterData === undefined) {
+      this.logger.error(
+        `Unable to locate OpenAPI POST parameter definitions for '${id}'. Zero parameters will be available.`,
+      );
+      return undefined;
+    }
+
+    const properties: any = {};
+    oaParameterData.forEach((o: any) => {
+      const fieldName: string = o.name;
+      properties[fieldName] = {
+        title: fieldName,
+        type: o.schema.type,
+      };
+    });
+
+    const tp: TemplateParametersV1beta3 = {
+      title: 'Fill in some input parameters',
+      properties,
+    };
+
+    return tp;
+  }
+
   async connect(connection: EntityProviderConnection): Promise<void> {
     this.connection = connection;
   }
@@ -79,11 +128,21 @@ export class ServerlessWorkflowEntityProvider
 
     this.logger.info('Retrieving Serverless Workflow definitions');
 
+    // Load SWF definitions
     const response = await this.reader.readUrl(
       `${this.kogitoServiceUrl}/management/processes`,
     );
     const buffer = await response.buffer();
     const data = JSON.parse(buffer.toString());
+
+    // Load OpenAPI definitions
+    const oaResponse = await this.reader.readUrl(
+      `${this.kogitoServiceUrl}/q/openapi`,
+    );
+    const oaBuffer = await oaResponse.buffer();
+    const oaData = YAML.parse(oaBuffer.toString());
+    console.log(YAML.stringify(oaData));
+
     const items: SwfItem[] = data.map((swf: SwfItem) => {
       const swfItem: SwfItem = {
         id: swf.id,
@@ -92,7 +151,7 @@ export class ServerlessWorkflowEntityProvider
       };
       return swfItem;
     });
-    const entities: Entity[] = this.swfToEntities(items);
+    const entities: Entity[] = this.swfToEntities(items, oaData);
 
     await this.connection.applyMutation({
       type: 'full',
@@ -107,7 +166,10 @@ export class ServerlessWorkflowEntityProvider
     return ServerlessWorkflowEntityProvider.name;
   }
 
-  private swfToEntities(items: SwfItem[]): TemplateEntityV1beta3[] {
+  private swfToEntities(
+    items: SwfItem[],
+    openApiDefinitions: any,
+  ): TemplateEntityV1beta3[] {
     return items.map(i => {
       return {
         apiVersion: 'scaffolder.backstage.io/v1beta3',
@@ -126,6 +188,10 @@ export class ServerlessWorkflowEntityProvider
           owner: 'swf@example.com',
           type: 'serverless-workflow',
           steps: [],
+          parameters: this.makeBackstageTemplateParameters(
+            i,
+            openApiDefinitions,
+          ),
         },
       };
     });
