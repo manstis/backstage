@@ -64,7 +64,6 @@
     "@backstage/plugin-scaffolder-backend": "workspace:^",
     "@backstage/plugin-scaffolder-backend-module-confluence-to-markdown": "workspace:^",
     "@backstage/plugin-scaffolder-backend-module-rails": "workspace:^",
-    "@backstage/plugin-scaffolder-common": "workspace:^",
     "@backstage/plugin-search-backend": "workspace:^",
     "@backstage/plugin-search-backend-module-elasticsearch": "workspace:^",
     "@backstage/plugin-search-backend-module-pg": "workspace:^",
@@ -87,15 +86,13 @@
     "dockerode": "^3.3.1",
     "example-app": "link:../app",
     "express": "^4.17.1",
-    "express-http-proxy": "^1.6.3",
     "express-prom-bundle": "^6.3.6",
     "express-promise-router": "^4.1.0",
     "luxon": "^3.0.0",
     "pg": "^8.3.0",
     "pg-connection-string": "^2.3.0",
     "prom-client": "^14.0.1",
-    "winston": "^3.2.1",
-    "yaml": "^2.3.1"
+    "winston": "^3.2.1"
   },
   "devDependencies": {
     "@backstage/cli": "workspace:^",

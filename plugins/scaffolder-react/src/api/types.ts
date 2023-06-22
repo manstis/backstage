@@ -134,6 +134,7 @@ export interface ScaffolderScaffoldOptions {
  */
 export interface ScaffolderScaffoldResponse {
   taskId: string;
+  raw?: any;
 }
 
 /**

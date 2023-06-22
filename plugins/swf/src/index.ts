@@ -18,3 +18,4 @@ export { SwfClient } from './api/SwfClient';
 export type { SwfClientOptions } from './api/SwfClient';
 export { swfApiRef } from './api';
 export { useServerlessWorkflowEditor } from './hooks/useServerlessWorkflowEditor';
+export { swfTaskRouteRef } from './routes';

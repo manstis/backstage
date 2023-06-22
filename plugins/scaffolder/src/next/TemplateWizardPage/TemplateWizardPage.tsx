@@ -26,6 +26,7 @@ import {
   scaffolderApiRef,
   useTemplateSecrets,
   type LayoutOptions,
+  TemplateParameterSchema,
 } from '@backstage/plugin-scaffolder-react';
 import {
   FormProps,
@@ -34,6 +35,7 @@ import {
 } from '@backstage/plugin-scaffolder-react/alpha';
 import { JsonValue } from '@backstage/types';
 import { Header, Page } from '@backstage/core-components';
+import { swfTaskRouteRef } from '@backstage/plugin-swf';
 
 import {
   rootRouteRef,
@@ -53,6 +55,7 @@ export type TemplateWizardPageProps = {
 export const TemplateWizardPage = (props: TemplateWizardPageProps) => {
   const rootRef = useRouteRef(rootRouteRef);
   const taskRoute = useRouteRef(scaffolderTaskRouteRef);
+  const swfTaskRoute = useRouteRef(swfTaskRouteRef);
   const { secrets } = useTemplateSecrets();
   const scaffolderApi = useApi(scaffolderApiRef);
   const navigate = useNavigate();
@@ -66,14 +69,22 @@ export const TemplateWizardPage = (props: TemplateWizardPageProps) => {
     name: templateName,
   });
 
-  const onCreate = async (values: Record<string, JsonValue>) => {
-    const { taskId } = await scaffolderApi.scaffold({
+  const onCreate = async (
+    values: Record<string, JsonValue>,
+    manifest: TemplateParameterSchema,
+  ) => {
+    const { taskId, raw } = await scaffolderApi.scaffold({
       templateRef,
       values,
       secrets,
     });
-
-    navigate(taskRoute({ taskId }));
+    if (manifest.type === 'serverless-workflow') {
+      // eslint-disable-next-line no-console
+      console.log(JSON.stringify(raw));
+      navigate(swfTaskRoute({ taskId }));
+    } else {
+      navigate(taskRoute({ taskId }));
+    }
   };
 
   const onError = () => <Navigate to={rootRef()} />;

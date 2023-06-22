@@ -24,3 +24,9 @@ export const definitionsRouteRef = createSubRouteRef({
   parent: rootRouteRef,
   path: '/items/:swfId',
 });
+
+export const swfTaskRouteRef = createSubRouteRef({
+  id: 'swf/task',
+  parent: rootRouteRef,
+  path: '/tasks/:taskId',
+});

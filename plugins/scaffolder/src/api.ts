@@ -164,8 +164,9 @@ export class ScaffolderClient implements ScaffolderApi {
       throw new Error(`Backend request failed, ${status} ${body.trim()}`);
     }
 
-    const { id } = (await response.json()) as { id: string };
-    return { taskId: id };
+    const raw: any = await response.json();
+    const { id } = raw as { id: string };
+    return { taskId: id, raw: raw };
   }
 
   async getTask(taskId: string): Promise<ScaffolderTask> {
