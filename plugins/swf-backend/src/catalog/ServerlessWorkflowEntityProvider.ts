@@ -133,10 +133,10 @@ export class ServerlessWorkflowEntityProvider
       return undefined;
     }
     const oaSchema: any =
-      oaPaths[`/${id}`].post.requestBody.content[`application/json`].schema;
+      oaPaths[`/${id}`]?.post?.requestBody?.content[`application/json`]?.schema;
     if (oaSchema === undefined) {
       this.logger.error(
-        `Unable to locate OpenAPI definition for '${id}'. Zero parameters will be available.`,
+        `Unable to locate OpenAPI schema for '${id}'. Zero parameters will be available.`,
       );
       return undefined;
     }
