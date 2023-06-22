@@ -19,7 +19,7 @@
     <surefire-plugin.version>3.0.0-M7</surefire-plugin.version>
     <kogito.bom.group-id>org.kie.kogito</kogito.bom.group-id>
     <kogito.bom.artifact-id>kogito-bom</kogito.bom.artifact-id>
-    <kogito.bom.version>1.39.0.Final</kogito.bom.version>
+    <kogito.bom.version>1.40.0.Final</kogito.bom.version>
   </properties>
   <dependencyManagement>
     <dependencies>
