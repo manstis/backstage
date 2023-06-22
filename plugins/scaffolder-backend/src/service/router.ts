@@ -403,9 +403,9 @@ export async function createRouter(
       const outputMap: any = {};
       const mockContext: ActionContext<JsonObject> = {
         input: body,
-        workspacePath: '',
+        workspacePath: '/tmp/testing',
         logger: logger,
-        logStream: new PassThrough(),
+        logStream: logger.stream(),
         createTemporaryDirectory: async () => {
           return await fs.mkdtemp(`${actionId}_step-${0}-`);
         },
