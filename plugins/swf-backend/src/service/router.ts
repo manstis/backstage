@@ -55,6 +55,27 @@ export async function createRouter(
     config.getOptionalString('swf.workflow-service.path') ??
     '../../plugins/swf-backend/workflow-service/target/quarkus-app/quarkus-run.jar';
 
+  setupInternalRoutes(router, kogitoBaseUrl, kogitoPort);
+  setupExternalRoutes(router, discovery);
+  await setupKogitoService(kogitoBaseUrl, kogitoPort, kogitoJarPath, logger);
+
+  await eventBroker.publish({
+    topic: topic,
+    eventPayload: {},
+  });
+
+  router.use(errorHandler());
+  return router;
+}
+
+// ==================================================
+// Internal Backstage API calls to delegate to Kogito
+// ==================================================
+function setupInternalRoutes(
+  router: express.Router,
+  kogitoBaseUrl: string,
+  kogitoPort: number,
+) {
   router.get('/items', async (_, res) => {
     const serviceRes = await fetch(
       `${kogitoBaseUrl}:${kogitoPort}/management/processes`,
@@ -77,13 +98,10 @@ export async function createRouter(
     res.status(200).json(result);
   });
 
-  // @ts-ignore
   router.get('/items/:swfId', async (req, res) => {
     const {
       params: { swfId },
     } = req;
-
-    // Delegate to kogito service
     const wsRequest = await fetch(
       `${kogitoBaseUrl}:${kogitoPort}/management/processes/${swfId}/source`,
     );
@@ -99,7 +117,25 @@ export async function createRouter(
     res.status(200).json(swfItem);
   });
 
-  // call BS Scaffolder actions
+  router.post('/execute/:swfId', async (req, res) => {
+    const {
+      params: { swfId },
+    } = req;
+    const swfData = req.body;
+    const swfRequest = await fetch(`${kogitoBaseUrl}:${kogitoPort}/${swfId}`, {
+      method: 'POST',
+      body: JSON.stringify(swfData),
+      headers: { 'content-type': 'application/json' },
+    });
+    const response = await swfRequest.json();
+    res.status(swfRequest.status).json(response);
+  });
+}
+
+// ==================================================
+// External Kogito API calls to delegate to Backstage
+// ==================================================
+function setupExternalRoutes(router: express.Router, discovery: DiscoveryApi) {
   router.get('/actions', async (_, res) => {
     const scaffolderUrl = await discovery.getBaseUrl('scaffolder');
     const response = await fetch(`${scaffolderUrl}/v2/actions`);
@@ -119,8 +155,17 @@ export async function createRouter(
     const response = await wsRequest.json();
     res.status(wsRequest.status).json(response);
   });
+}
 
-  // starting kogito runtime as a child process
+// =========================================
+// Spawn a process to run the Kogito service
+// =========================================
+async function setupKogitoService(
+  kogitoBaseUrl: string,
+  kogitoPort: number,
+  kogitoJarPath: string,
+  logger: Logger,
+) {
   const childProcess = require('child_process');
   childProcess.exec(
     `java -Dquarkus.http.port=${kogitoPort} -jar ${kogitoJarPath}`,
@@ -162,11 +207,4 @@ export async function createRouter(
       }
     }
   }
-  await eventBroker.publish({
-    topic: topic,
-    eventPayload: {},
-  });
-
-  router.use(errorHandler());
-  return router;
 }
