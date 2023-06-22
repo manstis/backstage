@@ -452,6 +452,15 @@ export async function createRouter(
 
       const baseUrl = getEntityBaseUrl(template);
 
+      // TODO {manstis}
+      // - baseUrl contains the base Url of the kogito service. Nice.
+      // - Do we want to create a TaskSpec and persist it?
+      // - Allowing the dispatch to run seems to do nothing.. investigate.
+      // - Do we want to invoke SWF from the TaskBroker (seems like a nice consistent place to me!)
+      if (template.spec.type === 'serverless-workflow') {
+        logger.info('This needs to be delegated to kogito SWF runtime.');
+      }
+
       const taskSpec: TaskSpec = {
         apiVersion: template.apiVersion,
         steps: template.spec.steps.map((step, index) => ({

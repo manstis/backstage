@@ -59,51 +59,6 @@ export class ServerlessWorkflowEntityProvider
     eventBroker.subscribe(this);
   }
 
-  makeBackstageTemplateParameters(
-    item: SwfItem,
-    openApiDefinitions: any,
-  ): TemplateParametersV1beta3 | undefined {
-    const id: string = item.id;
-    const oaPaths: any = openApiDefinitions.paths;
-    const oaData: any = oaPaths[`/${id}`];
-    if (oaData === undefined) {
-      this.logger.error(
-        `Unable to locate OpenAPI definition for '${id}'. Zero parameters will be available.`,
-      );
-      return undefined;
-    }
-    const oaPostData: any = oaData.post;
-    if (oaPostData === undefined) {
-      this.logger.error(
-        `Unable to locate OpenAPI POST definition for '${id}'. Zero parameters will be available.`,
-      );
-      return undefined;
-    }
-    const oaParameterData: any = oaPostData.parameters;
-    if (oaParameterData === undefined) {
-      this.logger.error(
-        `Unable to locate OpenAPI POST parameter definitions for '${id}'. Zero parameters will be available.`,
-      );
-      return undefined;
-    }
-
-    const properties: any = {};
-    oaParameterData.forEach((o: any) => {
-      const fieldName: string = o.name;
-      properties[fieldName] = {
-        title: fieldName,
-        type: o.schema.type,
-      };
-    });
-
-    const tp: TemplateParametersV1beta3 = {
-      title: 'Fill in some input parameters',
-      properties,
-    };
-
-    return tp;
-  }
-
   async connect(connection: EntityProviderConnection): Promise<void> {
     this.connection = connection;
   }
@@ -164,6 +119,42 @@ export class ServerlessWorkflowEntityProvider
 
   getProviderName(): string {
     return ServerlessWorkflowEntityProvider.name;
+  }
+
+  private makeBackstageTemplateParameters(
+    item: SwfItem,
+    openApiDefinitions: any,
+  ): TemplateParametersV1beta3 | undefined {
+    const id: string = item.id;
+    const oaComponents: any = openApiDefinitions.components;
+    if (oaComponents === undefined) {
+      this.logger.error(
+        `Unable to locate OpenAPI components definition. Zero parameters will be available.`,
+      );
+      return undefined;
+    }
+    const oaSchemas: any = oaComponents.schemas;
+    if (oaSchemas === undefined) {
+      this.logger.error(
+        `Unable to locate OpenAPI schema definitions. Zero parameters will be available.`,
+      );
+      return undefined;
+    }
+    const oaSchema: any = oaSchemas[`${id}_input`];
+    if (oaSchema === undefined) {
+      this.logger.error(
+        `Unable to locate OpenAPI definition for '${id}'. Zero parameters will be available.`,
+      );
+      return undefined;
+    }
+
+    const tp: TemplateParametersV1beta3 = {
+      title: 'Fill in some input parameters',
+      required: oaSchema.required,
+      properties: oaSchema.properties,
+    };
+
+    return tp;
   }
 
   private swfToEntities(
