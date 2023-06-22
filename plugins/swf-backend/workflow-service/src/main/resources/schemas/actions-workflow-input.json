@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "title": "input",
-  "$id": "input",
+  "title": "Catalog Fetch Action Input",
+  "description": "Catalog Fetch Action Input",
   "type": "object",
   "properties": {
     "entityRef": {
@@ -26,12 +26,8 @@
     "defaultNamespace": {
       "type": "string",
       "description": "The default namespace"
-    },
-    "actionId": {
-      "type": "string",
-      "description": "Scaffolder Action Id"
     }
   },
-  "required": ["actionId"],
+  "required": ["entityRef"],
   "additionalProperties": false
 }

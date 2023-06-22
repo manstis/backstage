@@ -11,35 +11,24 @@
     }
   ],
   "paths": {
-    "/actions/{actionId}": {
+    "/actions/catalog:fetch": {
       "post": {
-        "operationId": "runAction",
-        "parameters": [
-          {
-            "name": "actionId",
-            "in": "path",
-            "required": true,
-            "description": "The action Id from BS Scaffolder",
-            "example": "catalog:fetch",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
+        "operationId": "catalog:fetch",
+        "parameters": [],
         "requestBody": {
           "description": "Input parameters for the action in BS",
-          "required": false,
+          "required": true,
           "content": {
             "application/json;charset=utf-8": {
               "schema": {
-                "$ref": "#/components/schemas/input"
+                "$ref": "#/components/schemas/catalogFetchInput"
               }
             }
           }
         },
         "responses": {
           "default": {
-            "description": "default response",
+            "description": "catalog:fetch action response",
             "content": {
               "application/json;charset=utf-8": {
                 "schema": {
@@ -54,8 +43,8 @@
   },
   "components": {
     "schemas": {
-      "input": {
-        "title": "input",
+      "catalogFetchInput": {
+        "title": "catalogFetchInput",
         "type": "object",
         "properties": {
           "entityRef": {
@@ -80,13 +69,9 @@
           "defaultNamespace": {
             "type": "string",
             "description": "The default namespace"
-          },
-          "actionId": {
-            "type": "string",
-            "description": "Scaffolder Action Id"
           }
         },
-        "required": ["actionId"],
+        "required": ["entityRef"],
         "additionalProperties": false
       }
     }

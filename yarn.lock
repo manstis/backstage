@@ -8478,6 +8478,7 @@ __metadata:
     "@backstage/plugin-permission-react": "workspace:^"
     "@backstage/plugin-scaffolder-common": "workspace:^"
     "@backstage/plugin-scaffolder-react": "workspace:^"
+    "@backstage/plugin-swf": "workspace:^"
     "@backstage/test-utils": "workspace:^"
     "@backstage/theme": "workspace:^"
     "@backstage/types": "workspace:^"
@@ -9030,11 +9031,14 @@ __metadata:
   resolution: "@backstage/plugin-swf-backend@workspace:plugins/swf-backend"
   dependencies:
     "@backstage/backend-common": "workspace:^"
+    "@backstage/catalog-model": "workspace:^"
     "@backstage/cli": "workspace:^"
     "@backstage/config": "workspace:^"
     "@backstage/core-plugin-api": "workspace:^"
+    "@backstage/plugin-catalog-node": "workspace:^"
     "@backstage/plugin-events-backend": "workspace:^"
     "@backstage/plugin-events-node": "workspace:^"
+    "@backstage/plugin-scaffolder-common": "workspace:^"
     "@backstage/plugin-swf-common": "workspace:^"
     "@types/express": "*"
     "@types/node-fetch": ^2.6.4
@@ -9046,6 +9050,7 @@ __metadata:
     node-fetch: ^2.6.4
     supertest: ^6.2.4
     winston: ^3.2.1
+    yaml: ^2.3.1
     yn: ^4.0.0
   languageName: unknown
   linkType: soft
@@ -25753,7 +25758,6 @@ __metadata:
     "@backstage/plugin-scaffolder-backend": "workspace:^"
     "@backstage/plugin-scaffolder-backend-module-confluence-to-markdown": "workspace:^"
     "@backstage/plugin-scaffolder-backend-module-rails": "workspace:^"
-    "@backstage/plugin-scaffolder-common": "workspace:^"
     "@backstage/plugin-search-backend": "workspace:^"
     "@backstage/plugin-search-backend-module-elasticsearch": "workspace:^"
     "@backstage/plugin-search-backend-module-pg": "workspace:^"
@@ -25780,7 +25784,6 @@ __metadata:
     dockerode: ^3.3.1
     example-app: "link:../app"
     express: ^4.17.1
-    express-http-proxy: ^1.6.3
     express-prom-bundle: ^6.3.6
     express-promise-router: ^4.1.0
     luxon: ^3.0.0
@@ -25788,7 +25791,6 @@ __metadata:
     pg-connection-string: ^2.3.0
     prom-client: ^14.0.1
     winston: ^3.2.1
-    yaml: ^2.3.1
   languageName: unknown
   linkType: soft
 

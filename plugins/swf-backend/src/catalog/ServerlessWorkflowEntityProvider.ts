@@ -125,21 +125,15 @@ export class ServerlessWorkflowEntityProvider
     openApiDefinitions: any,
   ): TemplateParametersV1beta3 | undefined {
     const id: string = item.id;
-    const oaComponents: any = openApiDefinitions.components;
-    if (oaComponents === undefined) {
+    const oaPaths: any = openApiDefinitions.paths;
+    if (oaPaths === undefined) {
       this.logger.error(
-        `Unable to locate OpenAPI components definition. Zero parameters will be available.`,
+        `Unable to locate OpenAPI paths definition. Zero parameters will be available.`,
       );
       return undefined;
     }
-    const oaSchemas: any = oaComponents.schemas;
-    if (oaSchemas === undefined) {
-      this.logger.error(
-        `Unable to locate OpenAPI schema definitions. Zero parameters will be available.`,
-      );
-      return undefined;
-    }
-    const oaSchema: any = oaSchemas[`${id}_input`];
+    const oaSchema: any =
+      oaPaths[`/${id}`].post.requestBody.content[`application/json`].schema;
     if (oaSchema === undefined) {
       this.logger.error(
         `Unable to locate OpenAPI definition for '${id}'. Zero parameters will be available.`,
