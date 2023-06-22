@@ -58,6 +58,7 @@ export default async function createPlugin(
     identity: env.identity,
     scheduler: env.scheduler,
     permissions: env.permissions,
+    discovery: env.discovery,
     actions,
   });
 }
