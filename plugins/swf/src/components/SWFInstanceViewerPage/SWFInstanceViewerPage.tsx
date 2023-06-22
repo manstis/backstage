@@ -35,6 +35,8 @@ export const SWFInstanceViewerPage = () => {
 
   useEffect(() => {
     swfApi.getInstance(instanceId).then(value => {
+      const vars: string = value.data.ProcessInstances[0].variables as string;
+      value.data.ProcessInstances[0].variables = JSON.parse(vars);
       setInstance(value);
     });
   }, [swfApi, instanceId]);
