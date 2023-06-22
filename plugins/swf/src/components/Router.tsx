@@ -16,9 +16,9 @@
 
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { definitionsRouteRef } from '../routes';
+import { definitionsRouteRef, swfTaskRouteRef } from '../routes';
 import { SWFPage } from './SWFPage';
-import { SWFDefinitionViewerPage } from './SWFDefinitionViewerPage';
+import { SWFInstanceViewerPage } from './SWFDefinitionViewerPage';
 
 export const Router = () => {
   return (
@@ -26,8 +26,9 @@ export const Router = () => {
       <Route path="/" element={<SWFPage />} />
       <Route
         path={definitionsRouteRef.path}
-        element={<SWFDefinitionViewerPage />}
+        element={<SWFInstanceViewerPage />}
       />
+      <Route path={swfTaskRouteRef.path} element={<SWFInstanceViewerPage />} />
     </Routes>
   );
 };

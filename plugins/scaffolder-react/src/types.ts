@@ -23,7 +23,7 @@ import { JsonObject } from '@backstage/types';
  * @public
  */
 export type TemplateParameterSchema = {
-  name: string;
+  name?: string;
   title: string;
   description?: string;
   type?: string;

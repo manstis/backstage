@@ -20,7 +20,7 @@ import { Router } from 'express';
 import { PluginEnvironment } from '../types';
 import { DemoEventBasedEntityProvider } from './DemoEventBasedEntityProvider';
 import { UnprocessedEntitesModule } from '@backstage/plugin-catalog-backend-module-unprocessed';
-import { ServerlessWorkflowEntityProvider } from './ServerlessWorkflowEntityProvider';
+import { ServerlessWorkflowEntityProvider } from '@backstage/plugin-swf-backend';
 
 export default async function createPlugin(
   env: PluginEnvironment,
