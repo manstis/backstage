@@ -6,8 +6,8 @@
   "dataInputSchema": "schemas/actions-workflow-input.json",
   "functions": [
     {
-      "name": "runActionFunction",
-      "operation": "specs/actions-openapi.json#runAction"
+      "name": "runActionCatalogFetchFunction",
+      "operation": "specs/actions-openapi.json#catalog:fetch"
     }
   ],
   "start": "Start Actions Workflow",
@@ -26,11 +26,10 @@
       "actionMode": "sequential",
       "actions": [
         {
-          "name": "Run Action",
+          "name": "Run Catalog Fetch Action",
           "functionRef": {
-            "refName": "runActionFunction",
+            "refName": "runActionCatalogFetchFunction",
             "arguments": {
-              "actionId": ".actionId",
               "entityRef": ".entityRef"
             }
           },
