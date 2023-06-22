@@ -68,6 +68,7 @@ import {
   TemplateAction,
 } from '@backstage/plugin-scaffolder-node';
 import {
+  DiscoveryApi,
   PermissionEvaluator,
   PermissionRuleParams,
 } from '@backstage/plugin-permission-common';
@@ -148,6 +149,7 @@ export interface RouterOptions {
     TemplatePermissionRuleInput | ActionPermissionRuleInput
   >;
   identity?: IdentityApi;
+  discovery: DiscoveryApi;
 }
 
 function isSupportedTemplate(entity: TemplateEntityV1beta3) {
@@ -243,6 +245,7 @@ export async function createRouter(
     additionalTemplateGlobals,
     permissions,
     permissionRules,
+    discovery,
   } = options;
 
   const logger = parentLogger.child({ plugin: 'scaffolder' });
@@ -453,30 +456,22 @@ export async function createRouter(
 
       const baseUrl = getEntityBaseUrl(template);
 
-      // TODO {manstis}
-      // Do we want to pass this through the SWF bridge.. probably yes.
+      // Delegate execution of SWF's to the SWF backend
       if (template.spec.type === 'serverless-workflow') {
-        if (baseUrl === undefined) {
-          logger.info(
-            'Unable to determine Serverless Workflow service endpoint.',
-          );
-          res.status(500);
-          return;
-        }
-
         logger.info('Delegating execution of Serverless Workflow...');
-        const swfUrl: string = baseUrl;
-        const swfContext: string = template.metadata.name;
-        const swfRequest = await fetch(`${swfUrl}/${swfContext}`, {
+        const swfId: string = template.metadata.name;
+        const swfApiUrl: string = await discovery.getBaseUrl('swf');
+        const swfApiRequest = await fetch(`${swfApiUrl}/execute/${swfId}`, {
           method: 'POST',
           body: JSON.stringify(values),
           headers: { 'content-type': 'application/json' },
         });
-        const response = await swfRequest.json();
-        res.status(swfRequest.status).json(response);
+        const swfApiResponse = await swfApiRequest.json();
+        res.status(swfApiRequest.status).json(swfApiResponse);
         return;
       }
 
+      // Otherwise delegate to Backstage's default workflow
       const taskSpec: TaskSpec = {
         apiVersion: template.apiVersion,
         steps: template.spec.steps.map((step, index) => ({
