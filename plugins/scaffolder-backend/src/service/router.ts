@@ -79,6 +79,7 @@ import {
 import { scaffolderActionRules, scaffolderTemplateRules } from './rules';
 import { PassThrough } from 'stream';
 import fs from 'fs-extra';
+import fetch from 'node-fetch';
 
 /**
  *
@@ -453,12 +454,27 @@ export async function createRouter(
       const baseUrl = getEntityBaseUrl(template);
 
       // TODO {manstis}
-      // - baseUrl contains the base Url of the kogito service. Nice.
-      // - Do we want to create a TaskSpec and persist it?
-      // - Allowing the dispatch to run seems to do nothing.. investigate.
-      // - Do we want to invoke SWF from the TaskBroker (seems like a nice consistent place to me!)
+      // Do we want to pass this through the SWF bridge.. probably yes.
       if (template.spec.type === 'serverless-workflow') {
-        logger.info('This needs to be delegated to kogito SWF runtime.');
+        if (baseUrl === undefined) {
+          logger.info(
+            'Unable to determine Serverless Workflow service endpoint.',
+          );
+          res.status(500);
+          return;
+        }
+
+        logger.info('Delegating execution of Serverless Workflow...');
+        const swfUrl: string = baseUrl;
+        const swfContext: string = template.metadata.name;
+        const swfRequest = await fetch(`${swfUrl}/${swfContext}`, {
+          method: 'POST',
+          body: JSON.stringify(values),
+          headers: { 'content-type': 'application/json' },
+        });
+        const response = await swfRequest.json();
+        res.status(swfRequest.status).json(response);
+        return;
       }
 
       const taskSpec: TaskSpec = {
