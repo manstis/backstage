@@ -130,6 +130,32 @@ function setupInternalRoutes(
     const response = await swfRequest.json();
     res.status(swfRequest.status).json(response);
   });
+
+  router.get('/instances', async (_, res) => {
+    const graphQlQuery =
+      '{ ProcessInstances (where: {processId: {isNull: false} } ) { id, processId, state, start, nodes { id }, variables } }';
+    const serviceRes = await fetch(`${kogitoBaseUrl}:${kogitoPort}/graphql`, {
+      method: 'POST',
+      body: JSON.stringify({ query: graphQlQuery }),
+      headers: { 'content-type': 'application/json' },
+    });
+    const response = await serviceRes.json();
+    res.status(200).json(response);
+  });
+
+  router.get('/instances/:instanceId', async (req, res) => {
+    const {
+      params: { instanceId },
+    } = req;
+    const graphQlQuery = `{ ProcessInstances (where: { id: {equal: "${instanceId}" } } ) { id, processId, state, start, nodes { id }, variables } }`;
+    const serviceRes = await fetch(`${kogitoBaseUrl}:${kogitoPort}/graphql`, {
+      method: 'POST',
+      body: JSON.stringify({ query: graphQlQuery }),
+      headers: { 'content-type': 'application/json' },
+    });
+    const response = await serviceRes.json();
+    res.status(200).json(response);
+  });
 }
 
 // ==================================================

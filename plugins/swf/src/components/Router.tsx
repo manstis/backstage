@@ -18,7 +18,7 @@ import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { definitionsRouteRef, swfTaskRouteRef } from '../routes';
 import { SWFPage } from './SWFPage';
-import { SWFInstanceViewerPage } from './SWFDefinitionViewerPage';
+import { SWFInstanceViewerPage } from './SWFInstanceViewerPage';
 
 export const Router = () => {
   return (

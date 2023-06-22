@@ -45,4 +45,24 @@ export class SwfClient implements SwfApi {
     const data: SwfListResult = await res.json();
     return data;
   }
+
+  async getInstances(): Promise<any> {
+    const baseUrl = await this.discoveryApi.getBaseUrl('swf');
+    const res = await fetch(`${baseUrl}/instances`);
+    if (!res.ok) {
+      throw await ResponseError.fromResponse(res);
+    }
+    const data: string = await res.json();
+    return data;
+  }
+
+  async getInstance(instanceId: string): Promise<any> {
+    const baseUrl = await this.discoveryApi.getBaseUrl('swf');
+    const res = await fetch(`${baseUrl}/instances/${instanceId}`);
+    if (!res.ok) {
+      throw await ResponseError.fromResponse(res);
+    }
+    const data: string = await res.json();
+    return data;
+  }
 }

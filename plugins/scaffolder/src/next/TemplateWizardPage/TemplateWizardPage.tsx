@@ -81,7 +81,7 @@ export const TemplateWizardPage = (props: TemplateWizardPageProps) => {
     if (manifest.type === 'serverless-workflow') {
       // eslint-disable-next-line no-console
       console.log(JSON.stringify(raw));
-      navigate(swfTaskRoute({ taskId }));
+      navigate(swfTaskRoute({ instanceId: taskId }));
     } else {
       navigate(taskRoute({ taskId }));
     }
