@@ -98,9 +98,9 @@
         }
       }
     },
-    "/actions/pulish:github": {
+    "/actions/publish:github:pull-request": {
       "post": {
-        "operationId": "publish:github",
+        "operationId": "publish:github:pull-request",
         "parameters": [],
         "requestBody": {
           "description": "Input parameters for the action in BS",
@@ -108,14 +108,14 @@
           "content": {
             "application/json;charset=utf-8": {
               "schema": {
-                "$ref": "#/components/schemas/publishGithub"
+                "$ref": "#/components/schemas/publishGithubPullRequest"
               }
             }
           }
         },
         "responses": {
           "default": {
-            "description": "publish:github action response",
+            "description": "publish:github:pull-request action response",
             "content": {
               "application/json;charset=utf-8": {
                 "schema": {
