@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Content,
   ContentHeader,
@@ -24,8 +24,21 @@ import {
   SupportButton,
 } from '@backstage/core-components';
 import { Grid } from '@material-ui/core';
+import { swfApiRef } from '../../api';
+import { useApi, useRouteRefParams } from '@backstage/core-plugin-api';
+import { swfTaskRouteRef } from '../../routes';
 
 export const SWFInstanceViewerPage = () => {
+  const swfApi = useApi(swfApiRef);
+  const [instance, setInstance] = useState<any | undefined>(undefined);
+  const { instanceId } = useRouteRefParams(swfTaskRouteRef);
+
+  useEffect(() => {
+    swfApi.getInstance(instanceId).then(value => {
+      setInstance(value);
+    });
+  }, [swfApi, instanceId]);
+
   return (
     <Page themeId="tool">
       <Header
@@ -42,7 +55,7 @@ export const SWFInstanceViewerPage = () => {
         <Grid container spacing={3} direction="column">
           <Grid item>
             <InfoCard title="Progress">
-              <p>Here we'd show the SWF progress...</p>
+              {instance && <pre>${JSON.stringify(instance, undefined, 2)}</pre>}
             </InfoCard>
           </Grid>
         </Grid>

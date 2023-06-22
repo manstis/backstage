@@ -20,6 +20,10 @@ export interface SwfApi {
   getSwf(swfId: string): Promise<SwfItem>;
 
   listSwfs(): Promise<SwfListResult>;
+
+  getInstances(): Promise<any>;
+
+  getInstance(instanceId: string): Promise<any>;
 }
 
 export const swfApiRef = createApiRef<SwfApi>({
