@@ -165,6 +165,8 @@ export class ServerlessWorkflowEntityProvider
           annotations: {
             'backstage.io/managed-by-location': `url:${this.kogitoServiceUrl}`,
             'backstage.io/managed-by-origin-location': `url:${this.kogitoServiceUrl}`,
+            'backstage.io/source-location': `url:${this.kogitoServiceUrl}/management/processes/${i.id}/source`,
+            'backstage.io/view-url': `${this.kogitoServiceUrl}/management/processes/${i.id}/source`,
           },
         },
         spec: {

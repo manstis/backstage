@@ -22,6 +22,7 @@ import MapIcon from '@material-ui/icons/MyLocation';
 import LayersIcon from '@material-ui/icons/Layers';
 import PlaylistPlayIcon from '@material-ui/icons/PlaylistPlay';
 import CreateComponentIcon from '@material-ui/icons/AddCircleOutline';
+import WorkflowIcon from '@material-ui/icons/Receipt';
 import SearchIcon from '@material-ui/icons/Search';
 import MenuIcon from '@material-ui/icons/Menu';
 import MoneyIcon from '@material-ui/icons/MonetizationOn';
@@ -153,6 +154,7 @@ export const Root = ({ children }: PropsWithChildren<{}>) => (
         <SidebarItem icon={PlaylistPlayIcon} to="playlist" text="Playlists" />
         <SidebarItem icon={LayersIcon} to="explore" text="Explore" />
         <SidebarItem icon={CreateComponentIcon} to="create" text="Create..." />
+        <SidebarItem icon={WorkflowIcon} to="workflow" text="Workflow..." />
         {/* End global nav */}
         <SidebarDivider />
         <SidebarScrollWrapper>
