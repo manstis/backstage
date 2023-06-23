@@ -101,6 +101,7 @@ export class ServerlessWorkflowEntityProvider
       const swfItem: SwfItem = {
         id: swf.id,
         name: swf.name,
+        description: swf.description,
         definition: '',
       };
       return swfItem;
@@ -159,7 +160,7 @@ export class ServerlessWorkflowEntityProvider
         metadata: {
           name: i.id,
           title: i.name,
-          description: i.name,
+          description: i.description,
           tags: ['experimental', 'swf'],
           annotations: {
             'backstage.io/managed-by-location': `url:${this.kogitoServiceUrl}`,
