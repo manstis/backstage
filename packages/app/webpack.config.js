@@ -50,6 +50,7 @@ module.exports = {
           mkdir: ['./public/swf/items/'],
           copy: [
             { source: './dist/editor', destination: './public/' },
+            { source: './dist/envelope', destination: './public/' },
             { source: './dist/envelope', destination: './public/swf/items/' },
             {
               source: './dist/envelope',

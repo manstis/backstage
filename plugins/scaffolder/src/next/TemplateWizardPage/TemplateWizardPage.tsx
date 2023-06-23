@@ -73,14 +73,12 @@ export const TemplateWizardPage = (props: TemplateWizardPageProps) => {
     values: Record<string, JsonValue>,
     manifest: TemplateParameterSchema,
   ) => {
-    const { taskId, raw } = await scaffolderApi.scaffold({
+    const { taskId } = await scaffolderApi.scaffold({
       templateRef,
       values,
       secrets,
     });
     if (manifest.type === 'serverless-workflow') {
-      // eslint-disable-next-line no-console
-      console.log(JSON.stringify(raw));
       navigate(swfTaskRoute({ instanceId: taskId }));
     } else {
       navigate(taskRoute({ taskId }));
