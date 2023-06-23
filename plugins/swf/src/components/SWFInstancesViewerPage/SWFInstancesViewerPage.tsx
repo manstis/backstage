@@ -25,7 +25,7 @@ import {
   Table,
   TableProps,
 } from '@backstage/core-components';
-import { Dialog, DialogTitle, Grid, Typography } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
 import { swfApiRef } from '../../api';
 import { useApi } from '@backstage/core-plugin-api';
 import OpenInNew from '@material-ui/icons/OpenInNew';
@@ -41,10 +41,9 @@ interface Row {
 export const SWFInstancesViewerPage = () => {
   const swfApi = useApi(swfApiRef);
   const [data, setData] = useState<Row[]>([]);
+  const [swfId, setSwfId] = useState<string>();
   const { swfFile, swfEditorRef, swfEditorEnvelopeLocator } =
-    useServerlessWorkflowEditor('swf1', 'serverless-workflow');
-  const [open, setOpen] = useState<boolean>(false);
-  const [swfTitle, setSwfTitle] = useState<string>('');
+    useServerlessWorkflowEditor(swfId, 'serverless-workflow');
 
   const column1 = {
     title: 'Id',
@@ -74,8 +73,7 @@ export const SWFInstancesViewerPage = () => {
         ),
         tooltip: title,
         onClick: () => {
-          setOpen(true);
-          setSwfTitle(row.name);
+          setSwfId(row.name);
         },
       };
     },
@@ -108,8 +106,8 @@ export const SWFInstancesViewerPage = () => {
         <ContentHeader title="Serverless Workflow - Instances">
           <SupportButton>Orchestrate things with stuff.</SupportButton>
         </ContentHeader>
-        <Grid container spacing={3} direction="column">
-          <Grid item>
+        <Grid container direction="row">
+          <Grid item xs={12} lg={8}>
             <InfoCard title="Instances">
               <Table<Row>
                 data={data}
@@ -123,21 +121,22 @@ export const SWFInstancesViewerPage = () => {
               />
             </InfoCard>
           </Grid>
+          <Grid item xs={12} lg={4}>
+            <InfoCard title="Status">
+              <div style={{ height: '500px', padding: '10px' }}>
+                {swfFile && (
+                  <EmbeddedEditor
+                    ref={swfEditorRef}
+                    file={swfFile}
+                    channelType={ChannelType.ONLINE}
+                    editorEnvelopeLocator={swfEditorEnvelopeLocator}
+                    locale="en"
+                  />
+                )}
+              </div>
+            </InfoCard>
+          </Grid>
         </Grid>
-        {swfFile && (
-          <Dialog onClose={_ => setOpen(false)} open={open}>
-            <DialogTitle>{swfTitle}</DialogTitle>
-            <div style={{ height: '500px', width: '500px', padding: '10px' }}>
-              <EmbeddedEditor
-                ref={swfEditorRef}
-                file={swfFile}
-                channelType={ChannelType.ONLINE}
-                editorEnvelopeLocator={swfEditorEnvelopeLocator}
-                locale="en"
-              />
-            </div>
-          </Dialog>
-        )}
       </Content>
     </Page>
   );
