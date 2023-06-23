@@ -15,12 +15,12 @@
  */
 import React from 'react';
 import { createDevApp } from '@backstage/dev-utils';
-import { swfPlugin, SwfPage } from '../src/plugin';
+import { swfPlugin, SWFPage } from '../src/plugin';
 
 createDevApp()
   .registerPlugin(swfPlugin)
   .addPage({
-    element: <SwfPage />,
+    element: <SWFPage />,
     title: 'Root Page',
     path: '/swf',
   })

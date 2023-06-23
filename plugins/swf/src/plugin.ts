@@ -40,7 +40,18 @@ export const swfPlugin = createPlugin({
   },
 });
 
-export const SwfPage = swfPlugin.provide(
+export const SWFInstancesViewerPage = swfPlugin.provide(
+  createRoutableExtension({
+    name: 'SWFInstancesViewerPage',
+    component: () =>
+      import('./components/SWFInstancesViewerPage').then(
+        m => m.SWFInstancesViewerPage,
+      ),
+    mountPoint: rootRouteRef,
+  }),
+);
+
+export const SWFPage = swfPlugin.provide(
   createRoutableExtension({
     name: 'SWFPage',
     component: () => import('./components/Router').then(m => m.Router),
