@@ -85,6 +85,7 @@ function setupInternalRoutes(
       const swfItem: SwfItem = {
         id: swf.id,
         name: swf.name,
+        description: swf.description,
         definition: '',
       };
       return swfItem;
@@ -107,9 +108,11 @@ function setupInternalRoutes(
     );
     const wsResponse = await wsRequest.json();
     const name = wsResponse.name;
+    const description = wsResponse.description;
     const swfItem: SwfItem = {
       id: swfId,
       name: name,
+      description: description,
       definition: JSON.stringify(wsResponse),
     };
 
