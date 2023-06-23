@@ -8,7 +8,6 @@ import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 
-import org.jbpm.process.core.impl.ProcessImpl;
 import org.jbpm.ruleflow.core.Metadata;
 import org.kie.kogito.process.Processes;
 import org.kie.kogito.process.impl.AbstractProcess;
