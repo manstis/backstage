@@ -9,6 +9,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 
 import org.jbpm.process.core.impl.ProcessImpl;
+import org.jbpm.ruleflow.core.Metadata;
 import org.kie.kogito.process.Processes;
 import org.kie.kogito.process.impl.AbstractProcess;
 import org.kie.kogito.workflow.api.ProcessMetadataDTO;
@@ -30,7 +31,7 @@ public class WorkflowManagementResource {
                 .map(processes::processById)
                 .map(p -> {
                     final Map<String, Object> metadata = ((AbstractProcess<?>) p).get().getMetaData();
-                    final String description = metadata.getOrDefault("Description", "default description").toString();
+                    final String description = metadata.getOrDefault(Metadata.DESCRIPTION, "A Serverless Workflow file.").toString();
                     return new ProcessMetadataDTO(p.id(), p.name(), description);
                 })
                 .collect(Collectors.toList());
