@@ -84,10 +84,10 @@ export class ServerlessWorkflowEntityProvider
 
     // Load SWF definitions
     const response = await this.reader.readUrl(
-      `${this.kogitoServiceUrl}/management/processes`,
+      `${this.kogitoServiceUrl}/q/openapi`,
     );
     const buffer = await response.buffer();
-    const data = JSON.parse(buffer.toString());
+    const data = YAML.parse(buffer.toString());
 
     // Load OpenAPI definitions
     const oaResponse = await this.reader.readUrl(
@@ -97,9 +97,9 @@ export class ServerlessWorkflowEntityProvider
     const oaData = YAML.parse(oaBuffer.toString());
     console.log(YAML.stringify(oaData));
 
-    const items: SwfItem[] = data.map((swf: SwfItem) => {
+    const items: SwfItem[] = data.tags.map((swf: SwfItem) => {
       const swfItem: SwfItem = {
-        id: swf.id,
+        id: swf.name,
         name: swf.name,
         description: swf.description,
         definition: '',
