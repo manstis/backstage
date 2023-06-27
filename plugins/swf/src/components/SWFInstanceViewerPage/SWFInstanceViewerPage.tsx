@@ -26,12 +26,12 @@ import {
 import { Grid } from '@material-ui/core';
 import { swfApiRef } from '../../api';
 import { useApi, useRouteRefParams } from '@backstage/core-plugin-api';
-import { swfTaskRouteRef } from '../../routes';
+import { swfInstanceRouteRef } from '../../routes';
 
 export const SWFInstanceViewerPage = () => {
   const swfApi = useApi(swfApiRef);
   const [instance, setInstance] = useState<any | undefined>(undefined);
-  const { instanceId } = useRouteRefParams(swfTaskRouteRef);
+  const { instanceId } = useRouteRefParams(swfInstanceRouteRef);
 
   useEffect(() => {
     swfApi.getInstance(instanceId).then(value => {

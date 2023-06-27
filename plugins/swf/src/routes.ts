@@ -19,13 +19,22 @@ export const rootRouteRef = createRouteRef({
   id: 'swf',
 });
 
+// This route demos a standalone plugin and is not integrated into Scaffolder
 export const definitionsRouteRef = createSubRouteRef({
   id: 'swf/items',
   parent: rootRouteRef,
   path: '/items/:swfId',
 });
 
-export const swfTaskRouteRef = createSubRouteRef({
+// This route integrates with Scaffolder and lists all SWF instances
+export const swfInstancesRouteRef = createSubRouteRef({
+  id: 'swf/instance',
+  parent: rootRouteRef,
+  path: '/instances',
+});
+
+// This route integrates with Scaffolder and lists all SWF instances, selecting a specific one.
+export const swfInstanceRouteRef = createSubRouteRef({
   id: 'swf/instance',
   parent: rootRouteRef,
   path: '/instances/:instanceId',

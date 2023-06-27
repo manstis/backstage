@@ -16,9 +16,13 @@
 
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { definitionsRouteRef, swfTaskRouteRef } from '../routes';
+import {
+  definitionsRouteRef,
+  swfInstanceRouteRef,
+  swfInstancesRouteRef,
+} from '../routes';
 import { SWFPage } from './SWFPage';
-import { SWFInstanceViewerPage } from './SWFInstanceViewerPage';
+import { SWFInstancesViewerPage } from './SWFInstancesViewerPage';
 import { SWFDefinitionViewerPage } from './SWFDefinitionViewerPage';
 
 export const Router = () => {
@@ -29,7 +33,14 @@ export const Router = () => {
         path={definitionsRouteRef.path}
         element={<SWFDefinitionViewerPage />}
       />
-      <Route path={swfTaskRouteRef.path} element={<SWFInstanceViewerPage />} />
+      <Route
+        path={swfInstancesRouteRef.path}
+        element={<SWFInstancesViewerPage />}
+      />
+      <Route
+        path={swfInstanceRouteRef.path}
+        element={<SWFInstancesViewerPage />}
+      />
     </Routes>
   );
 };

@@ -23,15 +23,14 @@ import {
   Page,
   SupportButton,
   Table,
-  TableProps,
 } from '@backstage/core-components';
-import { Grid, Typography } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import { swfApiRef } from '../../api';
-import { useApi } from '@backstage/core-plugin-api';
-import OpenInNew from '@material-ui/icons/OpenInNew';
+import { useApi, useRouteRefParams } from '@backstage/core-plugin-api';
 import { useServerlessWorkflowEditor } from '../../hooks';
 import { EmbeddedEditor } from '@kie-tools-core/editor/dist/embedded';
 import { ChannelType } from '@kie-tools-core/editor/dist/api';
+import { swfInstanceRouteRef } from '../../routes';
 
 interface Row {
   pid: string;
@@ -42,6 +41,9 @@ export const SWFInstancesViewerPage = () => {
   const swfApi = useApi(swfApiRef);
   const [data, setData] = useState<Row[]>([]);
   const [swfId, setSwfId] = useState<string>();
+  const [selectedInstanceId, setSelectedInstanceId] = useState<string>();
+  const { instanceId } = useRouteRefParams(swfInstanceRouteRef);
+
   const { swfFile, swfEditorRef, swfEditorEnvelopeLocator } =
     useServerlessWorkflowEditor(swfId, 'serverless-workflow');
 
@@ -60,35 +62,26 @@ export const SWFInstancesViewerPage = () => {
     field: 'state',
   };
 
-  const defaultActions: TableProps<Row>['actions'] = [
-    (row: Row) => {
-      const title = 'View';
-
-      return {
-        icon: () => (
-          <>
-            <Typography variant="srOnly">{title}</Typography>
-            <OpenInNew fontSize="small" />
-          </>
-        ),
-        tooltip: title,
-        onClick: () => {
-          setSwfId(row.name);
-        },
-      };
-    },
-  ];
+  useEffect(() => {
+    const selectedRowData = data.find(d => d.pid === instanceId);
+    if (selectedRowData) {
+      setSwfId(selectedRowData.name);
+      setSelectedInstanceId(selectedRowData.pid);
+    }
+  }, [data, instanceId]);
 
   useEffect(() => {
     swfApi.getInstances().then(value => {
       const processInstances: any[] = value.data.ProcessInstances as [];
-      const rows: Row[] = processInstances.map(pi => {
-        return {
-          pid: pi.id,
-          name: pi.processId,
-          state: pi.state,
-        };
-      });
+      const rows: Row[] = processInstances
+        .map(pi => {
+          return {
+            pid: pi.id,
+            name: pi.processId,
+            state: pi.state,
+          };
+        })
+        .reverse();
       setData(rows);
     });
   }, [swfApi]);
@@ -112,11 +105,17 @@ export const SWFInstancesViewerPage = () => {
               <Table<Row>
                 data={data}
                 columns={[column1, column2, column3]}
-                emptyContent={<div>Empty</div>}
-                actions={defaultActions}
+                onRowClick={(_, rowData) => {
+                  setSwfId(rowData?.name);
+                  setSelectedInstanceId(rowData?.pid);
+                }}
                 options={{
-                  actionsColumnIndex: -1,
                   padding: 'dense',
+                  rowStyle: (rowData: Row) => {
+                    return rowData.pid === selectedInstanceId
+                      ? { backgroundColor: '#a266e5' }
+                      : {};
+                  },
                 }}
               />
             </InfoCard>

@@ -47,11 +47,14 @@ module.exports = {
     new FileManagerPlugin({
       events: {
         onEnd: {
-          mkdir: ['./public/swf/items/'],
+          mkdir: ['./public/swf/'],
           copy: [
             { source: './dist/editor', destination: './public/' },
-            { source: './dist/envelope', destination: './public/' },
             { source: './dist/envelope', destination: './public/swf/items/' },
+            {
+              source: './dist/envelope',
+              destination: './public/swf/instances/',
+            },
             {
               source: './dist/envelope',
               destination: './public/create/templates/default/',
