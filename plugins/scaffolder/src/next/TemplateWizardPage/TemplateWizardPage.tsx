@@ -17,6 +17,7 @@ import React from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { stringifyEntityRef } from '@backstage/catalog-model';
 import {
+  alertApiRef,
   AnalyticsContext,
   useApi,
   useRouteRef,
@@ -35,7 +36,7 @@ import {
 } from '@backstage/plugin-scaffolder-react/alpha';
 import { JsonValue } from '@backstage/types';
 import { Header, Page } from '@backstage/core-components';
-import { swfTaskRouteRef } from '@backstage/plugin-swf';
+import { swfInstanceRouteRef } from '@backstage/plugin-swf';
 
 import {
   rootRouteRef,
@@ -55,13 +56,14 @@ export type TemplateWizardPageProps = {
 export const TemplateWizardPage = (props: TemplateWizardPageProps) => {
   const rootRef = useRouteRef(rootRouteRef);
   const taskRoute = useRouteRef(scaffolderTaskRouteRef);
-  const swfTaskRoute = useRouteRef(swfTaskRouteRef);
+  const swfInstanceRoute = useRouteRef(swfInstanceRouteRef);
   const { secrets } = useTemplateSecrets();
   const scaffolderApi = useApi(scaffolderApiRef);
   const navigate = useNavigate();
   const { templateName, namespace } = useRouteRefParams(
     selectedTemplateRouteRef,
   );
+  const alertApi = useApi(alertApiRef);
 
   const templateRef = stringifyEntityRef({
     kind: 'Template',
@@ -79,7 +81,11 @@ export const TemplateWizardPage = (props: TemplateWizardPageProps) => {
       secrets,
     });
     if (manifest.type === 'serverless-workflow') {
-      navigate(swfTaskRoute({ instanceId: taskId }));
+      alertApi.post({
+        severity: 'info',
+        message: `Workflow ${taskId} has been started...`,
+      });
+      navigate(swfInstanceRoute({ instanceId: taskId }));
     } else {
       navigate(taskRoute({ taskId }));
     }

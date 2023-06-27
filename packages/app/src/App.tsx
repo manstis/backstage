@@ -112,7 +112,7 @@ import { PuppetDbPage } from '@backstage/plugin-puppetdb';
 import { DevToolsPage } from '@backstage/plugin-devtools';
 import { customDevToolsPage } from './components/devtools/CustomDevToolsPage';
 import { CatalogUnprocessedEntitiesPage } from '@backstage/plugin-catalog-unprocessed-entities';
-import { SWFInstancesViewerPage, SWFPage } from '@backstage/plugin-swf';
+import { SWFPage } from '@backstage/plugin-swf';
 
 const app = createApp({
   apis,
@@ -268,7 +268,6 @@ const routes = (
       </Route>
     </FeatureFlagged>
     <Route path="/explore" element={<ExplorePage />} />
-    <Route path="/workflow" element={<SWFInstancesViewerPage />} />
     <Route
       path="/tech-radar"
       element={<TechRadarPage width={1500} height={800} />}
