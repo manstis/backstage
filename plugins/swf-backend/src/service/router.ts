@@ -24,6 +24,7 @@ import { EventBroker } from '@backstage/plugin-events-node';
 import { topic } from '@backstage/plugin-swf-common';
 import { Config } from '@backstage/config';
 import { DiscoveryApi } from '@backstage/core-plugin-api';
+import YAML from 'yaml';
 
 export interface RouterOptions {
   eventBroker: EventBroker;
@@ -57,7 +58,7 @@ export async function createRouter(
 
   setupInternalRoutes(router, kogitoBaseUrl, kogitoPort);
   setupExternalRoutes(router, discovery);
-  await setupKogitoService(kogitoBaseUrl, kogitoPort, kogitoJarPath, logger);
+  // await setupKogitoService(kogitoBaseUrl, kogitoPort, kogitoJarPath, logger);
 
   await eventBroker.publish({
     topic: topic,
@@ -77,13 +78,11 @@ function setupInternalRoutes(
   kogitoPort: number,
 ) {
   router.get('/items', async (_, res) => {
-    const serviceRes = await fetch(
-      `${kogitoBaseUrl}:${kogitoPort}/management/processes`,
-    );
-    const data = await serviceRes.json();
-    const items: SwfItem[] = data.map((swf: SwfItem) => {
+    const serviceRes = await fetch(`${kogitoBaseUrl}:${kogitoPort}/q/openapi`);
+    const data = YAML.parse((await serviceRes.buffer()).toString());
+    const items: SwfItem[] = data.tags.map((swf: SwfItem) => {
       const swfItem: SwfItem = {
-        id: swf.id,
+        id: swf.name,
         name: swf.name,
         description: swf.description,
         definition: '',
