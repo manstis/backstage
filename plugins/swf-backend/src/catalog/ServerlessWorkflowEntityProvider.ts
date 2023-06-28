@@ -82,13 +82,6 @@ export class ServerlessWorkflowEntityProvider
 
     this.logger.info('Retrieving Serverless Workflow definitions');
 
-    // Load SWF definitions
-    const response = await this.reader.readUrl(
-      `${this.kogitoServiceUrl}/q/openapi`,
-    );
-    const buffer = await response.buffer();
-    const data = YAML.parse(buffer.toString());
-
     // Load OpenAPI definitions
     const oaResponse = await this.reader.readUrl(
       `${this.kogitoServiceUrl}/q/openapi`,
@@ -97,7 +90,7 @@ export class ServerlessWorkflowEntityProvider
     const oaData = YAML.parse(oaBuffer.toString());
     console.log(YAML.stringify(oaData));
 
-    const items: SwfItem[] = data.tags.map((swf: SwfItem) => {
+    const items: SwfItem[] = oaData.tags?.map((swf: SwfItem) => {
       const swfItem: SwfItem = {
         id: swf.name,
         name: swf.name,
@@ -106,7 +99,7 @@ export class ServerlessWorkflowEntityProvider
       };
       return swfItem;
     });
-    const entities: Entity[] = this.swfToEntities(items, oaData);
+    const entities: Entity[] = items ? this.swfToEntities(items, oaData) : [];
 
     await this.connection.applyMutation({
       type: 'full',

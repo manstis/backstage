@@ -13,7 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { getRootLogger, loadBackendConfig } from '@backstage/backend-common';
+import {
+  getRootLogger,
+  HostDiscovery,
+  loadBackendConfig,
+} from '@backstage/backend-common';
 import yn from 'yn';
 import { startStandaloneServer } from './service/standaloneServer';
 import { DefaultEventBroker } from '@backstage/plugin-events-backend';
@@ -23,12 +27,19 @@ const enableCors = yn(process.env.PLUGIN_CORS, { default: false });
 const logger = getRootLogger();
 const config = await loadBackendConfig({ logger, argv: process.argv });
 const eventBroker = new DefaultEventBroker(logger);
-startStandaloneServer({ port, enableCors, logger, eventBroker, config }).catch(
-  err => {
-    logger.error(err);
-    process.exit(1);
-  },
-);
+const discovery = HostDiscovery.fromConfig(config);
+
+startStandaloneServer({
+  port,
+  enableCors,
+  logger,
+  eventBroker,
+  config,
+  discovery,
+}).catch(err => {
+  logger.error(err);
+  process.exit(1);
+});
 
 process.on('SIGINT', () => {
   logger.info('CTRL+C pressed; exiting.');

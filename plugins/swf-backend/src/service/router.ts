@@ -25,12 +25,18 @@ import { topic } from '@backstage/plugin-swf-common';
 import { Config } from '@backstage/config';
 import { DiscoveryApi } from '@backstage/core-plugin-api';
 import YAML from 'yaml';
+import { resolve } from 'path';
+import { exec } from 'child_process';
 
 export interface RouterOptions {
   eventBroker: EventBroker;
   config: Config;
   logger: Logger;
   discovery: DiscoveryApi;
+}
+
+function delay(time: number) {
+  return new Promise(r => setTimeout(r, time));
 }
 
 export async function createRouter(
@@ -52,13 +58,22 @@ export async function createRouter(
   logger.info(
     `Using kogito Serverless Workflow Url of: ${kogitoBaseUrl}:${kogitoPort}`,
   );
-  const kogitoJarPath =
+  const kogitoResourcesPath =
     config.getOptionalString('swf.workflow-service.path') ??
-    '../../plugins/swf-backend/workflow-service/target/quarkus-app/quarkus-run.jar';
+    '../../plugins/swf-backend/workflow-service/src/main/resources:/home/kogito/serverless-workflow-project/src/main/resources';
+  const kogitoServiceContainer =
+    config.getOptionalString('swf.workflow-service.container') ??
+    'quay.io/kiegroup/kogito-swf-devmode:1.40';
 
   setupInternalRoutes(router, kogitoBaseUrl, kogitoPort);
   setupExternalRoutes(router, discovery);
-  // await setupKogitoService(kogitoBaseUrl, kogitoPort, kogitoJarPath, logger);
+  await setupKogitoService(
+    kogitoBaseUrl,
+    kogitoPort,
+    kogitoResourcesPath,
+    kogitoServiceContainer,
+    logger,
+  );
 
   await eventBroker.publish({
     topic: topic,
@@ -80,7 +95,7 @@ function setupInternalRoutes(
   router.get('/items', async (_, res) => {
     const serviceRes = await fetch(`${kogitoBaseUrl}:${kogitoPort}/q/openapi`);
     const data = YAML.parse((await serviceRes.buffer()).toString());
-    const items: SwfItem[] = data.tags.map((swf: SwfItem) => {
+    const items: SwfItem[] = data.tags?.map((swf: SwfItem) => {
       const swfItem: SwfItem = {
         id: swf.name,
         name: swf.name,
@@ -90,10 +105,10 @@ function setupInternalRoutes(
       return swfItem;
     });
     const result: SwfListResult = {
-      items: items,
+      items: items ? items : [],
       limit: 0,
       offset: 0,
-      totalCount: items.length,
+      totalCount: items ? items.length : 0,
     };
     res.status(200).json(result);
   });
@@ -191,12 +206,14 @@ function setupExternalRoutes(router: express.Router, discovery: DiscoveryApi) {
 async function setupKogitoService(
   kogitoBaseUrl: string,
   kogitoPort: number,
-  kogitoJarPath: string,
+  kogitoResourcesPath: string,
+  kogitoServiceContainer: string,
   logger: Logger,
 ) {
-  const childProcess = require('child_process');
-  childProcess.exec(
-    `java -Dquarkus.http.port=${kogitoPort} -jar ${kogitoJarPath}`,
+  const kogitoResourcesAbsPath = resolve(`${kogitoResourcesPath}`);
+  const launcher = `docker run --rm -p ${kogitoPort}:8080 -v ${kogitoResourcesAbsPath}:/home/kogito/serverless-workflow-project/src/main/resources ${kogitoServiceContainer}`;
+  exec(
+    launcher,
     (error: ExecException | null, stdout: string, stderr: string) => {
       if (error) {
         console.error(`error: ${error.message}`);
@@ -226,8 +243,9 @@ async function setupKogitoService(
         throw new Error('Retry');
       }
     } catch (e) {
-      if (retryCount > 5) {
-        retryCount++;
+      retryCount++;
+      await delay(5000);
+      if (retryCount > 10) {
         logger.error(
           'Kogito failed to start. Serverless Workflow Templates could not be loaded.',
         );
