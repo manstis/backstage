@@ -31,6 +31,8 @@ import {
   TemplateParametersV1beta3,
 } from '@backstage/plugin-scaffolder-common';
 import YAML from 'yaml';
+import { SchedulerService } from '@backstage/backend-plugin-api';
+import { PluginTaskScheduler } from '@backstage/backend-tasks';
 
 export class ServerlessWorkflowEntityProvider
   implements EntityProvider, EventSubscriber
@@ -39,29 +41,40 @@ export class ServerlessWorkflowEntityProvider
   private readonly kogitoServiceUrl: string;
   private readonly logger: Logger;
   private readonly env: string;
-
   private connection: EntityProviderConnection | undefined;
-
+  private scheduler: PluginTaskScheduler;
   constructor(opts: {
     reader: UrlReader;
     kogitoServiceUrl: string;
     eventBroker: EventBroker;
     logger: Logger;
     env: string;
+    scheduler: PluginTaskScheduler;
   }) {
-    const { reader, kogitoServiceUrl, eventBroker, logger, env } = opts;
+    const { reader, kogitoServiceUrl, eventBroker, logger, env, scheduler } =
+      opts;
     this.reader = reader;
     this.kogitoServiceUrl = kogitoServiceUrl;
     this.logger = logger;
     this.env = env;
-
+    this.scheduler = scheduler;
     eventBroker.subscribe(this);
   }
-
   async connect(connection: EntityProviderConnection): Promise<void> {
     this.connection = connection;
+    // periodically fetch new workflows
+    return this.startRefreshTask();
   }
-
+  private async startRefreshTask(): Promise<void> {
+    return this.scheduler.scheduleTask({
+      id: 'run_swf_provider_refresh',
+      fn: async () => {
+        await this.run();
+      },
+      frequency: { seconds: 5 },
+      timeout: { minutes: 10 },
+    });
+  }
   supportsEventTopics(): string[] {
     return [topic];
   }
@@ -92,7 +105,6 @@ export class ServerlessWorkflowEntityProvider
     );
     const oaBuffer = await oaResponse.buffer();
     const oaData = YAML.parse(oaBuffer.toString());
-    console.log(YAML.stringify(oaData));
 
     const items: SwfItem[] = oaData.tags?.map((swf: SwfItem) => {
       const swfItem: SwfItem = {
