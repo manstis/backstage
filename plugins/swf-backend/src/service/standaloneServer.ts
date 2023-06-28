@@ -19,6 +19,7 @@ import { Logger } from 'winston';
 import { createRouter } from './router';
 import { Config } from '@backstage/config';
 import { EventBroker } from '@backstage/plugin-events-node';
+import { DiscoveryApi } from '@backstage/core-plugin-api';
 
 export interface ServerOptions {
   port: number;
@@ -38,7 +39,7 @@ export async function startStandaloneServer(
     logger: logger,
     eventBroker: options.eventBroker,
     config: options.config,
-    discovery: options.discovery
+    discovery: options.discovery,
   });
 
   let service = createServiceBuilder(module)

@@ -16,7 +16,6 @@
     "start": "backstage-cli package start",
     "build": "backstage-cli package build",
     "build:swf": "mvn clean install -f ./workflow-service",
-    "start:swf": "docker run -it --rm -p 8899:8080 -v $(pwd)/workflow-service/src/main/resources:/home/kogito/serverless-workflow-project/src/main/resources quay.io/kiegroup/kogito-swf-devmode:1.40",
     "lint": "backstage-cli package lint",
     "test": "backstage-cli package test",
     "clean": "backstage-cli package clean",
