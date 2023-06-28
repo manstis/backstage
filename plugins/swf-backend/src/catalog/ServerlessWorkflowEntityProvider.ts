@@ -70,6 +70,10 @@ export class ServerlessWorkflowEntityProvider
     if (params.topic !== topic) {
       return;
     }
+    await this.run();
+  }
+
+  async run() {
     if (this.reader === undefined) {
       return;
     }
