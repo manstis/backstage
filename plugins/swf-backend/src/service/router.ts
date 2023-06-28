@@ -164,7 +164,7 @@ function setupInternalRoutes(
     const {
       params: { instanceId },
     } = req;
-    const graphQlQuery = `{ ProcessInstances (where: { id: {equal: "${instanceId}" } } ) { id, processId, state, start, nodes { id }, variables } }`;
+    const graphQlQuery = `{ ProcessInstances (where: { id: {equal: "${instanceId}" } } ) { id, processId, state, start, nodes { id, nodeId, type, name, enter, exit }, variables } }`;
     const serviceRes = await fetch(`${kogitoBaseUrl}:${kogitoPort}/graphql`, {
       method: 'POST',
       body: JSON.stringify({ query: graphQlQuery }),
