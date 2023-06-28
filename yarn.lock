@@ -9032,6 +9032,8 @@ __metadata:
   resolution: "@backstage/plugin-swf-backend@workspace:plugins/swf-backend"
   dependencies:
     "@backstage/backend-common": "workspace:^"
+    "@backstage/backend-plugin-api": "workspace:^"
+    "@backstage/backend-tasks": "workspace:^"
     "@backstage/catalog-model": "workspace:^"
     "@backstage/cli": "workspace:^"
     "@backstage/config": "workspace:^"
