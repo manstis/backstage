@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   Content,
   ContentHeader,
@@ -47,6 +47,19 @@ export const SWFInstancesViewerPage = () => {
   const { swfFile, swfEditorRef, swfEditorEnvelopeLocator } =
     useServerlessWorkflowEditor(swfId, 'serverless-workflow');
 
+  const loadInstance = useCallback(
+    (pid: string | undefined) => {
+      if (pid) {
+        swfApi.getInstance(pid).then(value => {
+          const processInstances: any[] = value.data.ProcessInstances as [];
+          setSwfId(processInstances[0].processId);
+          setSelectedInstanceId(processInstances[0].id);
+        });
+      }
+    },
+    [swfApi],
+  );
+
   const column1 = {
     title: 'Id',
     field: 'pid',
@@ -65,10 +78,9 @@ export const SWFInstancesViewerPage = () => {
   useEffect(() => {
     const selectedRowData = data.find(d => d.pid === instanceId);
     if (selectedRowData) {
-      setSwfId(selectedRowData.name);
-      setSelectedInstanceId(selectedRowData.pid);
+      loadInstance(selectedRowData.pid);
     }
-  }, [data, instanceId]);
+  }, [loadInstance, data, instanceId]);
 
   useEffect(() => {
     swfApi.getInstances().then(value => {
@@ -106,8 +118,7 @@ export const SWFInstancesViewerPage = () => {
                 data={data}
                 columns={[column1, column2, column3]}
                 onRowClick={(_, rowData) => {
-                  setSwfId(rowData?.name);
-                  setSelectedInstanceId(rowData?.pid);
+                  loadInstance(rowData?.pid);
                 }}
                 options={{
                   padding: 'dense',
