@@ -13,21 +13,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { createApiRef } from '@backstage/core-plugin-api';
-import { SwfItem, SwfListResult } from '@backstage/plugin-swf-common';
-
-export interface SwfApi {
-  getSwf(swfId: string): Promise<SwfItem>;
-
-  listSwfs(): Promise<SwfListResult>;
-
-  getInstances(): Promise<any>;
-
-  getInstance(instanceId: string): Promise<any>;
-
-  createWorkflowDefinition(url: string, content: string): Promise<SwfItem>;
-}
-
-export const swfApiRef = createApiRef<SwfApi>({
-  id: 'plugin.swf.api',
-});
+export { ImportWorkflowViewerPage } from './ImportWorkflowViewerPage';

@@ -39,3 +39,9 @@ export const swfInstanceRouteRef = createSubRouteRef({
   parent: rootRouteRef,
   path: '/instances/:instanceId',
 });
+
+export const importWorkflowRouteRef = createSubRouteRef({
+  id: 'swf/workflows/import',
+  parent: rootRouteRef,
+  path: '/workflows/import',
+});
