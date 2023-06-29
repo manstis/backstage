@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { errorHandler } from '@backstage/backend-common';
+import { errorHandler, resolvePackagePath } from '@backstage/backend-common';
 import express from 'express';
 import Router from 'express-promise-router';
 import { Logger } from 'winston';
@@ -27,6 +27,8 @@ import { DiscoveryApi } from '@backstage/core-plugin-api';
 import YAML from 'yaml';
 import { resolve } from 'path';
 import { exec } from 'child_process';
+import fs from 'fs-extra';
+import { WorkflowService } from './WorkflowService';
 
 export interface RouterOptions {
   eventBroker: EventBroker;
@@ -65,7 +67,9 @@ export async function createRouter(
     config.getOptionalString('swf.workflow-service.container') ??
     'quay.io/kiegroup/kogito-swf-devmode:1.40';
 
-  setupInternalRoutes(router, kogitoBaseUrl, kogitoPort);
+  const workflowService = new WorkflowService();
+
+  setupInternalRoutes(router, kogitoBaseUrl, kogitoPort, workflowService);
   setupExternalRoutes(router, discovery);
   await setupKogitoService(
     kogitoBaseUrl,
@@ -91,6 +95,7 @@ function setupInternalRoutes(
   router: express.Router,
   kogitoBaseUrl: string,
   kogitoPort: number,
+  workflowService: WorkflowService,
 ) {
   router.get('/items', async (_, res) => {
     const serviceRes = await fetch(`${kogitoBaseUrl}:${kogitoPort}/q/openapi`);
@@ -172,6 +177,25 @@ function setupInternalRoutes(
     });
     const response = await serviceRes.json();
     res.status(200).json(response);
+  });
+
+  router.post('/workflows', async (req, res) => {
+    const url = req.query.url;
+    const swfData = req.body;
+
+    if (url && url.includes(`http`)) {
+      await workflowService.saveWorkflowDefinitionFromUrl(url);
+    } else {
+      await workflowService.saveWorkflowDefinition(swfData);
+    }
+
+    const swfItem: SwfItem = {
+      id: swfData.id,
+      definition: JSON.stringify(swfData),
+      name: ``,
+      description: ``,
+    };
+    res.status(201).json(swfItem).send();
   });
 }
 

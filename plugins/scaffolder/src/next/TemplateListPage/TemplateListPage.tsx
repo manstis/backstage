@@ -52,6 +52,7 @@ import {
   viewTechDocRouteRef,
 } from '../../routes';
 import { parseEntityRef, stringifyEntityRef } from '@backstage/catalog-model';
+import { importWorkflowRouteRef } from '@backstage/plugin-swf';
 
 /**
  * @alpha
@@ -89,6 +90,7 @@ const createGroupsWithOther = (
  */
 export const TemplateListPage = (props: TemplateListPageProps) => {
   const registerComponentLink = useRouteRef(registerComponentRouteRef);
+  const importWorkflowLink = useRouteRef(importWorkflowRouteRef);
   const {
     TemplateCardComponent,
     groups: givenGroups = [],
@@ -165,6 +167,13 @@ export const TemplateListPage = (props: TemplateListPageProps) => {
               title="Register Existing Component"
               to={registerComponentLink && registerComponentLink()}
             />
+
+            <RegisterExistingButton
+              title="Import New Workflow"
+              to={importWorkflowLink && importWorkflowLink()}
+              maring="normal"
+            />
+
             <SupportButton>
               Create new software components using standard templates. Different
               templates create different kinds of components (services,

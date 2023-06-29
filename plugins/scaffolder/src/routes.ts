@@ -23,7 +23,6 @@ export const registerComponentRouteRef = createExternalRouteRef({
   id: 'register-component',
   optional: true,
 });
-
 export const viewTechDocRouteRef = createExternalRouteRef({
   id: 'view-techdoc',
   optional: true,
