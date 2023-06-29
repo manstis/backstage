@@ -27,7 +27,7 @@ import {
 import { Grid } from '@material-ui/core';
 import { swfApiRef } from '../../api';
 import { useApi, useRouteRefParams } from '@backstage/core-plugin-api';
-import { useServerlessWorkflowEditor } from '../../hooks';
+import { useServerlessWorkflowDiagramEditor } from '../../hooks';
 import { EmbeddedEditor } from '@kie-tools-core/editor/dist/embedded';
 import { ChannelType } from '@kie-tools-core/editor/dist/api';
 import { swfInstanceRouteRef } from '../../routes';
@@ -45,7 +45,7 @@ export const SWFInstancesViewerPage = () => {
   const { instanceId } = useRouteRefParams(swfInstanceRouteRef);
 
   const { swfFile, swfEditorRef, swfEditorEnvelopeLocator } =
-    useServerlessWorkflowEditor(swfId, 'serverless-workflow');
+    useServerlessWorkflowDiagramEditor(swfId, 'serverless-workflow');
 
   const loadInstance = useCallback(
     (pid: string | undefined) => {

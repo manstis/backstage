@@ -29,7 +29,7 @@ import { Stepper, type StepperProps } from '../Stepper/Stepper';
 import { SecretsContextProvider } from '../../../secrets/SecretsContext';
 import { ChannelType } from '@kie-tools-core/editor/dist/api';
 import { EmbeddedEditor } from '@kie-tools-core/editor/dist/embedded';
-import { useServerlessWorkflowEditor } from '@backstage/plugin-swf';
+import { useServerlessWorkflowDiagramEditor } from '@backstage/plugin-swf';
 
 const useStyles = makeStyles<BackstageTheme>(() => ({
   markdown: {
@@ -87,7 +87,7 @@ export const Workflow = (workflowProps: WorkflowProps): JSX.Element | null => {
   }, [error, errorApi]);
 
   const { swfFile, swfEditorRef, swfEditorEnvelopeLocator } =
-    useServerlessWorkflowEditor(manifest?.name, manifest?.type);
+    useServerlessWorkflowDiagramEditor(manifest?.name, manifest?.type);
   const [open, setOpen] = useState<boolean>(false);
 
   if (error) {

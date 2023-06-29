@@ -2,4 +2,14 @@
 public/org.kie.workbench.common.stunner.sw.KogitoSWEditor
 public/swf
 public/create
-
+public/diagram
+public/serverless-workflow-combined-editor-envelope.html
+public/serverless-workflow-diagram-editor-envelope.html
+public/serverless-workflow-mermaid-viewer-envelope.html
+public/serverless-workflow-text-editor-envelope.html
+public/serverless-workflow-combined-editor-envelope.js
+public/serverless-workflow-diagram-editor-envelope.js
+public/serverless-workflow-mermaid-viewer-envelope.js
+public/serverless-workflow-text-editor-envelope.js
+public/vendors-node_modules_monaco-editor_esm_vs_language_json_jsonMode_js.bundle.js
+public/*.worker.js
