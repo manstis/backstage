@@ -39,6 +39,7 @@
     "express": "^4.17.1",
     "express-http-proxy": "^1.6.3",
     "express-promise-router": "^4.1.0",
+    "fs-extra": "^11.1.1",
     "node-fetch": "^2.6.4",
     "winston": "^3.2.1",
     "yaml": "^2.3.1",
