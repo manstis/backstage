@@ -14,247 +14,187 @@
  * limitations under the License.
  */
 const path = require('path');
+const { merge } = require('webpack-merge');
+const common = require('./webpack.common.config');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const FileManagerPlugin = require('filemanager-webpack-plugin');
+const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 const swEditor = require('@kie-tools/serverless-workflow-diagram-editor-assets');
 const webpack = require('webpack');
 
-module.exports = {
-  mode: 'development',
-  entry: {
-    'envelope/serverless-workflow-diagram-editor-envelope':
-      './envelope/ServerlessWorkflowDiagramEditorEnvelopeApp.ts',
-  },
-  plugins: [
-    new webpack.EnvironmentPlugin({
-      KOGITO_APP_VERSION: 'DEV',
-      KOGITO_APP_NAME: 'Backstage SWF Plugin :: Editor',
-    }),
-    new CopyPlugin({
-      patterns: [
-        {
-          from: './envelope/serverless-workflow-diagram-editor-envelope.html',
-          to: './envelope',
-        },
-        {
-          from: swEditor.swEditorPath(),
-          to: './editor',
-          globOptions: { ignore: ['**/WEB-INF/**/*'] },
-        },
-      ],
-    }),
-    new FileManagerPlugin({
-      events: {
-        onEnd: {
-          mkdir: ['./public/swf/'],
-          copy: [
-            { source: './dist/editor', destination: './public/' },
-            { source: './dist/envelope', destination: './public/swf/items/' },
+module.exports = () => {
+  return [
+    merge(common(), {
+      entry: {
+        'envelope/serverless-workflow-diagram-editor-envelope':
+          './envelope/ServerlessWorkflowDiagramEditorEnvelopeApp.ts',
+        'envelope/serverless-workflow-combined-editor-envelope':
+          './envelope/ServerlessWorkflowCombinedEditorEnvelopeApp.ts',
+        'envelope/serverless-workflow-text-editor-envelope':
+          './envelope/ServerlessWorkflowTextEditorEnvelopeApp.ts',
+      },
+      plugins: [
+        new webpack.EnvironmentPlugin({
+          KOGITO_APP_VERSION: 'DEV',
+          KOGITO_APP_NAME: 'Backstage SWF Plugin :: Editor',
+        }),
+        new CopyPlugin({
+          patterns: [
             {
-              source: './dist/envelope',
-              destination: './public/swf/instances/',
+              from: './envelope/serverless-workflow-combined-editor-envelope.html',
+              to: './envelope',
             },
             {
-              source: './dist/envelope',
-              destination: './public/create/templates/default/',
+              from: './envelope/serverless-workflow-diagram-editor-envelope.html',
+              to: './envelope',
+            },
+            {
+              from: './envelope/serverless-workflow-text-editor-envelope.html',
+              to: './envelope',
+            },
+            {
+              from: swEditor.swEditorPath(),
+              to: './editor',
+              globOptions: { ignore: ['**/WEB-INF/**/*'] },
             },
           ],
-        },
-      },
-    }),
-  ],
-  module: {
-    rules: [
-      {
-        test: /\.(tsx|ts)?$/,
-        include: [path.resolve(__dirname, 'envelope')],
-        use: [
+        }),
+        new FileManagerPlugin({
+          events: {
+            onEnd: {
+              mkdir: ['./public/swf/'],
+              copy: [
+                // Monaco editor configuration
+                {
+                  source:
+                    './dist/vendors-node_modules_monaco-editor_esm_vs_language_json_jsonMode_js.bundle.js',
+                  destination: './public/',
+                },
+                { source: './dist/json.worker.js', destination: './public/' },
+                {
+                  source: './dist/editor.worker.js',
+                  destination: './public/',
+                },
+                // Stunner editor
+                // This needs to be on different paths at the moment as the _Viewer_ is accessed from different web contexts
+                { source: './dist/editor', destination: './public/' },
+                { source: './dist/editor', destination: './public/diagram' },
+                // Kie Tools envelope for Stunner editor
+                // This needs to be on different paths at the moment as the _Viewer_ is accessed from different web contexts
+                { source: './dist/envelope', destination: './public/' },
+                {
+                  source: './dist/envelope',
+                  destination: './public/swf/items/',
+                },
+                {
+                  source: './dist/envelope',
+                  destination: './public/swf/instances/',
+                },
+                {
+                  source: './dist/envelope',
+                  destination: './public/create/templates/default/',
+                },
+              ],
+            },
+          },
+        }),
+        new MonacoWebpackPlugin({
+          languages: ['json'],
+          customLanguages: [
+            {
+              label: 'yaml',
+              entry: [
+                'monaco-yaml',
+                'vs/basic-languages/yaml/yaml.contribution',
+              ],
+              worker: {
+                id: 'monaco-yaml/yamlWorker',
+                entry: 'monaco-yaml/yaml.worker.js',
+              },
+            },
+          ],
+        }),
+      ],
+      module: {
+        rules: [
           {
-            loader: 'ts-loader',
-            options: {
-              configFile: path.resolve('./tsconfig.json'),
-              allowTsInNodeModules: true,
+            test: /\.m?js/,
+            resolve: {
+              fullySpecified: false,
+            },
+          },
+          {
+            test: /\.(tsx|ts)?$/,
+            include: [path.resolve(__dirname, 'envelope')],
+            use: [
+              {
+                loader: 'ts-loader',
+                options: {
+                  configFile: path.resolve('./tsconfig.json'),
+                  allowTsInNodeModules: true,
+                },
+              },
+            ],
+          },
+          {
+            test: /\.s[ac]ss$/i,
+            use: [
+              require.resolve('style-loader'),
+              require.resolve('css-loader'),
+              require.resolve('sass-loader'),
+            ],
+          },
+          {
+            test: /\.css$/,
+            use: [
+              require.resolve('style-loader'),
+              require.resolve('css-loader'),
+            ],
+          },
+          {
+            test: /\.(svg|ttf|eot|woff|woff2)$/,
+            use: {
+              loader: 'file-loader',
+              options: {
+                // Limit at 50k. larger files emitted into separate files
+                limit: 5000,
+                outputPath: 'fonts',
+                name: '[name].[ext]',
+              },
             },
           },
         ],
       },
-      {
-        test: /\.(css|sass|scss)$/,
-        include: [
-          path.resolve(__dirname, 'src'),
-          path.resolve('../../node_modules/patternfly'),
-          path.resolve('../../node_modules/@patternfly/patternfly'),
-          path.resolve('../../node_modules/@patternfly/react-styles/css'),
-          path.resolve(
-            '../../node_modules/@patternfly/react-core/dist/styles/base.css',
-          ),
-          path.resolve(
-            '../../node_modules/@patternfly/react-core/dist/esm/@patternfly/patternfly',
-          ),
-          path.resolve(
-            '../../node_modules/@patternfly/react-core/node_modules/@patternfly/react-styles/css',
-          ),
-          path.resolve(
-            '../../node_modules/@patternfly/react-table/node_modules/@patternfly/react-styles/css',
-          ),
-          path.resolve(
-            '../../node_modules/@kogito-apps/consoles-common/dist/components/styles.css',
-          ),
-          path.resolve(
-            '../../node_modules/@kogito-apps/components-common/dist/components/styles.css',
-          ),
-          path.resolve(
-            '../../node_modules/@kogito-apps/jobs-management/dist/envelope/components/styles.css',
-          ),
-          path.resolve(
-            '../../node_modules/@kogito-apps/process-details/dist/envelope/components/styles.css',
-          ),
-          path.resolve(
-            '../../node_modules/@kogito-apps/management-console-shared/dist/components/styles.css',
-          ),
-          path.resolve(
-            '../../node_modules/@kogito-apps/process-list/dist/envelope/components/styles.css',
-          ),
-          path.resolve(
-            '../../node_modules/@kogito-apps/task-console-shared/dist/envelope/styles.css',
-          ),
-          path.resolve(
-            '../../node_modules/@kogito-apps/task-form/dist/envelope/styles.css',
-          ),
-          path.resolve(
-            '../../node_modules/@kogito-apps/form-details/dist/envelope/components/styles.css',
-          ),
-          path.resolve(
-            '../../node_modules/@kogito-apps/form-displayer/dist/envelope/components/styles.css',
-          ),
-          path.resolve(
-            '../../node_modules/@kogito-apps/process-form/dist/envelope/styles.css',
-          ),
-          path.resolve(
-            '../../node_modules/@kogito-apps/workflow-form/dist/envelope/styles.css',
-          ),
-          path.resolve(
-            '../../node_modules/@kogito-apps/process-definition-list/dist/envelope/styles.css',
-          ),
-          path.resolve('../../node_modules/react-calendar/dist/Calendar.css'),
-          path.resolve('../../node_modules/react-clock/dist/Clock.css'),
-          path.resolve(
-            '../../node_modules/react-datetime-picker/dist/DateTimePicker.css',
-          ),
-          path.resolve(
-            '../../node_modules/@kogito-apps/form-details/dist/styles/styles.css',
-          ),
-          path.resolve(
-            '../../node_modules/@kogito-apps/workflow-form/dist/envelope/styles.css',
-          ),
-          path.resolve(
-            '../../node_modules/@kogito-apps/cloud-event-form/dist/envelope/styles.css',
-          ),
-          path.resolve(
-            '../../node_modules/@kie-tools-core/guided-tour/dist/components',
-          ),
-          path.resolve(
-            '../../node_modules/@kie-tools-core/editor/dist/envelope',
-          ),
-          path.resolve(
-            '../../node_modules/@kie-tools/serverless-workflow-mermaid-viewer/dist/viewer',
-          ),
-        ],
-        use: ['style-loader', 'css-loader', 'sass-loader'],
+      output: {
+        path: path.resolve(__dirname, 'dist'),
+        filename: '[name].js',
+        chunkFilename: '[name].bundle.js',
       },
-      {
-        test: /\.(svg|ttf|eot|woff|woff2)$/,
-        include: [
-          path.resolve('../../node_modules/patternfly/dist/fonts'),
-          path.resolve(
-            '../../node_modules/@patternfly/react-core/dist/styles/assets/fonts',
-          ),
-          path.resolve(
-            '../../node_modules/@patternfly/react-core/dist/styles/assets/pficon',
-          ),
-          path.resolve(
-            '../../node_modules/@patternfly/patternfly/assets/fonts',
-          ),
-          path.resolve(
-            '../../node_modules/@patternfly/patternfly/assets/pficon',
-          ),
-          path.resolve('./src/static/'),
-          path.resolve(
-            '../../node_modules/@kogito-apps/consoles-common/dist/static',
-          ),
-          path.resolve(
-            '../../node_modules/@kogito-apps/components-common/dist/static',
-          ),
-          path.resolve(
-            '../../node_modules/@kogito-apps/jobs-management/dist/static',
-          ),
-          path.resolve(
-            '../../node_modules/@kogito-apps/process-details/dist/static',
-          ),
-          path.resolve(
-            '../../node_modules/@kogito-apps/custom-dashboard-view/dist/static',
-          ),
-          path.resolve(
-            '../../node_modules/@kogito-apps/management-console-shared/dist/static',
-          ),
-          path.resolve(
-            '../../node_modules/@kogito-apps/process-list/dist/static',
-          ),
-          path.resolve('../../node_modules/@kogito-apps/task-form/dist/static'),
-          path.resolve(
-            '../../node_modules/@kogito-apps/form-details/dist/static',
-          ),
-          path.resolve(
-            '../../node_modules/@kogito-apps/form-displayer/dist/static',
-          ),
-          path.resolve(
-            '../../node_modules/@kogito-apps/process-form/dist/static',
-          ),
-          path.resolve(
-            '../../node_modules/@kogito-apps/process-definition-list/dist/static',
-          ),
-          path.resolve(
-            '../../node_modules/@kogito-apps/custom-dashboard-view/dist/static',
-          ),
-          path.resolve(
-            '../../node_modules/@kogito-apps/process-monitoring/dist/static',
-          ),
-          path.resolve(
-            '../../node_modules/@kogito-apps/workflow-form/dist/static',
-          ),
-          path.resolve(
-            '../../node_modules/monaco-editor/esm/vs/base/browser/ui/codicons/codicon/codicon.ttf',
-          ),
+      resolve: {
+        extensions: ['.ts', '.tsx', '.js', '.jsx'],
+        modules: [
+          path.resolve('../../node_modules'),
+          path.resolve('./node_modules'),
+          path.resolve('./src'),
         ],
-        use: {
-          loader: 'file-loader',
-          options: {
-            // Limit at 50k. larger files emited into separate files
-            limit: 5000,
-            outputPath: 'fonts',
-            name: '[name].[ext]',
-          },
+        plugins: [
+          new TsconfigPathsPlugin({
+            configFile: path.resolve(__dirname, './tsconfig.json'),
+          }),
+        ],
+        symlinks: false,
+        cacheWithContext: false,
+        fallback: {
+          path: require.resolve('path-browserify'),
+          os: require.resolve('os-browserify/browser'),
+          fs: false,
+          child_process: false,
+          net: false,
+          buffer: require.resolve('buffer/'),
+          querystring: require.resolve('querystring-es3'),
         },
       },
-    ],
-  },
-  output: {
-    path: path.resolve(__dirname, 'dist'),
-  },
-  resolve: {
-    extensions: ['.ts', '.tsx', '.js'],
-    modules: [
-      path.resolve('../../node_modules'),
-      path.resolve('./node_modules'),
-      path.resolve('./src'),
-    ],
-    plugins: [
-      new TsconfigPathsPlugin({
-        configFile: path.resolve(__dirname, './tsconfig.json'),
-      }),
-    ],
-    symlinks: false,
-    cacheWithContext: false,
-  },
+    }),
+  ];
 };
