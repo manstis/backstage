@@ -32,6 +32,37 @@ import { ProcessDetailsViewer } from './ProcessDetailsViewer';
 import { ProcessTimeline } from './ProcessTimeline';
 
 export const SWFInstancesViewerPage = () => {
+  const swfApi = useApi(swfApiRef);
+  const [data, setData] = useState<Row[]>([]);
+  const [swfId, setSwfId] = useState<string>();
+  const [selectedInstanceId, setSelectedInstanceId] = useState<string>();
+  const { instanceId } = useRouteRefParams(swfInstanceRouteRef);
+
+  const { swfFile, swfEditorRef, swfEditorEnvelopeLocator } =
+    useServerlessWorkflowDiagramEditor(swfId, 'serverless-workflow');
+
+  const loadInstance = useCallback(
+    (pid: string | undefined) => {
+      if (pid) {
+        swfApi.getInstance(pid).then(value => {
+          const processInstances: any[] = value.data.ProcessInstances as [];
+          setSwfId(processInstances[0].processId);
+          setSelectedInstanceId(processInstances[0].id);
+        });
+      }
+    },
+    [swfApi],
+  );
+
+  const column1 = {
+    title: 'Id',
+    field: 'pid',
+  };
+
+  const column2 = {
+    title: 'Name',
+    field: 'name',
+  };
   const [selectedInstance, setSelectedInstance] = useState<ProcessInstance>();
 
   const toJsonVariables = useCallback(() => {
