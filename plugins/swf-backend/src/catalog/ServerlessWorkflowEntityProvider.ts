@@ -31,7 +31,6 @@ import {
   TemplateParametersV1beta3,
 } from '@backstage/plugin-scaffolder-common';
 import YAML from 'yaml';
-import { SchedulerService } from '@backstage/backend-plugin-api';
 import { PluginTaskScheduler } from '@backstage/backend-tasks';
 
 export class ServerlessWorkflowEntityProvider
@@ -43,6 +42,7 @@ export class ServerlessWorkflowEntityProvider
   private readonly env: string;
   private connection: EntityProviderConnection | undefined;
   private scheduler: PluginTaskScheduler;
+
   constructor(opts: {
     reader: UrlReader;
     kogitoServiceUrl: string;
@@ -60,11 +60,13 @@ export class ServerlessWorkflowEntityProvider
     this.scheduler = scheduler;
     eventBroker.subscribe(this);
   }
+
   async connect(connection: EntityProviderConnection): Promise<void> {
     this.connection = connection;
     // periodically fetch new workflows
     return this.startRefreshTask();
   }
+
   private async startRefreshTask(): Promise<void> {
     return this.scheduler.scheduleTask({
       id: 'run_swf_provider_refresh',
@@ -75,6 +77,7 @@ export class ServerlessWorkflowEntityProvider
       timeout: { minutes: 10 },
     });
   }
+
   supportsEventTopics(): string[] {
     return [topic];
   }

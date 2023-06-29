@@ -27,16 +27,17 @@ import {
 } from '@kie-tools-core/editor/dist/api';
 import { swfApiRef } from '@backstage/plugin-swf';
 
-export const useServerlessWorkflowEditor = (
+export const useServerlessWorkflowCombinedEditor = (
   swfId: string | undefined,
   workflowType: string | undefined,
 ): {
   swfFile: EmbeddedEditorFile | undefined;
+  swfEditor: EmbeddedEditorRef | undefined;
   swfEditorRef: (node: EmbeddedEditorRef) => void;
   swfEditorEnvelopeLocator: EditorEnvelopeLocator;
 } => {
   const swfApi = useApi(swfApiRef);
-  const { editorRef } = useEditorRef();
+  const { editor, editorRef } = useEditorRef();
   const [swfFile, setSwfFile] = useState<EmbeddedEditorFile>();
 
   const setContent = useCallback((path: string, content: string) => {
@@ -44,8 +45,8 @@ export const useServerlessWorkflowEditor = (
       path: path,
       getFileContents: async () => content,
       isReadOnly: false,
-      fileExtension: 'swf',
-      fileName: 'fileName',
+      fileExtension: 'sw.json',
+      fileName: 'fileName.sw.json',
     });
   }, []);
 
@@ -54,11 +55,11 @@ export const useServerlessWorkflowEditor = (
       new EditorEnvelopeLocator(window.location.origin, [
         new EnvelopeMapping({
           type: 'swf',
-          filePathGlob: '*.swf',
+          filePathGlob: '**/*.sw.json',
           resourcesPathPrefix: '',
           envelopeContent: {
             type: EnvelopeContentType.PATH,
-            path: 'serverless-workflow-diagram-editor-envelope.html',
+            path: 'serverless-workflow-combined-editor-envelope.html',
           },
         }),
       ]),
@@ -68,13 +69,14 @@ export const useServerlessWorkflowEditor = (
   useEffect(() => {
     if (swfId && workflowType === 'serverless-workflow') {
       swfApi.getSwf(swfId).then(value => {
-        setContent('fileName.swf', value.definition);
+        setContent('fileName.sw.json', value.definition);
       });
     }
   }, [swfApi, setContent, swfId, workflowType]);
 
   return {
     swfFile: swfFile,
+    swfEditor: editor,
     swfEditorRef: editorRef,
     swfEditorEnvelopeLocator: swfEditorEnvelopeLocator,
   };

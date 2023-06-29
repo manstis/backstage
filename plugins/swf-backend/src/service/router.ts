@@ -132,7 +132,7 @@ function setupInternalRoutes(
       id: swfId,
       name: name,
       description: description,
-      definition: JSON.stringify(wsResponse),
+      definition: JSON.stringify(wsResponse, undefined, 2),
     };
 
     // When complete return to Backstage
