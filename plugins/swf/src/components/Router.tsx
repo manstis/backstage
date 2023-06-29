@@ -18,12 +18,14 @@ import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import {
   definitionsRouteRef,
+  importWorkflowRouteRef,
   swfInstanceRouteRef,
   swfInstancesRouteRef,
 } from '../routes';
 import { SWFPage } from './SWFPage';
 import { SWFInstancesViewerPage } from './SWFInstancesViewerPage';
 import { SWFDefinitionViewerPage } from './SWFDefinitionViewerPage';
+import { ImportWorkflowViewerPage } from './ImportWorkflowViewerPage';
 
 export const Router = () => {
   return (
@@ -40,6 +42,10 @@ export const Router = () => {
       <Route
         path={swfInstanceRouteRef.path}
         element={<SWFInstancesViewerPage />}
+      />
+      <Route
+        path={importWorkflowRouteRef.path}
+        element={<ImportWorkflowViewerPage />}
       />
     </Routes>
   );

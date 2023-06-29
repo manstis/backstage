@@ -65,4 +65,20 @@ export class SwfClient implements SwfApi {
     const data: string = await res.json();
     return data;
   }
+  async createWorkflowDefinition(
+    url: string,
+    content: string,
+  ): Promise<SwfItem> {
+    const baseUrl = await this.discoveryApi.getBaseUrl('swf');
+    const res = await fetch(`${baseUrl}/workflows?url=${url}`, {
+      method: 'POST',
+      body: content,
+      headers: { 'content-type': 'application/json' },
+    });
+    if (!res.ok) {
+      throw await ResponseError.fromResponse(res);
+    }
+    const data: SwfItem = await res.json();
+    return data;
+  }
 }
