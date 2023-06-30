@@ -40,6 +40,10 @@ import { useForm, UseFormRegisterReturn } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { definitionsRouteRef } from '../../routes';
 
+type FormData = {
+  url: string;
+};
+
 export const ImportWorkflowViewerPage = () => {
   const theme = useTheme();
   const configApi = useApi(configApiRef);
@@ -49,12 +53,10 @@ export const ImportWorkflowViewerPage = () => {
   const errorApi = useApi(errorApiRef);
   const swfApi = useApi(swfApiRef);
 
-  const { handleSubmit, register } = useForm<FormData>({
-    mode: 'onTouched',
-    defaultValues: {
-      url: 'https://raw.githubusercontent.com/kiegroup/kogito-examples/main/serverless-workflow-examples/serverless-workflow-hello-world/src/main/resources/hello.sw.json',
-    },
-  });
+  const defaultValues: FormData = {
+    url: 'https://raw.githubusercontent.com/kiegroup/kogito-examples/main/serverless-workflow-examples/serverless-workflow-hello-world/src/main/resources/hello.sw.json',
+  };
+  const { handleSubmit, register } = useForm<FormData>({ defaultValues });
 
   const navigate = useNavigate();
   const definitionLink = useRouteRef(definitionsRouteRef);
@@ -114,7 +116,7 @@ export const ImportWorkflowViewerPage = () => {
   }
 
   const contentItems = [
-    <Grid item xs={12} md={8} lg={6} xl={4}>
+    <Grid item xs={12} md={8} lg={6} xl={4} key="import0">
       <InfoCard>
         <form onSubmit={handleSubmit(handleResult)}>
           <TextField
