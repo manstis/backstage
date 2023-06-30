@@ -32,7 +32,7 @@ export const SWFInstanceViewerPage = () => {
   const swfApi = useApi(swfApiRef);
   const [instance, setInstance] = useState<any | undefined>(undefined);
   const { instanceId } = useRouteRefParams(swfInstanceRouteRef);
-
+  const errorCount = 0;
   useEffect(() => {
     swfApi
       .getInstance(instanceId)
@@ -41,7 +41,15 @@ export const SWFInstanceViewerPage = () => {
         value.data.ProcessInstances[0].variables = JSON.parse(vars);
         setInstance(value);
       })
-      .catch(ex => setInstance(undefined));
+      .catch(ex => {
+        // wait in case the workflow is not deployed yet
+        if (this.errorCount < 4) {
+          setTimeout(useEffect, 5000);
+        } else {
+          setInstance({});
+        }
+        this.errorCount++;
+      });
   }, [swfApi, instanceId]);
 
   return (
