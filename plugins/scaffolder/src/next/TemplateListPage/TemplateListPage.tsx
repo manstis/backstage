@@ -171,7 +171,6 @@ export const TemplateListPage = (props: TemplateListPageProps) => {
             <RegisterExistingButton
               title="Import New Workflow"
               to={importWorkflowLink && importWorkflowLink()}
-              maring="normal"
             />
 
             <SupportButton>

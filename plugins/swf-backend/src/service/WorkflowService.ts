@@ -17,13 +17,15 @@ import { resolvePackagePath } from '@backstage/backend-common';
 import fs from 'fs-extra';
 
 export class WorkflowService {
-  async saveWorkflowDefinition(data: any): Promise<void> {
+  async saveWorkflowDefinition(data: any): Promise<any> {
     const swfId = data.id;
     const definitionsPath = resolvePackagePath(
       `@backstage/plugin-swf-backend`,
       `workflow-service/src/main/resources/${swfId}.sw.json`,
     );
-    return fs.writeFile(definitionsPath, JSON.stringify(data), 'utf8');
+    return fs
+      .writeFile(definitionsPath, JSON.stringify(data), 'utf8')
+      .then(v => data);
   }
 
   async saveWorkflowDefinitionFromUrl(url: string): Promise<any> {
