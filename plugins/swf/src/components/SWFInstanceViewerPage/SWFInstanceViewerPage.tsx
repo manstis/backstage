@@ -43,8 +43,8 @@ export const SWFInstanceViewerPage = () => {
       })
       .catch(ex => {
         // wait in case the workflow is not deployed yet
-        if (this.errorCount < 4) {
-          setTimeout(useEffect, 5000);
+        if (this.errorCount < 5) {
+          setTimeout(this.useEffect, 5000);
         } else {
           setInstance({});
         }
