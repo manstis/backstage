@@ -27,11 +27,16 @@ import {
   useApi,
   useRouteRef,
 } from '@backstage/core-plugin-api';
-import { Grid, TextField, useMediaQuery, useTheme } from '@material-ui/core';
+import {
+  Grid,
+  StepButton,
+  TextField,
+  useMediaQuery,
+  useTheme,
+} from '@material-ui/core';
 import React, { useCallback } from 'react';
-import { NextButton } from '@backstage/plugin-catalog-import';
 import { swfApiRef } from '../../api';
-import { useForm } from 'react-hook-form';
+import { useForm, UseFormRegisterReturn } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { definitionsRouteRef } from '../../routes';
 
@@ -44,8 +49,11 @@ export const ImportWorkflowViewerPage = () => {
   const errorApi = useApi(errorApiRef);
   const swfApi = useApi(swfApiRef);
 
-  const { handleSubmit } = useForm<FormData>({
+  const { handleSubmit, register } = useForm<FormData>({
     mode: 'onTouched',
+    defaultValues: {
+      url: 'https://raw.githubusercontent.com/kiegroup/kogito-examples/main/serverless-workflow-examples/serverless-workflow-hello-world/src/main/resources/hello.sw.json',
+    },
   });
 
   const navigate = useNavigate();
@@ -97,26 +105,38 @@ export const ImportWorkflowViewerPage = () => {
     [swfApi, errorApi, navigate, definitionLink],
   );
 
+  function asInputRef(renderResult: UseFormRegisterReturn) {
+    const { ref, ...rest } = renderResult;
+    return {
+      inputRef: ref,
+      ...rest,
+    };
+  }
+
   const contentItems = [
     <Grid item xs={12} md={8} lg={6} xl={4}>
       <InfoCard>
         <form onSubmit={handleSubmit(handleResult)}>
           <TextField
+            {...asInputRef(
+              register('url', {
+                required: true,
+              }),
+            )}
             fullWidth
             id="url"
-            name="url"
-            itemID="url"
             label="Workflow URL"
             placeholder="https://raw.githubusercontent.com/kiegroup/kogito-examples/main/serverless-workflow-examples/serverless-workflow-hello-world/src/main/resources/hello.sw.json"
             helperText="Enter the full path to your workflow definition"
             margin="normal"
+            variant="outlined"
             required
           />
 
           <Grid container spacing={0}>
-            <NextButton type="submit" title="Import workflow">
+            <StepButton type="submit" title="Import workflow">
               Import
-            </NextButton>
+            </StepButton>
           </Grid>
         </form>
       </InfoCard>

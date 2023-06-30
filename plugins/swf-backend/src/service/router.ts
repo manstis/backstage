@@ -182,16 +182,18 @@ function setupInternalRoutes(
   router.post('/workflows', async (req, res) => {
     const url = req.query.url;
     const swfData = req.body;
-
+    let createdWorkflow;
     if (url && url.includes(`http`)) {
-      await workflowService.saveWorkflowDefinitionFromUrl(url);
+      createdWorkflow = await workflowService.saveWorkflowDefinitionFromUrl(
+        url,
+      );
     } else {
-      await workflowService.saveWorkflowDefinition(swfData);
+      createdWorkflow = await workflowService.saveWorkflowDefinition(swfData);
     }
 
     const swfItem: SwfItem = {
-      id: swfData.id,
-      definition: JSON.stringify(swfData),
+      id: createdWorkflow.id,
+      definition: JSON.stringify(createdWorkflow),
       name: ``,
       description: ``,
     };

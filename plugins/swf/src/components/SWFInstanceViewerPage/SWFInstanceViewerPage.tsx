@@ -34,11 +34,14 @@ export const SWFInstanceViewerPage = () => {
   const { instanceId } = useRouteRefParams(swfInstanceRouteRef);
 
   useEffect(() => {
-    swfApi.getInstance(instanceId).then(value => {
-      const vars: string = value.data.ProcessInstances[0].variables as string;
-      value.data.ProcessInstances[0].variables = JSON.parse(vars);
-      setInstance(value);
-    });
+    swfApi
+      .getInstance(instanceId)
+      .then(value => {
+        const vars: string = value.data.ProcessInstances[0].variables as string;
+        value.data.ProcessInstances[0].variables = JSON.parse(vars);
+        setInstance(value);
+      })
+      .catch(ex => setInstance(undefined));
   }, [swfApi, instanceId]);
 
   return (
