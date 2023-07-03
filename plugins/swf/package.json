@@ -38,6 +38,7 @@
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.60",
     "react-hook-form": "^7.45.1",
+    "react-json-view": "^1.21.3",
     "react-use": "^17.2.4"
   },
   "peerDependencies": {
