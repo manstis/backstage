@@ -28,8 +28,8 @@ import {
   useRouteRef,
 } from '@backstage/core-plugin-api';
 import {
+  Button,
   Grid,
-  StepButton,
   TextField,
   useMediaQuery,
   useTheme,
@@ -49,7 +49,6 @@ export const ImportWorkflowViewerPage = () => {
   const configApi = useApi(configApiRef);
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const appTitle = configApi.getOptional('app.title') || 'Backstage';
-
   const errorApi = useApi(errorApiRef);
   const swfApi = useApi(swfApiRef);
 
@@ -136,9 +135,9 @@ export const ImportWorkflowViewerPage = () => {
           />
 
           <Grid container spacing={0}>
-            <StepButton type="submit" title="Import workflow">
+            <Button color="primary" type="submit" variant="contained">
               Import
-            </StepButton>
+            </Button>
           </Grid>
         </form>
       </InfoCard>

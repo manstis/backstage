@@ -13,7 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { useApi, useRouteRefParams } from '@backstage/core-plugin-api';
 import { swfApiRef } from '../../api';
 import { definitionsRouteRef } from '../../routes';
@@ -24,14 +30,15 @@ import {
   HeaderLabel,
   InfoCard,
   Page,
+  Progress,
   SupportButton,
 } from '@backstage/core-components';
 import { Grid } from '@material-ui/core';
 import {
-  EnvelopeContentType,
-  EnvelopeMapping,
   ChannelType,
   EditorEnvelopeLocator,
+  EnvelopeContentType,
+  EnvelopeMapping,
 } from '@kie-tools-core/editor/dist/api';
 import { EmbeddedEditorFile } from '@kie-tools-core/editor/dist/channel';
 import {
@@ -74,12 +81,33 @@ export const SWFDefinitionViewerPage = () => {
     });
   }, []);
 
+  const errorCount = useRef(0);
+  const loading = useRef(true);
+
+  const fetchData = useCallback(async () => {
+    swfApi
+      .getSwf(swfId)
+      .then(value => {
+        loading.current = false;
+        setName(value.name);
+        setContent('fileName.swf', value.definition);
+      })
+      .catch(ex => {
+        // wait in case the workflow is not deployed yet
+        if (errorCount.current < 10) {
+          setTimeout(() => fetchData(), 6000);
+        } else {
+          // fallback
+          setContent(`fileName.swf`, `{}`);
+          loading.current = false;
+        }
+        errorCount.current++;
+      });
+  }, [swfApi, swfId, setContent, errorCount, loading]);
+
   useEffect(() => {
-    swfApi.getSwf(swfId).then(value => {
-      setName(value.name);
-      setContent('fileName.swf', value.definition);
-    });
-  }, [swfApi, swfId, setContent]);
+    fetchData();
+  }, [fetchData]);
 
   return (
     <Page themeId="tool">
@@ -96,6 +124,7 @@ export const SWFDefinitionViewerPage = () => {
         </ContentHeader>
         <Grid container spacing={3} direction="column">
           <Grid item>
+            {loading.current && <Progress />}
             <InfoCard title={name || ''}>
               <div style={{ height: '500px' }}>
                 {embeddedEditorFile && (
