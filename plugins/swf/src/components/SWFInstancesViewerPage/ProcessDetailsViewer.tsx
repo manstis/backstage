@@ -19,10 +19,10 @@ import { InfoCard } from '@backstage/core-components';
 import { Button, Link, Typography } from '@material-ui/core';
 import Moment from 'react-moment';
 import PlayCircleFilledWhiteRoundedIcon from '@material-ui/icons/PlayCircleFilledWhiteRounded';
-import CheckCircleOutlineRoundedIcon from '@material-ui/icons/CheckCircleOutlineRounded';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import RemoveCircleRoundedIcon from '@material-ui/icons/RemoveCircleRounded';
 import PauseCircleFilledRoundedIcon from '@material-ui/icons/PauseCircleFilledRounded';
-import ReportRoundedIcon from '@material-ui/icons/ReportRounded';
+import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import PublishIcon from '@material-ui/icons/Publish';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import ItemDescriptor from './ItemDescriptor';
@@ -48,7 +48,7 @@ const processInstanceIconCreator = (state: string) => {
           }}
         >
           {icon}
-          <span>{text}</span>
+          <span style={{ paddingLeft: '8px' }}>{text}</span>
         </div>
       </p>
     );
@@ -58,16 +58,13 @@ const processInstanceIconCreator = (state: string) => {
     case ProcessInstanceState.Active:
       return render(<PlayCircleFilledWhiteRoundedIcon />, 'Active');
     case ProcessInstanceState.Completed:
-      return render(
-        <CheckCircleOutlineRoundedIcon color="primary" />,
-        'Complete',
-      );
+      return render(<CheckCircleIcon htmlColor="#3e8635" />, 'Complete');
     case ProcessInstanceState.Aborted:
       return render(<RemoveCircleRoundedIcon />, 'Aborted');
     case ProcessInstanceState.Suspended:
       return render(<PauseCircleFilledRoundedIcon />, 'Suspended');
     case ProcessInstanceState.Error:
-      return render(<ReportRoundedIcon color="error" />, 'Error');
+      return render(<CancelOutlinedIcon color="error" />, 'Error');
     default:
       return <></>;
   }
