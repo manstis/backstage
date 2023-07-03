@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import {
   Content,
   ContentHeader,
@@ -22,81 +22,20 @@ import {
   InfoCard,
   Page,
   SupportButton,
-  Table,
 } from '@backstage/core-components';
 import { Grid } from '@material-ui/core';
-import { swfApiRef } from '../../api';
-import { useApi, useRouteRefParams } from '@backstage/core-plugin-api';
-import { useServerlessWorkflowDiagramEditor } from '../../hooks';
-import { EmbeddedEditor } from '@kie-tools-core/editor/dist/embedded';
-import { ChannelType } from '@kie-tools-core/editor/dist/api';
-import { swfInstanceRouteRef } from '../../routes';
+import { ProcessVariablesViewer } from './ProcessVariablesViewer';
+import { ProcessGraphViewer } from './ProcessGraphViewer';
+import { ProcessInstancesTable } from './ProcessInstancesTable';
 
-interface Row {
-  pid: string;
-  name: string;
-  state: string;
-}
 export const SWFInstancesViewerPage = () => {
-  const swfApi = useApi(swfApiRef);
-  const [data, setData] = useState<Row[]>([]);
-  const [swfId, setSwfId] = useState<string>();
-  const [selectedInstanceId, setSelectedInstanceId] = useState<string>();
-  const { instanceId } = useRouteRefParams(swfInstanceRouteRef);
+  const [selectedInstance, setSelectedInstance] =
+    useState<Record<string, unknown>>();
 
-  const { swfFile, swfEditorRef, swfEditorEnvelopeLocator } =
-    useServerlessWorkflowDiagramEditor(swfId, 'serverless-workflow');
-
-  const loadInstance = useCallback(
-    (pid: string | undefined) => {
-      if (pid) {
-        swfApi.getInstance(pid).then(value => {
-          const processInstances: any[] = value.data.ProcessInstances as [];
-          setSwfId(processInstances[0].processId);
-          setSelectedInstanceId(processInstances[0].id);
-        });
-      }
-    },
-    [swfApi],
-  );
-
-  const column1 = {
-    title: 'Id',
-    field: 'pid',
-  };
-
-  const column2 = {
-    title: 'Name',
-    field: 'name',
-  };
-
-  const column3 = {
-    title: 'State',
-    field: 'state',
-  };
-
-  useEffect(() => {
-    const selectedRowData = data.find(d => d.pid === instanceId);
-    if (selectedRowData) {
-      loadInstance(selectedRowData.pid);
-    }
-  }, [loadInstance, data, instanceId]);
-
-  useEffect(() => {
-    swfApi.getInstances().then(value => {
-      const processInstances: any[] = value.data.ProcessInstances as [];
-      const rows: Row[] = processInstances
-        .map(pi => {
-          return {
-            pid: pi.id,
-            name: pi.processId,
-            state: pi.state,
-          };
-        })
-        .reverse();
-      setData(rows);
-    });
-  }, [swfApi]);
+  const toJsonVariables = useCallback(() => {
+    const variables: string | unknown = selectedInstance?.variables;
+    return variables ? JSON.parse(variables as string) : undefined;
+  }, [selectedInstance]);
 
   return (
     <Page themeId="tool">
@@ -114,37 +53,17 @@ export const SWFInstancesViewerPage = () => {
         <Grid container direction="row">
           <Grid item xs={12} lg={8}>
             <InfoCard title="Instances">
-              <Table<Row>
-                data={data}
-                columns={[column1, column2, column3]}
-                onRowClick={(_, rowData) => {
-                  loadInstance(rowData?.pid);
-                }}
-                options={{
-                  padding: 'dense',
-                  rowStyle: (rowData: Row) => {
-                    return rowData.pid === selectedInstanceId
-                      ? { backgroundColor: '#a266e5' }
-                      : {};
-                  },
-                }}
+              <ProcessInstancesTable
+                selectedInstance={selectedInstance}
+                setSelectedInstance={setSelectedInstance}
               />
             </InfoCard>
           </Grid>
           <Grid item xs={12} lg={4}>
-            <InfoCard title="Status">
-              <div style={{ height: '500px', padding: '10px' }}>
-                {swfFile && (
-                  <EmbeddedEditor
-                    ref={swfEditorRef}
-                    file={swfFile}
-                    channelType={ChannelType.ONLINE}
-                    editorEnvelopeLocator={swfEditorEnvelopeLocator}
-                    locale="en"
-                  />
-                )}
-              </div>
-            </InfoCard>
+            <ProcessGraphViewer swfId={selectedInstance?.processId as string} />
+          </Grid>
+          <Grid item xs={12} lg={8}>
+            <ProcessVariablesViewer variables={toJsonVariables()} />
           </Grid>
         </Grid>
       </Content>
