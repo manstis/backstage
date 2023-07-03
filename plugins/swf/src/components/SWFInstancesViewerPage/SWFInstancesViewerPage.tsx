@@ -27,14 +27,15 @@ import { Grid } from '@material-ui/core';
 import { ProcessVariablesViewer } from './ProcessVariablesViewer';
 import { ProcessGraphViewer } from './ProcessGraphViewer';
 import { ProcessInstancesTable } from './ProcessInstancesTable';
+import { ProcessInstance } from '@backstage/plugin-swf-common';
+import { ProcessDetailsViewer } from './ProcessDetailsViewer';
 
 export const SWFInstancesViewerPage = () => {
-  const [selectedInstance, setSelectedInstance] =
-    useState<Record<string, unknown>>();
+  const [selectedInstance, setSelectedInstance] = useState<ProcessInstance>();
 
   const toJsonVariables = useCallback(() => {
-    const variables: string | unknown = selectedInstance?.variables;
-    return variables ? JSON.parse(variables as string) : undefined;
+    const variables: string | undefined = selectedInstance?.variables;
+    return variables ? JSON.parse(variables) : undefined;
   }, [selectedInstance]);
 
   return (
@@ -60,10 +61,13 @@ export const SWFInstancesViewerPage = () => {
             </InfoCard>
           </Grid>
           <Grid item xs={12} lg={4}>
-            <ProcessGraphViewer swfId={selectedInstance?.processId as string} />
+            <ProcessGraphViewer swfId={selectedInstance?.processId} />
           </Grid>
           <Grid item xs={12} lg={8}>
             <ProcessVariablesViewer variables={toJsonVariables()} />
+          </Grid>
+          <Grid item xs={12} lg={8}>
+            <ProcessDetailsViewer selectedInstance={selectedInstance} />
           </Grid>
         </Grid>
       </Content>

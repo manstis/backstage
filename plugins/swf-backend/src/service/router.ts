@@ -13,11 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { errorHandler, resolvePackagePath } from '@backstage/backend-common';
+import { errorHandler } from '@backstage/backend-common';
 import express from 'express';
 import Router from 'express-promise-router';
 import { Logger } from 'winston';
-import { SwfItem, SwfListResult } from '@backstage/plugin-swf-common';
+import {
+  ProcessInstance,
+  SwfItem,
+  SwfListResult,
+} from '@backstage/plugin-swf-common';
 import { ExecException } from 'child_process';
 import fetch from 'node-fetch';
 import { EventBroker } from '@backstage/plugin-events-node';
@@ -27,7 +31,6 @@ import { DiscoveryApi } from '@backstage/core-plugin-api';
 import YAML from 'yaml';
 import { resolve } from 'path';
 import { exec } from 'child_process';
-import fs from 'fs-extra';
 import { WorkflowService } from './WorkflowService';
 
 export interface RouterOptions {
@@ -155,35 +158,40 @@ function setupInternalRoutes(
 
   router.get('/instances', async (_, res) => {
     const graphQlQuery =
-      '{ ProcessInstances (where: {processId: {isNull: false} } ) { id, processId, state, start, nodes { id }, variables } }';
+      '{ ProcessInstances (where: {processId: {isNull: false} } ) { id, processName, processId, state, start, lastUpdate, end, nodes { id }, variables, parentProcessInstance {id, processName, businessKey} } }';
     const serviceRes = await fetch(`${kogitoBaseUrl}:${kogitoPort}/graphql`, {
       method: 'POST',
       body: JSON.stringify({ query: graphQlQuery }),
       headers: { 'content-type': 'application/json' },
     });
     const response = await serviceRes.json();
-    res.status(200).json(response);
+    const processInstances: ProcessInstance[] = response.data
+      .ProcessInstances as ProcessInstance[];
+    res.status(200).json(processInstances);
   });
 
   router.get('/instances/:instanceId', async (req, res) => {
     const {
       params: { instanceId },
     } = req;
-    const graphQlQuery = `{ ProcessInstances (where: { id: {equal: "${instanceId}" } } ) { id, processId, state, start, nodes { id, nodeId, type, name, enter, exit }, variables } }`;
+    const graphQlQuery = `{ ProcessInstances (where: { id: {equal: "${instanceId}" } } ) { id, processName, processId, state, start, lastUpdate, end, nodes { id, nodeId, type, name, enter, exit }, variables, parentProcessInstance {id, processName, businessKey} } }`;
     const serviceRes = await fetch(`${kogitoBaseUrl}:${kogitoPort}/graphql`, {
       method: 'POST',
       body: JSON.stringify({ query: graphQlQuery }),
       headers: { 'content-type': 'application/json' },
     });
     const response = await serviceRes.json();
-    res.status(200).json(response);
+    const processInstances: ProcessInstance[] = response.data
+      .ProcessInstances as ProcessInstance[];
+    const processInstance: ProcessInstance = processInstances[0];
+    res.status(200).json(processInstance);
   });
 
   router.post('/workflows', async (req, res) => {
     const url = req.query.url;
     const swfData = req.body;
     let createdWorkflow;
-    if (url && url.includes(`http`)) {
+    if (url && typeof url === 'string' && url.includes(`http`)) {
       createdWorkflow = await workflowService.saveWorkflowDefinitionFromUrl(
         url,
       );
