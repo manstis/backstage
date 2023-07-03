@@ -29,6 +29,7 @@ import { ProcessGraphViewer } from './ProcessGraphViewer';
 import { ProcessInstancesTable } from './ProcessInstancesTable';
 import { ProcessInstance } from '@backstage/plugin-swf-common';
 import { ProcessDetailsViewer } from './ProcessDetailsViewer';
+import { ProcessTimeline } from './ProcessTimeline';
 
 export const SWFInstancesViewerPage = () => {
   const [selectedInstance, setSelectedInstance] = useState<ProcessInstance>();
@@ -65,6 +66,9 @@ export const SWFInstancesViewerPage = () => {
           </Grid>
           <Grid item xs={12} lg={8}>
             <ProcessVariablesViewer variables={toJsonVariables()} />
+          </Grid>
+          <Grid item xs={12} lg={4}>
+            <ProcessTimeline selectedInstance={selectedInstance} />
           </Grid>
           <Grid item xs={12} lg={8}>
             <ProcessDetailsViewer selectedInstance={selectedInstance} />
