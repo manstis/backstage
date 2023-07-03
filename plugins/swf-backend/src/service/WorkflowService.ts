@@ -25,7 +25,7 @@ export class WorkflowService {
     );
     return fs
       .writeFile(definitionsPath, JSON.stringify(data), 'utf8')
-      .then(v => data);
+      .then(_ => data);
   }
 
   async saveWorkflowDefinitionFromUrl(url: string): Promise<any> {

@@ -14,16 +14,20 @@
  * limitations under the License.
  */
 import { createApiRef } from '@backstage/core-plugin-api';
-import { SwfItem, SwfListResult } from '@backstage/plugin-swf-common';
+import {
+  ProcessInstance,
+  SwfItem,
+  SwfListResult,
+} from '@backstage/plugin-swf-common';
 
 export interface SwfApi {
   getSwf(swfId: string): Promise<SwfItem>;
 
   listSwfs(): Promise<SwfListResult>;
 
-  getInstances(): Promise<any>;
+  getInstances(): Promise<ProcessInstance[]>;
 
-  getInstance(instanceId: string): Promise<any>;
+  getInstance(instanceId: string): Promise<ProcessInstance>;
 
   createWorkflowDefinition(url: string, content: string): Promise<SwfItem>;
 }

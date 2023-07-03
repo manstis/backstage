@@ -16,7 +16,11 @@
 import { ResponseError } from '@backstage/errors';
 import { SwfApi } from './api';
 import { DiscoveryApi } from '@backstage/core-plugin-api';
-import { SwfItem, SwfListResult } from '@backstage/plugin-swf-common';
+import {
+  ProcessInstance,
+  SwfItem,
+  SwfListResult,
+} from '@backstage/plugin-swf-common';
 
 export interface SwfClientOptions {
   discoveryApi: DiscoveryApi;
@@ -46,23 +50,23 @@ export class SwfClient implements SwfApi {
     return data;
   }
 
-  async getInstances(): Promise<any> {
+  async getInstances(): Promise<ProcessInstance[]> {
     const baseUrl = await this.discoveryApi.getBaseUrl('swf');
     const res = await fetch(`${baseUrl}/instances`);
     if (!res.ok) {
       throw await ResponseError.fromResponse(res);
     }
-    const data: string = await res.json();
+    const data: ProcessInstance[] = await res.json();
     return data;
   }
 
-  async getInstance(instanceId: string): Promise<any> {
+  async getInstance(instanceId: string): Promise<ProcessInstance> {
     const baseUrl = await this.discoveryApi.getBaseUrl('swf');
     const res = await fetch(`${baseUrl}/instances/${instanceId}`);
     if (!res.ok) {
       throw await ResponseError.fromResponse(res);
     }
-    const data: string = await res.json();
+    const data: ProcessInstance = await res.json();
     return data;
   }
   async createWorkflowDefinition(

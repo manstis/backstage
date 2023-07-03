@@ -19,10 +19,11 @@ import { InfoCard, Table } from '@backstage/core-components';
 import { swfApiRef } from '../../api';
 import { useApi, useRouteRefParams } from '@backstage/core-plugin-api';
 import { swfInstanceRouteRef } from '../../routes';
+import { ProcessInstance } from '@backstage/plugin-swf-common';
 
 interface ProcessInstancesTableProps {
-  selectedInstance: Record<string, unknown> | undefined;
-  setSelectedInstance: (instance: Record<string, unknown>) => void;
+  selectedInstance: ProcessInstance | undefined;
+  setSelectedInstance: (instance: ProcessInstance) => void;
 }
 
 type Row = {
@@ -54,8 +55,7 @@ export const ProcessInstancesTable = (props: ProcessInstancesTableProps) => {
 
   useEffect(() => {
     swfApi.getInstances().then(value => {
-      const processInstances: any[] = value.data.ProcessInstances as [];
-      const rows: Row[] = processInstances
+      const rows: Row[] = value
         .map(pi => {
           return {
             pid: pi.id,
@@ -72,8 +72,7 @@ export const ProcessInstancesTable = (props: ProcessInstancesTableProps) => {
     (pid: string | undefined) => {
       if (pid) {
         swfApi.getInstance(pid).then(value => {
-          const processInstances: any[] = value.data.ProcessInstances as [];
-          setSelectedInstance(processInstances[0]);
+          setSelectedInstance(value);
         });
       }
     },
