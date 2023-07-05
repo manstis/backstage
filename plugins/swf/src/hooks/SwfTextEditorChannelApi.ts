@@ -13,15 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { swfPlugin, SWFPage, SWFInstancesViewerPage } from './plugin';
-export { SwfClient } from './api/SwfClient';
-export type { SwfClientOptions } from './api/SwfClient';
-export { swfApiRef } from './api';
-export { useServerlessWorkflowCombinedEditor } from './hooks/useServerlessWorkflowCombinedEditor';
-export { useServerlessWorkflowDiagramEditor } from './hooks/useServerlessWorkflowDiagramEditor';
-export {
-  swfInstanceRouteRef,
-  swfInstancesRouteRef,
-  importWorkflowRouteRef,
-  createWorkflowRouteRef,
-} from './routes';
+import { KogitoEditorChannelApi } from '@kie-tools-core/editor/dist/api';
+import { SwfLanguageServiceChannelApi } from '@kie-tools/serverless-workflow-language-service/dist/api';
+import { SwfServiceCatalogChannelApi } from '@kie-tools/serverless-workflow-service-catalog/dist/api';
+
+export interface SwfTextEditorChannelApi
+  extends KogitoEditorChannelApi,
+    SwfServiceCatalogChannelApi,
+    SwfLanguageServiceChannelApi {
+  kogitoSwfTextEditor__onSelectionChanged(args: { nodeName: string }): void;
+}

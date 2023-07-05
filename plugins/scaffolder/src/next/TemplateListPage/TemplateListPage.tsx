@@ -52,7 +52,11 @@ import {
   viewTechDocRouteRef,
 } from '../../routes';
 import { parseEntityRef, stringifyEntityRef } from '@backstage/catalog-model';
-import { importWorkflowRouteRef } from '@backstage/plugin-swf';
+import {
+  importWorkflowRouteRef,
+  createWorkflowRouteRef,
+} from '@backstage/plugin-swf';
+import { Grid } from '@material-ui/core';
 
 /**
  * @alpha
@@ -91,6 +95,7 @@ const createGroupsWithOther = (
 export const TemplateListPage = (props: TemplateListPageProps) => {
   const registerComponentLink = useRouteRef(registerComponentRouteRef);
   const importWorkflowLink = useRouteRef(importWorkflowRouteRef);
+  const createWorkflowLink = useRouteRef(createWorkflowRouteRef);
   const {
     TemplateCardComponent,
     groups: givenGroups = [],
@@ -163,21 +168,33 @@ export const TemplateListPage = (props: TemplateListPageProps) => {
         </Header>
         <Content>
           <ContentHeader title="Available Templates">
-            <RegisterExistingButton
-              title="Register Existing Component"
-              to={registerComponentLink && registerComponentLink()}
-            />
-
-            <RegisterExistingButton
-              title="Import New Workflow"
-              to={importWorkflowLink && importWorkflowLink()}
-            />
-
-            <SupportButton>
-              Create new software components using standard templates. Different
-              templates create different kinds of components (services,
-              websites, documentation, ...).
-            </SupportButton>
+            <Grid container direction="row" spacing={1}>
+              <Grid item>
+                <RegisterExistingButton
+                  title="Register Existing Component"
+                  to={registerComponentLink && registerComponentLink()}
+                />
+              </Grid>
+              <Grid item>
+                <RegisterExistingButton
+                  title="Import New Workflow"
+                  to={importWorkflowLink && importWorkflowLink()}
+                />
+              </Grid>
+              <Grid item>
+                <RegisterExistingButton
+                  title="Create New Workflow"
+                  to={createWorkflowLink && createWorkflowLink()}
+                />
+              </Grid>
+              <Grid item>
+                <SupportButton>
+                  Create new software components using standard templates.
+                  Different templates create different kinds of components
+                  (services, websites, documentation, ...).
+                </SupportButton>
+              </Grid>
+            </Grid>
           </ContentHeader>
 
           <CatalogFilterLayout>

@@ -21,15 +21,13 @@ import {
   Progress,
 } from '@backstage/core-components';
 import { stringifyEntityRef } from '@backstage/catalog-model';
-import { Button, Dialog, DialogTitle, makeStyles } from '@material-ui/core';
+import { Button, makeStyles } from '@material-ui/core';
 import { BackstageTheme } from '@backstage/theme';
 import { errorApiRef, useApi } from '@backstage/core-plugin-api';
 import { useTemplateParameterSchema } from '../../hooks/useTemplateParameterSchema';
 import { Stepper, type StepperProps } from '../Stepper/Stepper';
 import { SecretsContextProvider } from '../../../secrets/SecretsContext';
-import { ChannelType } from '@kie-tools-core/editor/dist/api';
-import { EmbeddedEditor } from '@kie-tools-core/editor/dist/embedded';
-import { useServerlessWorkflowDiagramEditor } from '@backstage/plugin-swf';
+import { SWFDialog } from './SWFDialog';
 
 const useStyles = makeStyles<BackstageTheme>(() => ({
   markdown: {
@@ -86,8 +84,6 @@ export const Workflow = (workflowProps: WorkflowProps): JSX.Element | null => {
     }
   }, [error, errorApi]);
 
-  const { swfFile, swfEditorRef, swfEditorEnvelopeLocator } =
-    useServerlessWorkflowDiagramEditor(manifest?.name, manifest?.type);
   const [open, setOpen] = useState<boolean>(false);
 
   if (error) {
@@ -109,7 +105,7 @@ export const Workflow = (workflowProps: WorkflowProps): JSX.Element | null => {
           noPadding
           titleTypographyProps={{ component: 'h2' }}
         >
-          {manifest.type === 'serverless-workflow' && swfFile && (
+          {manifest.type === 'serverless-workflow' && (
             <>
               <Button
                 variant="contained"
@@ -118,20 +114,12 @@ export const Workflow = (workflowProps: WorkflowProps): JSX.Element | null => {
               >
                 View Serverless Workflow
               </Button>
-              <Dialog onClose={_ => setOpen(false)} open={open}>
-                <DialogTitle>{manifest.title}</DialogTitle>
-                <div
-                  style={{ height: '500px', width: '500px', padding: '10px' }}
-                >
-                  <EmbeddedEditor
-                    ref={swfEditorRef}
-                    file={swfFile}
-                    channelType={ChannelType.ONLINE}
-                    editorEnvelopeLocator={swfEditorEnvelopeLocator}
-                    locale="en"
-                  />
-                </div>
-              </Dialog>
+              <SWFDialog
+                name={manifest.name ?? 'None'}
+                title={manifest.title}
+                open={open}
+                close={() => setOpen(false)}
+              />
             </>
           )}
           <Stepper manifest={manifest} {...props} />

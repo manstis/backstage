@@ -37,3 +37,10 @@ nb-configuration.xml
 
 # Local environment
 .env
+
+# Developer SWF files
+/src/main/resources/*.sw.json
+!/src/main/resources/actions.sw.json
+!/src/main/resources/compensation.sw.json
+!/src/main/resources/github_workflow.sw.json
+!/src/main/resources/swf1.sw.json
