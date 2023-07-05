@@ -29,7 +29,6 @@ import { swfApiRef } from '@backstage/plugin-swf';
 
 export const useServerlessWorkflowDiagramEditor = (
   swfId: string | undefined,
-  workflowType: string | undefined,
 ): {
   swfFile: EmbeddedEditorFile | undefined;
   swfEditor: EmbeddedEditorRef | undefined;
@@ -59,7 +58,7 @@ export const useServerlessWorkflowDiagramEditor = (
           resourcesPathPrefix: '',
           envelopeContent: {
             type: EnvelopeContentType.PATH,
-            path: 'serverless-workflow-diagram-editor-envelope.html',
+            path: '/serverless-workflow-diagram-editor-envelope.html',
           },
         }),
       ]),
@@ -67,12 +66,12 @@ export const useServerlessWorkflowDiagramEditor = (
   );
 
   useEffect(() => {
-    if (swfId && workflowType === 'serverless-workflow') {
+    if (swfId) {
       swfApi.getSwf(swfId).then(value => {
         setContent('fileName.swf', value.definition);
       });
     }
-  }, [swfApi, setContent, swfId, workflowType]);
+  }, [swfApi, setContent, swfId]);
 
   return {
     swfFile: swfFile,

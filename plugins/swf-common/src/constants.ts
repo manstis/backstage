@@ -14,3 +14,24 @@
  * limitations under the License.
  */
 export const topic = 'kogito-swf-service-ready';
+
+export const to_be_entered = `<Enter>`;
+
+export const empty_definition = `
+  {
+    "id": "${to_be_entered}",
+    "version": "1.0",
+    "specVersion": "0.8",
+    "name": "${to_be_entered}",
+    "description": "${to_be_entered}",
+    "start": "Stage1",
+    "states": [
+    {
+      "name": "Stage1",
+      "type": "operation",
+      "actions": [],
+      "end": true
+    }
+  ]
+  }
+`;

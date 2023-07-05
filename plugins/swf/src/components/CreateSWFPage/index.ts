@@ -13,15 +13,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { swfPlugin, SWFPage, SWFInstancesViewerPage } from './plugin';
-export { SwfClient } from './api/SwfClient';
-export type { SwfClientOptions } from './api/SwfClient';
-export { swfApiRef } from './api';
-export { useServerlessWorkflowCombinedEditor } from './hooks/useServerlessWorkflowCombinedEditor';
-export { useServerlessWorkflowDiagramEditor } from './hooks/useServerlessWorkflowDiagramEditor';
-export {
-  swfInstanceRouteRef,
-  swfInstancesRouteRef,
-  importWorkflowRouteRef,
-  createWorkflowRouteRef,
-} from './routes';
+export { CreateSWFPage } from './CreateSWFPage';
