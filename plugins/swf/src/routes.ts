@@ -13,7 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { createRouteRef, createSubRouteRef } from '@backstage/core-plugin-api';
+import {
+  createExternalRouteRef,
+  createRouteRef,
+  createSubRouteRef,
+} from '@backstage/core-plugin-api';
 
 export const rootRouteRef = createRouteRef({
   id: 'swf',
@@ -50,4 +54,16 @@ export const createWorkflowRouteRef = createSubRouteRef({
   id: 'swf/workflows/create',
   parent: rootRouteRef,
   path: '/workflows/create',
+});
+
+export const editWorkflowRouteRef = createSubRouteRef({
+  id: 'swf/workflows/edit',
+  parent: rootRouteRef,
+  path: '/workflows/edit/:swfId',
+});
+
+export const scaffolderTemplateSelectedRouteRef = createExternalRouteRef({
+  id: 'scaffolder-template-selected',
+  optional: true,
+  params: ['namespace', 'templateName'],
 });

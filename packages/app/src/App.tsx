@@ -112,7 +112,7 @@ import { PuppetDbPage } from '@backstage/plugin-puppetdb';
 import { DevToolsPage } from '@backstage/plugin-devtools';
 import { customDevToolsPage } from './components/devtools/CustomDevToolsPage';
 import { CatalogUnprocessedEntitiesPage } from '@backstage/plugin-catalog-unprocessed-entities';
-import { SWFPage } from '@backstage/plugin-swf';
+import { SWFPage, swfPlugin } from '@backstage/plugin-swf';
 
 const app = createApp({
   apis,
@@ -155,6 +155,9 @@ const app = createApp({
     });
     bind(orgPlugin.externalRoutes, {
       catalogIndex: catalogPlugin.routes.catalogIndex,
+    });
+    bind(swfPlugin.externalRoutes, {
+      scaffolderTemplateSelectedLink: scaffolderPlugin.routes.selectedTemplate,
     });
   },
 });

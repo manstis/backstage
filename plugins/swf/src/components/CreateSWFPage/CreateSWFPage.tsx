@@ -35,12 +35,14 @@ import {
   errorApiRef,
   useApi,
   useRouteRef,
+  useRouteRefParams,
 } from '@backstage/core-plugin-api';
 import { useNavigate } from 'react-router-dom';
-import { definitionsRouteRef } from '../../routes';
+import { definitionsRouteRef, editWorkflowRouteRef } from '../../routes';
 import { to_be_entered } from '@backstage/plugin-swf-common';
 
 export const CreateSWFPage = () => {
+  const swfId = useRouteRefParams(editWorkflowRouteRef).swfId;
   const {
     swfFile,
     swfEditor,
@@ -48,7 +50,7 @@ export const CreateSWFPage = () => {
     swfEditorEnvelopeLocator,
     swfEditorApi,
     validate,
-  } = useServerlessWorkflowCombinedEditor(undefined);
+  } = useServerlessWorkflowCombinedEditor(swfId);
 
   const errorApi = useApi(errorApiRef);
   const alertApi = useApi(alertApiRef);

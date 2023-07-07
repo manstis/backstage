@@ -20,7 +20,11 @@ import {
   discoveryApiRef,
 } from '@backstage/core-plugin-api';
 
-import { definitionsRouteRef, rootRouteRef } from './routes';
+import {
+  definitionsRouteRef,
+  rootRouteRef,
+  scaffolderTemplateSelectedRouteRef,
+} from './routes';
 import { swfApiRef, SwfClient } from './api';
 
 export const swfPlugin = createPlugin({
@@ -37,6 +41,9 @@ export const swfPlugin = createPlugin({
   routes: {
     root: rootRouteRef,
     definitions: definitionsRouteRef,
+  },
+  externalRoutes: {
+    scaffolderTemplateSelectedLink: scaffolderTemplateSelectedRouteRef,
   },
 });
 
