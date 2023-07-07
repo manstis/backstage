@@ -24,4 +24,5 @@ export {
   swfInstancesRouteRef,
   importWorkflowRouteRef,
   createWorkflowRouteRef,
+  scaffolderTemplateSelectedRouteRef,
 } from './routes';

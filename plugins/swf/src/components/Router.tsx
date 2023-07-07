@@ -22,6 +22,7 @@ import {
   createWorkflowRouteRef,
   swfInstanceRouteRef,
   swfInstancesRouteRef,
+  editWorkflowRouteRef,
 } from '../routes';
 import { SWFPage } from './SWFPage';
 import { SWFInstancesViewerPage } from './SWFInstancesViewerPage';
@@ -50,6 +51,7 @@ export const Router = () => {
         element={<ImportWorkflowViewerPage />}
       />
       <Route path={createWorkflowRouteRef.path} element={<CreateSWFPage />} />
+      <Route path={editWorkflowRouteRef.path} element={<CreateSWFPage />} />
     </Routes>
   );
 };
