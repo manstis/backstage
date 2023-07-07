@@ -30,6 +30,8 @@ export interface SwfApi {
   getInstance(instanceId: string): Promise<ProcessInstance>;
 
   createWorkflowDefinition(url: string, content: string): Promise<SwfItem>;
+
+  deleteWorkflowDefinition(swfId: string): Promise<any>;
 }
 
 export const swfApiRef = createApiRef<SwfApi>({

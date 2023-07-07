@@ -39,6 +39,7 @@ nb-configuration.xml
 .env
 
 # Developer SWF files
+/src/main/resources/*.svg
 /src/main/resources/*.sw.json
 !/src/main/resources/actions.sw.json
 !/src/main/resources/compensation.sw.json

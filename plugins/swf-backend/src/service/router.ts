@@ -207,6 +207,12 @@ function setupInternalRoutes(
     };
     res.status(201).json(swfItem).send();
   });
+
+  router.delete('/workflows/:swfId', async (req, res) => {
+    const swfId = req.params.swfId;
+    await workflowService.deleteWorkflowDefinitionById(swfId);
+    res.status(201).send();
+  });
 }
 
 // ==================================================
