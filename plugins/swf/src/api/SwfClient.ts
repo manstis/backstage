@@ -85,4 +85,15 @@ export class SwfClient implements SwfApi {
     const data: SwfItem = await res.json();
     return data;
   }
+
+  async deleteWorkflowDefinition(swfId: string): Promise<any> {
+    const baseUrl = await this.discoveryApi.getBaseUrl('swf');
+    const res = await fetch(`${baseUrl}/workflows/${swfId}`, {
+      method: 'DELETE',
+      headers: { 'content-type': 'application/json' },
+    });
+    if (!res.ok) {
+      throw await ResponseError.fromResponse(res);
+    }
+  }
 }

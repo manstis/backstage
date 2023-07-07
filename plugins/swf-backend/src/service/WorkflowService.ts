@@ -38,4 +38,12 @@ export class WorkflowService {
     const response = await fetch(url);
     return response.json();
   }
+
+  async deleteWorkflowDefinitionById(swfId: string): Promise<void> {
+    const definitionsPath = resolvePackagePath(
+      `@backstage/plugin-swf-backend`,
+      `workflow-service/src/main/resources/${swfId}.sw.json`,
+    );
+    return fs.rm(definitionsPath, { force: true });
+  }
 }

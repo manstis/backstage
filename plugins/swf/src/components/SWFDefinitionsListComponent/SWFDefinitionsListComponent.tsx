@@ -24,6 +24,7 @@ import { useApi, useRouteRef } from '@backstage/core-plugin-api';
 import useAsync from 'react-use/lib/useAsync';
 import { swfApiRef } from '../../api';
 import { SwfItem } from '@backstage/plugin-swf-common';
+import DeleteForever from '@material-ui/icons/DeleteForever';
 import Pageview from '@material-ui/icons/Pageview';
 import PlayArrow from '@material-ui/icons/PlayArrow';
 import Subscriptions from '@material-ui/icons/Subscriptions';
@@ -41,6 +42,8 @@ type SwfItemsTableProps = {
 };
 
 export const SwfItemsTable = ({ items }: SwfItemsTableProps) => {
+  const swfApi = useApi(swfApiRef);
+
   const navigate = useNavigate();
   const definitionLink = useRouteRef(definitionsRouteRef);
   const scaffolderLink = useRouteRef(scaffolderTemplateSelectedRouteRef);
@@ -80,6 +83,18 @@ export const SwfItemsTable = ({ items }: SwfItemsTableProps) => {
     navigate(editLink({ swfId: `${rowData.id}` }));
   };
 
+  const doDelete = (rowData: Row) => {
+    // Lazy use of window.confirm vs writing a popup.
+    // eslint-disable-next-line no-alert
+    if (
+      window.confirm(
+        `Please confirm you want to delete '${rowData.id}' permanently.`,
+      )
+    ) {
+      swfApi.deleteWorkflowDefinition(rowData.id);
+    }
+  };
+
   return (
     <Table
       title="Definitions"
@@ -106,6 +121,11 @@ export const SwfItemsTable = ({ items }: SwfItemsTableProps) => {
           icon: () => <Edit />,
           tooltip: 'Edit',
           onClick: (_, rowData) => doEdit(rowData as Row),
+        },
+        {
+          icon: () => <DeleteForever />,
+          tooltip: 'Delete',
+          onClick: (_, rowData) => doDelete(rowData as Row),
         },
       ]}
     />
