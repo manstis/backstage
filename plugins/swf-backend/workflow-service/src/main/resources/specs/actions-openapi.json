@@ -5,64 +5,28 @@
     "description": "Workflow Actions BS API",
     "version": "0.0.1"
   },
-  "servers": [
-    {
-      "url": "http://host.docker.internal:7007/api/swf"
-    }
-  ],
+  "servers": [{ "url": "http://host.docker.internal:7007/api/swf" }],
   "paths": {
-    "/actions/catalog:fetch": {
-      "post": {
-        "operationId": "catalog:fetch",
-        "parameters": [],
-        "requestBody": {
-          "description": "Input parameters for the action in BS",
-          "required": true,
-          "content": {
-            "application/json;charset=utf-8": {
-              "schema": {
-                "$ref": "#/components/schemas/catalogFetch"
-              }
-            }
-          }
-        },
-        "responses": {
-          "default": {
-            "description": "catalog:fetch action response",
-            "content": {
-              "application/json;charset=utf-8": {
-                "schema": {
-                  "type": "object"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/actions/fetch:plain": {
       "post": {
         "operationId": "fetch:plain",
+        "description": "Downloads content and places it in the workspace, or optionally in a subdirectory specified by the `targetPath` input option.",
         "parameters": [],
         "requestBody": {
-          "description": "Input parameters for the action in BS",
+          "description": "Input parameters for the action fetch:plain in BS",
           "required": true,
           "content": {
             "application/json;charset=utf-8": {
-              "schema": {
-                "$ref": "#/components/schemas/fetchPlain"
-              }
+              "schema": { "$ref": "#/components/schemas/fetchplain" }
             }
           }
         },
         "responses": {
           "default": {
-            "description": "fetch:plain action response",
+            "description": "Action fetch:plain response",
             "content": {
               "application/json;charset=utf-8": {
-                "schema": {
-                  "type": "object"
-                }
+                "schema": { "type": "object" }
               }
             }
           }
@@ -72,26 +36,127 @@
     "/actions/fetch:plain:file": {
       "post": {
         "operationId": "fetch:plain:file",
+        "description": "Downloads single file and places it in the workspace.",
         "parameters": [],
         "requestBody": {
-          "description": "Input parameters for the action in BS",
+          "description": "Input parameters for the action fetch:plain:file in BS",
           "required": true,
           "content": {
             "application/json;charset=utf-8": {
-              "schema": {
-                "$ref": "#/components/schemas/fetchPlainFile"
-              }
+              "schema": { "$ref": "#/components/schemas/fetchplainfile" }
             }
           }
         },
         "responses": {
           "default": {
-            "description": "fetch:plain:file action response",
+            "description": "Action fetch:plain:file response",
             "content": {
               "application/json;charset=utf-8": {
-                "schema": {
-                  "type": "object"
-                }
+                "schema": { "type": "object" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/actions/fetch:template": {
+      "post": {
+        "operationId": "fetch:template",
+        "description": "Downloads a skeleton, templates variables into file and directory names and content, and places the result in the workspace, or optionally in a subdirectory specified by the `targetPath` input option.",
+        "parameters": [],
+        "requestBody": {
+          "description": "Input parameters for the action fetch:template in BS",
+          "required": true,
+          "content": {
+            "application/json;charset=utf-8": {
+              "schema": { "$ref": "#/components/schemas/fetchtemplate" }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "Action fetch:template response",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": { "type": "object" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/actions/publish:gerrit": {
+      "post": {
+        "operationId": "publish:gerrit",
+        "description": "Initializes a git repository of the content in the workspace, and publishes it to Gerrit.",
+        "parameters": [],
+        "requestBody": {
+          "description": "Input parameters for the action publish:gerrit in BS",
+          "required": true,
+          "content": {
+            "application/json;charset=utf-8": {
+              "schema": { "$ref": "#/components/schemas/publishgerrit" }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "Action publish:gerrit response",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": { "type": "object" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/actions/publish:gerrit:review": {
+      "post": {
+        "operationId": "publish:gerrit:review",
+        "description": "Creates a new Gerrit review.",
+        "parameters": [],
+        "requestBody": {
+          "description": "Input parameters for the action publish:gerrit:review in BS",
+          "required": true,
+          "content": {
+            "application/json;charset=utf-8": {
+              "schema": { "$ref": "#/components/schemas/publishgerritreview" }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "Action publish:gerrit:review response",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": { "type": "object" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/actions/publish:github": {
+      "post": {
+        "operationId": "publish:github",
+        "description": "Initializes a git repository of contents in workspace and publishes it to GitHub.",
+        "parameters": [],
+        "requestBody": {
+          "description": "Input parameters for the action publish:github in BS",
+          "required": true,
+          "content": {
+            "application/json;charset=utf-8": {
+              "schema": { "$ref": "#/components/schemas/publishgithub" }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "Action publish:github response",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": { "type": "object" }
               }
             }
           }
@@ -103,24 +168,601 @@
         "operationId": "publish:github:pull-request",
         "parameters": [],
         "requestBody": {
-          "description": "Input parameters for the action in BS",
+          "description": "Input parameters for the action publish:github:pull-request in BS",
           "required": true,
           "content": {
             "application/json;charset=utf-8": {
               "schema": {
-                "$ref": "#/components/schemas/publishGithubPullRequest"
+                "$ref": "#/components/schemas/publishgithubpull-request"
               }
             }
           }
         },
         "responses": {
           "default": {
-            "description": "publish:github:pull-request action response",
+            "description": "Action publish:github:pull-request response",
             "content": {
               "application/json;charset=utf-8": {
-                "schema": {
-                  "type": "object"
-                }
+                "schema": { "type": "object" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/actions/publish:gitlab": {
+      "post": {
+        "operationId": "publish:gitlab",
+        "description": "Initializes a git repository of the content in the workspace, and publishes it to GitLab.",
+        "parameters": [],
+        "requestBody": {
+          "description": "Input parameters for the action publish:gitlab in BS",
+          "required": true,
+          "content": {
+            "application/json;charset=utf-8": {
+              "schema": { "$ref": "#/components/schemas/publishgitlab" }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "Action publish:gitlab response",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": { "type": "object" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/actions/publish:gitlab:merge-request": {
+      "post": {
+        "operationId": "publish:gitlab:merge-request",
+        "parameters": [],
+        "requestBody": {
+          "description": "Input parameters for the action publish:gitlab:merge-request in BS",
+          "required": true,
+          "content": {
+            "application/json;charset=utf-8": {
+              "schema": {
+                "$ref": "#/components/schemas/publishgitlabmerge-request"
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "Action publish:gitlab:merge-request response",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": { "type": "object" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/actions/publish:bitbucket": {
+      "post": {
+        "operationId": "publish:bitbucket",
+        "description": "Initializes a git repository of the content in the workspace, and publishes it to Bitbucket.",
+        "parameters": [],
+        "requestBody": {
+          "description": "Input parameters for the action publish:bitbucket in BS",
+          "required": true,
+          "content": {
+            "application/json;charset=utf-8": {
+              "schema": { "$ref": "#/components/schemas/publishbitbucket" }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "Action publish:bitbucket response",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": { "type": "object" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/actions/publish:bitbucketCloud": {
+      "post": {
+        "operationId": "publish:bitbucketCloud",
+        "description": "Initializes a git repository of the content in the workspace, and publishes it to Bitbucket Cloud.",
+        "parameters": [],
+        "requestBody": {
+          "description": "Input parameters for the action publish:bitbucketCloud in BS",
+          "required": true,
+          "content": {
+            "application/json;charset=utf-8": {
+              "schema": { "$ref": "#/components/schemas/publishbitbucketCloud" }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "Action publish:bitbucketCloud response",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": { "type": "object" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/actions/publish:bitbucketServer": {
+      "post": {
+        "operationId": "publish:bitbucketServer",
+        "description": "Initializes a git repository of the content in the workspace, and publishes it to Bitbucket Server.",
+        "parameters": [],
+        "requestBody": {
+          "description": "Input parameters for the action publish:bitbucketServer in BS",
+          "required": true,
+          "content": {
+            "application/json;charset=utf-8": {
+              "schema": {
+                "$ref": "#/components/schemas/publishbitbucketServer"
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "Action publish:bitbucketServer response",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": { "type": "object" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/actions/publish:bitbucketServer:pull-request": {
+      "post": {
+        "operationId": "publish:bitbucketServer:pull-request",
+        "parameters": [],
+        "requestBody": {
+          "description": "Input parameters for the action publish:bitbucketServer:pull-request in BS",
+          "required": true,
+          "content": {
+            "application/json;charset=utf-8": {
+              "schema": {
+                "$ref": "#/components/schemas/publishbitbucketServerpull-request"
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "Action publish:bitbucketServer:pull-request response",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": { "type": "object" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/actions/publish:azure": {
+      "post": {
+        "operationId": "publish:azure",
+        "description": "Initializes a git repository of the content in the workspace, and publishes it to Azure.",
+        "parameters": [],
+        "requestBody": {
+          "description": "Input parameters for the action publish:azure in BS",
+          "required": true,
+          "content": {
+            "application/json;charset=utf-8": {
+              "schema": { "$ref": "#/components/schemas/publishazure" }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "Action publish:azure response",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": { "type": "object" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/actions/debug:log": {
+      "post": {
+        "operationId": "debug:log",
+        "description": "Writes a message into the log or lists all files in the workspace.",
+        "parameters": [],
+        "requestBody": {
+          "description": "Input parameters for the action debug:log in BS",
+          "required": true,
+          "content": {
+            "application/json;charset=utf-8": {
+              "schema": { "$ref": "#/components/schemas/debuglog" }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "Action debug:log response",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": { "type": "object" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/actions/debug:wait": {
+      "post": {
+        "operationId": "debug:wait",
+        "description": "Waits for a certain period of time.",
+        "parameters": [],
+        "requestBody": {
+          "description": "Input parameters for the action debug:wait in BS",
+          "required": true,
+          "content": {
+            "application/json;charset=utf-8": {
+              "schema": { "$ref": "#/components/schemas/debugwait" }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "Action debug:wait response",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": { "type": "object" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/actions/catalog:register": {
+      "post": {
+        "operationId": "catalog:register",
+        "description": "Registers entities from a catalog descriptor file in the workspace into the software catalog.",
+        "parameters": [],
+        "requestBody": {
+          "description": "Input parameters for the action catalog:register in BS",
+          "required": true,
+          "content": {
+            "application/json;charset=utf-8": {
+              "schema": { "$ref": "#/components/schemas/catalogregister" }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "Action catalog:register response",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": { "type": "object" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/actions/catalog:fetch": {
+      "post": {
+        "operationId": "catalog:fetch",
+        "description": "Returns entity or entities from the catalog by entity reference(s)",
+        "parameters": [],
+        "requestBody": {
+          "description": "Input parameters for the action catalog:fetch in BS",
+          "required": true,
+          "content": {
+            "application/json;charset=utf-8": {
+              "schema": { "$ref": "#/components/schemas/catalogfetch" }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "Action catalog:fetch response",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": { "type": "object" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/actions/catalog:write": {
+      "post": {
+        "operationId": "catalog:write",
+        "description": "Writes the catalog-info.yaml for your template",
+        "parameters": [],
+        "requestBody": {
+          "description": "Input parameters for the action catalog:write in BS",
+          "required": true,
+          "content": {
+            "application/json;charset=utf-8": {
+              "schema": { "$ref": "#/components/schemas/catalogwrite" }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "Action catalog:write response",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": { "type": "object" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/actions/fs:delete": {
+      "post": {
+        "operationId": "fs:delete",
+        "description": "Deletes files and directories from the workspace",
+        "parameters": [],
+        "requestBody": {
+          "description": "Input parameters for the action fs:delete in BS",
+          "required": true,
+          "content": {
+            "application/json;charset=utf-8": {
+              "schema": { "$ref": "#/components/schemas/fsdelete" }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "Action fs:delete response",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": { "type": "object" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/actions/fs:rename": {
+      "post": {
+        "operationId": "fs:rename",
+        "description": "Renames files and directories within the workspace",
+        "parameters": [],
+        "requestBody": {
+          "description": "Input parameters for the action fs:rename in BS",
+          "required": true,
+          "content": {
+            "application/json;charset=utf-8": {
+              "schema": { "$ref": "#/components/schemas/fsrename" }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "Action fs:rename response",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": { "type": "object" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/actions/github:actions:dispatch": {
+      "post": {
+        "operationId": "github:actions:dispatch",
+        "description": "Dispatches a GitHub Action workflow for a given branch or tag",
+        "parameters": [],
+        "requestBody": {
+          "description": "Input parameters for the action github:actions:dispatch in BS",
+          "required": true,
+          "content": {
+            "application/json;charset=utf-8": {
+              "schema": { "$ref": "#/components/schemas/githubactionsdispatch" }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "Action github:actions:dispatch response",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": { "type": "object" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/actions/github:webhook": {
+      "post": {
+        "operationId": "github:webhook",
+        "description": "Creates webhook for a repository on GitHub.",
+        "parameters": [],
+        "requestBody": {
+          "description": "Input parameters for the action github:webhook in BS",
+          "required": true,
+          "content": {
+            "application/json;charset=utf-8": {
+              "schema": { "$ref": "#/components/schemas/githubwebhook" }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "Action github:webhook response",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": { "type": "object" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/actions/github:issues:label": {
+      "post": {
+        "operationId": "github:issues:label",
+        "description": "Adds labels to a pull request or issue on GitHub.",
+        "parameters": [],
+        "requestBody": {
+          "description": "Input parameters for the action github:issues:label in BS",
+          "required": true,
+          "content": {
+            "application/json;charset=utf-8": {
+              "schema": { "$ref": "#/components/schemas/githubissueslabel" }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "Action github:issues:label response",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": { "type": "object" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/actions/github:repo:create": {
+      "post": {
+        "operationId": "github:repo:create",
+        "description": "Creates a GitHub repository.",
+        "parameters": [],
+        "requestBody": {
+          "description": "Input parameters for the action github:repo:create in BS",
+          "required": true,
+          "content": {
+            "application/json;charset=utf-8": {
+              "schema": { "$ref": "#/components/schemas/githubrepocreate" }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "Action github:repo:create response",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": { "type": "object" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/actions/github:repo:push": {
+      "post": {
+        "operationId": "github:repo:push",
+        "description": "Initializes a git repository of contents in workspace and publishes it to GitHub.",
+        "parameters": [],
+        "requestBody": {
+          "description": "Input parameters for the action github:repo:push in BS",
+          "required": true,
+          "content": {
+            "application/json;charset=utf-8": {
+              "schema": { "$ref": "#/components/schemas/githubrepopush" }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "Action github:repo:push response",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": { "type": "object" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/actions/github:environment:create": {
+      "post": {
+        "operationId": "github:environment:create",
+        "description": "Creates Deployment Environments",
+        "parameters": [],
+        "requestBody": {
+          "description": "Input parameters for the action github:environment:create in BS",
+          "required": true,
+          "content": {
+            "application/json;charset=utf-8": {
+              "schema": {
+                "$ref": "#/components/schemas/githubenvironmentcreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "Action github:environment:create response",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": { "type": "object" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/actions/github:deployKey:create": {
+      "post": {
+        "operationId": "github:deployKey:create",
+        "description": "Creates and stores Deploy Keys",
+        "parameters": [],
+        "requestBody": {
+          "description": "Input parameters for the action github:deployKey:create in BS",
+          "required": true,
+          "content": {
+            "application/json;charset=utf-8": {
+              "schema": { "$ref": "#/components/schemas/githubdeployKeycreate" }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "Action github:deployKey:create response",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": { "type": "object" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/actions/confluence:transform:markdown": {
+      "post": {
+        "operationId": "confluence:transform:markdown",
+        "parameters": [],
+        "requestBody": {
+          "description": "Input parameters for the action confluence:transform:markdown in BS",
+          "required": true,
+          "content": {
+            "application/json;charset=utf-8": {
+              "schema": {
+                "$ref": "#/components/schemas/confluencetransformmarkdown"
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "Action confluence:transform:markdown response",
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": { "type": "object" }
               }
             }
           }
@@ -130,39 +772,7 @@
   },
   "components": {
     "schemas": {
-      "catalogFetch": {
-        "title": "catalog:fetch",
-        "type": "object",
-        "properties": {
-          "entityRef": {
-            "type": "string",
-            "description": "Entity reference of the entity to get"
-          },
-          "entityRefs": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "description": "Entity references of the entities to get"
-          },
-          "optional": {
-            "type": "boolean",
-            "description": "Allow the entity or entities to optionally exist. Default: false"
-          },
-          "defaultKind": {
-            "type": "string",
-            "description": "The default kind"
-          },
-          "defaultNamespace": {
-            "type": "string",
-            "description": "The default namespace"
-          }
-        },
-        "required": ["entityRef"],
-        "additionalProperties": false
-      },
-      "fetchPlain": {
-        "title": "fetch:plain",
+      "fetchplain": {
         "type": "object",
         "required": ["url"],
         "properties": {
@@ -178,8 +788,7 @@
           }
         }
       },
-      "fetchPlainFile": {
-        "title": "fetch:plain:file",
+      "fetchplainfile": {
         "type": "object",
         "required": ["url", "targetPath"],
         "properties": {
@@ -195,8 +804,7 @@
           }
         }
       },
-      "fetchTemplate": {
-        "title": "fetch:template",
+      "fetchtemplate": {
         "type": "object",
         "required": ["url"],
         "properties": {
@@ -219,17 +827,13 @@
             "title": "[Deprecated] Copy Without Render",
             "description": "An array of glob patterns. Any files or directories which match are copied without being processed as templates.",
             "type": "array",
-            "items": {
-              "type": "string"
-            }
+            "items": { "type": "string" }
           },
           "copyWithoutTemplating": {
             "title": "Copy Without Templating",
             "description": "An array of glob patterns. Contents of matched files or directories are copied without being processed, but paths are subject to rendering.",
             "type": "array",
-            "items": {
-              "type": "string"
-            }
+            "items": { "type": "string" }
           },
           "cookiecutterCompat": {
             "title": "Cookiecutter compatibility mode",
@@ -239,7 +843,7 @@
           "templateFileExtension": {
             "title": "Template File Extension",
             "description": "If set, only files with the given extension will be templated. If set to `true`, the default extension `.njk` is used.",
-            "type": "string"
+            "type": "boolean"
           },
           "replace": {
             "title": "Replace files",
@@ -248,15 +852,11 @@
           }
         }
       },
-      "publishGerrit": {
-        "title": "publish:gerrit",
+      "publishgerrit": {
         "type": "object",
         "required": ["repoUrl"],
         "properties": {
-          "repoUrl": {
-            "title": "Repository Location",
-            "type": "string"
-          },
+          "repoUrl": { "title": "Repository Location", "type": "string" },
           "description": {
             "title": "Repository Description",
             "type": "string"
@@ -288,15 +888,11 @@
           }
         }
       },
-      "publishGerritReview": {
-        "title": "publish:gerrit:review",
+      "publishgerritreview": {
         "type": "object",
         "required": ["repoUrl", "gitCommitMessage"],
         "properties": {
-          "repoUrl": {
-            "title": "Repository Location",
-            "type": "string"
-          },
+          "repoUrl": { "title": "Repository Location", "type": "string" },
           "branch": {
             "title": "Repository branch",
             "type": "string",
@@ -324,9 +920,7 @@
           }
         }
       },
-      "publishGithub": {
-        "title": "publish:github",
-        "description": "Initializes a git repository of contents in workspace and publishes it to GitHub.",
+      "publishgithub": {
         "type": "object",
         "required": ["repoUrl"],
         "properties": {
@@ -339,10 +933,7 @@
             "title": "Repository Description",
             "type": "string"
           },
-          "homepage": {
-            "title": "Repository Homepage",
-            "type": "string"
-          },
+          "homepage": { "title": "Repository Homepage", "type": "string" },
           "access": {
             "title": "Repository Access",
             "description": "Sets an admin collaborator on the repository. Can either be a user reference different from 'owner' in 'repoUrl' or team reference, eg. 'org/team-name'",
@@ -354,24 +945,9 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "apps": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              },
-              "users": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              },
-              "teams": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              }
+              "apps": { "type": "array", "items": { "type": "string" } },
+              "users": { "type": "array", "items": { "type": "string" } },
+              "teams": { "type": "array", "items": { "type": "string" } }
             }
           },
           "requiredApprovingReviewCount": {
@@ -385,24 +961,9 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "apps": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              },
-              "users": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              },
-              "teams": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              }
+              "apps": { "type": "array", "items": { "type": "string" } },
+              "users": { "type": "array", "items": { "type": "string" } },
+              "teams": { "type": "array", "items": { "type": "string" } }
             }
           },
           "requireCodeOwnerReviews": {
@@ -419,9 +980,7 @@
             "title": "Required Status Check Contexts",
             "description": "The list of status checks to require in order to merge into this branch",
             "type": "array",
-            "items": {
-              "type": "string"
-            }
+            "items": { "type": "string" }
           },
           "requireBranchesToBeUpToDate": {
             "title": "Require Branches To Be Up To Date?",
@@ -555,9 +1114,7 @@
           "topics": {
             "title": "Topics",
             "type": "array",
-            "items": {
-              "type": "string"
-            }
+            "items": { "type": "string" }
           },
           "repoVariables": {
             "title": "Repository Variables",
@@ -576,8 +1133,7 @@
           }
         }
       },
-      "publishGithubPullRequest": {
-        "title": "publish:github:pull-request",
+      "publishgithubpull-request": {
         "required": ["repoUrl", "title", "description", "branchName"],
         "type": "object",
         "properties": {
@@ -629,17 +1185,13 @@
           "reviewers": {
             "title": "Pull Request Reviewers",
             "type": "array",
-            "items": {
-              "type": "string"
-            },
+            "items": { "type": "string" },
             "description": "The users that will be added as reviewers to the pull request"
           },
           "teamReviewers": {
             "title": "Pull Request Team Reviewers",
             "type": "array",
-            "items": {
-              "type": "string"
-            },
+            "items": { "type": "string" },
             "description": "The teams that will be added as reviewers to the pull request"
           },
           "commitMessage": {
@@ -649,9 +1201,7 @@
           }
         }
       },
-      "publishGitlab": {
-        "title": "publish:gitlab",
-        "description": "Initializes a git repository of the content in the workspace, and publishes it to GitLab.",
+      "publishgitlab": {
         "type": "object",
         "required": ["repoUrl"],
         "properties": {
@@ -704,14 +1254,11 @@
             "title": "Topic labels",
             "description": "Topic labels to apply on the repository.",
             "type": "array",
-            "items": {
-              "type": "string"
-            }
+            "items": { "type": "string" }
           }
         }
       },
-      "publishGitlabMergeRequest": {
-        "title": "publish:gitlab:merge-request",
+      "publishgitlabmerge-request": {
         "required": ["repoUrl", "branchName"],
         "type": "object",
         "properties": {
@@ -778,16 +1325,11 @@
           }
         }
       },
-      "publishBitbucket": {
-        "title": "publish:bitbucket",
-        "description": "Initializes a git repository of the content in the workspace, and publishes it to Bitbucket.",
+      "publishbitbucket": {
         "type": "object",
         "required": ["repoUrl"],
         "properties": {
-          "repoUrl": {
-            "title": "Repository Location",
-            "type": "string"
-          },
+          "repoUrl": { "title": "Repository Location", "type": "string" },
           "description": {
             "title": "Repository Description",
             "type": "string"
@@ -834,16 +1376,11 @@
           }
         }
       },
-      "publishBitbucketCloud": {
-        "title": "publish:bitbucketCloud",
-        "description": "Initializes a git repository of the content in the workspace, and publishes it to Bitbucket Cloud.",
+      "publishbitbucketCloud": {
         "type": "object",
         "required": ["repoUrl"],
         "properties": {
-          "repoUrl": {
-            "title": "Repository Location",
-            "type": "string"
-          },
+          "repoUrl": { "title": "Repository Location", "type": "string" },
           "description": {
             "title": "Repository Description",
             "type": "string"
@@ -870,16 +1407,11 @@
           }
         }
       },
-      "publishBitbucketServer": {
-        "title": "publish:bitbucketServer",
-        "description": "Initializes a git repository of the content in the workspace, and publishes it to Bitbucket Server.",
+      "publishbitbucketServer": {
         "type": "object",
         "required": ["repoUrl"],
         "properties": {
-          "repoUrl": {
-            "title": "Repository Location",
-            "type": "string"
-          },
+          "repoUrl": { "title": "Repository Location", "type": "string" },
           "description": {
             "title": "Repository Description",
             "type": "string"
@@ -926,16 +1458,43 @@
           }
         }
       },
-      "publishAzure": {
-        "title": "publish:azure",
-        "description": "Initializes a git repository of the content in the workspace, and publishes it to Azure.",
+      "publishbitbucketServerpull-request": {
+        "type": "object",
+        "required": ["repoUrl", "title", "sourceBranch"],
+        "properties": {
+          "repoUrl": { "title": "Repository Location", "type": "string" },
+          "title": {
+            "title": "Pull Request title",
+            "type": "string",
+            "description": "The title for the pull request"
+          },
+          "description": {
+            "title": "Pull Request Description",
+            "type": "string",
+            "description": "The description of the pull request"
+          },
+          "targetBranch": {
+            "title": "Target Branch",
+            "type": "string",
+            "description": "Branch of repository to apply changes to. The default value is 'master'"
+          },
+          "sourceBranch": {
+            "title": "Source Branch",
+            "type": "string",
+            "description": "Branch of repository to copy changes from"
+          },
+          "token": {
+            "title": "Authorization Token",
+            "type": "string",
+            "description": "The token to use for authorization to BitBucket Server"
+          }
+        }
+      },
+      "publishazure": {
         "type": "object",
         "required": ["repoUrl"],
         "properties": {
-          "repoUrl": {
-            "title": "Repository Location",
-            "type": "string"
-          },
+          "repoUrl": { "title": "Repository Location", "type": "string" },
           "description": {
             "title": "Repository Description",
             "type": "string"
@@ -972,26 +1531,18 @@
           }
         }
       },
-      "debugLog": {
-        "title": "debug:log",
-        "description": "Writes a message into the log or lists all files in the workspace.",
-        "example": "steps:\n  - action: debug:log\n    id: write-debug-line\n    name: Write \"Hello Backstage!\" log line\n    input:\n      message: Hello Backstage!\n",
+      "debuglog": {
         "type": "object",
         "properties": {
-          "message": {
-            "title": "Message to output.",
-            "type": "string"
-          },
+          "message": { "title": "Message to output.", "type": "string" },
           "listWorkspace": {
             "title": "List all files in the workspace, if true.",
             "type": "boolean"
           },
-          "extra": {
-            "title": "Extra info"
-          }
+          "extra": { "title": "Extra info" }
         }
       },
-      "debugWait": {
+      "debugwait": {
         "type": "object",
         "properties": {
           "minutes": {
@@ -1008,7 +1559,7 @@
           }
         }
       },
-      "catalogRegister": {
+      "catalogregister": {
         "oneOf": [
           {
             "type": "object",
@@ -1025,31 +1576,37 @@
                 "type": "boolean"
               }
             }
-          },
-          {
-            "type": "object",
-            "required": ["repoContentsUrl"],
-            "properties": {
-              "repoContentsUrl": {
-                "title": "Repository Contents URL",
-                "description": "An absolute URL pointing to the root of a repository directory tree",
-                "type": "string"
-              },
-              "catalogInfoPath": {
-                "title": "Fetch URL",
-                "description": "A relative path from the repo root pointing to the catalog info file, defaults to /catalog-info.yaml",
-                "type": "string"
-              },
-              "optional": {
-                "title": "Optional",
-                "description": "Permit the registered location to optionally exist. Default: false",
-                "type": "boolean"
-              }
-            }
           }
         ]
       },
-      "catalogWrite": {
+      "catalogfetch": {
+        "type": "object",
+        "properties": {
+          "entityRef": {
+            "type": "string",
+            "description": "Entity reference of the entity to get"
+          },
+          "entityRefs": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Entity references of the entities to get"
+          },
+          "optional": {
+            "type": "boolean",
+            "description": "Allow the entity or entities to optionally exist. Default: false"
+          },
+          "defaultKind": {
+            "type": "string",
+            "description": "The default kind"
+          },
+          "defaultNamespace": {
+            "type": "string",
+            "description": "The default namespace"
+          }
+        },
+        "additionalProperties": false
+      },
+      "catalogwrite": {
         "type": "object",
         "properties": {
           "filePath": {
@@ -1065,7 +1622,7 @@
         "required": ["entity"],
         "additionalProperties": false
       },
-      "fsDelete": {
+      "fsdelete": {
         "required": ["files"],
         "type": "object",
         "properties": {
@@ -1073,13 +1630,11 @@
             "title": "Files",
             "description": "A list of files and directories that will be deleted",
             "type": "array",
-            "items": {
-              "type": "string"
-            }
+            "items": { "type": "string" }
           }
         }
       },
-      "fsRename": {
+      "fsrename": {
         "required": ["files"],
         "type": "object",
         "properties": {
@@ -1105,6 +1660,499 @@
                 }
               }
             }
+          }
+        }
+      },
+      "githubactionsdispatch": {
+        "type": "object",
+        "required": ["repoUrl", "workflowId", "branchOrTagName"],
+        "properties": {
+          "repoUrl": {
+            "title": "Repository Location",
+            "description": "Accepts the format 'github.com?repo=reponame&owner=owner' where 'reponame' is the new repository name and 'owner' is an organization or username",
+            "type": "string"
+          },
+          "workflowId": {
+            "title": "Workflow ID",
+            "description": "The GitHub Action Workflow filename",
+            "type": "string"
+          },
+          "branchOrTagName": {
+            "title": "Branch or Tag name",
+            "description": "The git branch or tag name used to dispatch the workflow",
+            "type": "string"
+          },
+          "workflowInputs": {
+            "title": "Workflow Inputs",
+            "description": "Inputs keys and values to send to GitHub Action configured on the workflow file. The maximum number of properties is 10. ",
+            "type": "object"
+          },
+          "token": {
+            "title": "Authentication Token",
+            "type": "string",
+            "description": "The GITHUB_TOKEN to use for authorization to GitHub"
+          }
+        }
+      },
+      "githubwebhook": {
+        "type": "object",
+        "required": ["repoUrl", "webhookUrl"],
+        "properties": {
+          "repoUrl": {
+            "title": "Repository Location",
+            "description": "Accepts the format 'github.com?repo=reponame&owner=owner' where 'reponame' is the new repository name and 'owner' is an organization or username",
+            "type": "string"
+          },
+          "webhookUrl": {
+            "title": "Webhook URL",
+            "description": "The URL to which the payloads will be delivered",
+            "type": "string"
+          },
+          "webhookSecret": {
+            "title": "Webhook Secret",
+            "description": "Webhook secret value. The default can be provided internally in action creation",
+            "type": "string"
+          },
+          "events": {
+            "title": "Triggering Events",
+            "description": "Determines what events the hook is triggered for. Default: push",
+            "type": "string"
+          },
+          "active": {
+            "title": "Active",
+            "type": "boolean",
+            "description": "Determines if notifications are sent when the webhook is triggered. Default: true"
+          },
+          "contentType": {
+            "title": "Content Type",
+            "type": "string",
+            "enum": ["form", "json"],
+            "description": "The media type used to serialize the payloads. The default is 'form'"
+          },
+          "insecureSsl": {
+            "title": "Insecure SSL",
+            "type": "boolean",
+            "description": "Determines whether the SSL certificate of the host for url will be verified when delivering payloads. Default 'false'"
+          },
+          "token": {
+            "title": "Authentication Token",
+            "type": "string",
+            "description": "The GITHUB_TOKEN to use for authorization to GitHub"
+          }
+        }
+      },
+      "githubissueslabel": {
+        "type": "object",
+        "required": ["repoUrl", "number", "labels"],
+        "properties": {
+          "repoUrl": {
+            "title": "Repository Location",
+            "description": "Accepts the format 'github.com?repo=reponame&owner=owner' where 'reponame' is the repository name and 'owner' is an organization or username",
+            "type": "string"
+          },
+          "number": {
+            "title": "Pull Request or issue number",
+            "description": "The pull request or issue number to add labels to",
+            "type": "number"
+          },
+          "labels": {
+            "title": "Labels",
+            "description": "The labels to add to the pull request or issue",
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "token": {
+            "title": "Authentication Token",
+            "type": "string",
+            "description": "The GITHUB_TOKEN to use for authorization to GitHub"
+          }
+        }
+      },
+      "githubrepocreate": {
+        "type": "object",
+        "required": ["repoUrl"],
+        "properties": {
+          "repoUrl": {
+            "title": "Repository Location",
+            "description": "Accepts the format 'github.com?repo=reponame&owner=owner' where 'reponame' is the new repository name and 'owner' is an organization or username",
+            "type": "string"
+          },
+          "description": {
+            "title": "Repository Description",
+            "type": "string"
+          },
+          "homepage": { "title": "Repository Homepage", "type": "string" },
+          "access": {
+            "title": "Repository Access",
+            "description": "Sets an admin collaborator on the repository. Can either be a user reference different from 'owner' in 'repoUrl' or team reference, eg. 'org/team-name'",
+            "type": "string"
+          },
+          "requireCodeOwnerReviews": {
+            "title": "Require CODEOWNER Reviews?",
+            "description": "Require an approved review in PR including files with a designated Code Owner",
+            "type": "boolean"
+          },
+          "bypassPullRequestAllowances": {
+            "title": "Bypass pull request requirements",
+            "description": "Allow specific users, teams, or apps to bypass pull request requirements.",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "apps": { "type": "array", "items": { "type": "string" } },
+              "users": { "type": "array", "items": { "type": "string" } },
+              "teams": { "type": "array", "items": { "type": "string" } }
+            }
+          },
+          "requiredApprovingReviewCount": {
+            "title": "Required approving review count",
+            "type": "number",
+            "description": "Specify the number of reviewers required to approve pull requests. Use a number between 1 and 6 or 0 to not require reviewers. Defaults to 1."
+          },
+          "restrictions": {
+            "title": "Restrict who can push to the protected branch",
+            "description": "Restrict who can push to the protected branch. User, app, and team restrictions are only available for organization-owned repositories.",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "apps": { "type": "array", "items": { "type": "string" } },
+              "users": { "type": "array", "items": { "type": "string" } },
+              "teams": { "type": "array", "items": { "type": "string" } }
+            }
+          },
+          "requiredStatusCheckContexts": {
+            "title": "Required Status Check Contexts",
+            "description": "The list of status checks to require in order to merge into this branch",
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "requireBranchesToBeUpToDate": {
+            "title": "Require Branches To Be Up To Date?",
+            "description": "Require branches to be up to date before merging. The default value is 'true'",
+            "type": "boolean"
+          },
+          "requiredConversationResolution": {
+            "title": "Required Conversation Resolution",
+            "description": "Requires all conversations on code to be resolved before a pull request can be merged into this branch",
+            "type": "boolean"
+          },
+          "repoVisibility": {
+            "title": "Repository Visibility",
+            "type": "string",
+            "enum": ["private", "public", "internal"]
+          },
+          "deleteBranchOnMerge": {
+            "title": "Delete Branch On Merge",
+            "type": "boolean",
+            "description": "Delete the branch after merging the PR. The default value is 'false'"
+          },
+          "allowMergeCommit": {
+            "title": "Allow Merge Commits",
+            "type": "boolean",
+            "description": "Allow merge commits. The default value is 'true'"
+          },
+          "allowSquashMerge": {
+            "title": "Allow Squash Merges",
+            "type": "boolean",
+            "description": "Allow squash merges. The default value is 'true'"
+          },
+          "squashMergeCommitTitle": {
+            "title": "Default squash merge commit title",
+            "enum": ["PR_TITLE", "COMMIT_OR_PR_TITLE"],
+            "description": "Sets the default value for a squash merge commit title. The default value is 'COMMIT_OR_PR_TITLE'"
+          },
+          "squashMergeCommitMessage": {
+            "title": "Default squash merge commit message",
+            "enum": ["PR_BODY", "COMMIT_MESSAGES", "BLANK"],
+            "description": "Sets the default value for a squash merge commit message. The default value is 'COMMIT_MESSAGES'"
+          },
+          "allowRebaseMerge": {
+            "title": "Allow Rebase Merges",
+            "type": "boolean",
+            "description": "Allow rebase merges. The default value is 'true'"
+          },
+          "allowAutoMerge": {
+            "title": "Allow Auto Merges",
+            "type": "boolean",
+            "description": "Allow individual PRs to merge automatically when all merge requirements are met. The default value is 'false'"
+          },
+          "collaborators": {
+            "title": "Collaborators",
+            "description": "Provide additional users or teams with permissions",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["access"],
+              "properties": {
+                "access": {
+                  "type": "string",
+                  "description": "The type of access for the user"
+                },
+                "user": {
+                  "type": "string",
+                  "description": "The name of the user that will be added as a collaborator"
+                },
+                "team": {
+                  "type": "string",
+                  "description": "The name of the team that will be added as a collaborator"
+                }
+              }
+            }
+          },
+          "hasProjects": {
+            "title": "Enable projects",
+            "type": "boolean",
+            "description": "Enable projects for the repository. The default value is 'true' unless the organization has disabled repository projects"
+          },
+          "hasWiki": {
+            "title": "Enable the wiki",
+            "type": "boolean",
+            "description": "Enable the wiki for the repository. The default value is 'true'"
+          },
+          "hasIssues": {
+            "title": "Enable issues",
+            "type": "boolean",
+            "description": "Enable issues for the repository. The default value is 'true'"
+          },
+          "token": {
+            "title": "Authentication Token",
+            "type": "string",
+            "description": "The token to use for authorization to GitHub"
+          },
+          "topics": {
+            "title": "Topics",
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "repoVariables": {
+            "title": "Repository Variables",
+            "description": "Variables attached to the repository",
+            "type": "object"
+          },
+          "secrets": {
+            "title": "Repository Secrets",
+            "description": "Secrets attached to the repository",
+            "type": "object"
+          },
+          "requiredCommitSigning": {
+            "title": "Require commit signing",
+            "type": "boolean",
+            "description": "Require commit signing so that you must sign commits on this branch."
+          }
+        }
+      },
+      "githubrepopush": {
+        "type": "object",
+        "required": ["repoUrl"],
+        "properties": {
+          "repoUrl": {
+            "title": "Repository Location",
+            "description": "Accepts the format 'github.com?repo=reponame&owner=owner' where 'reponame' is the new repository name and 'owner' is an organization or username",
+            "type": "string"
+          },
+          "requireCodeOwnerReviews": {
+            "title": "Require CODEOWNER Reviews?",
+            "description": "Require an approved review in PR including files with a designated Code Owner",
+            "type": "boolean"
+          },
+          "dismissStaleReviews": {
+            "title": "Dismiss Stale Reviews",
+            "description": "New reviewable commits pushed to a matching branch will dismiss pull request review approvals.",
+            "type": "boolean"
+          },
+          "requiredStatusCheckContexts": {
+            "title": "Required Status Check Contexts",
+            "description": "The list of status checks to require in order to merge into this branch",
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "bypassPullRequestAllowances": {
+            "title": "Bypass pull request requirements",
+            "description": "Allow specific users, teams, or apps to bypass pull request requirements.",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "apps": { "type": "array", "items": { "type": "string" } },
+              "users": { "type": "array", "items": { "type": "string" } },
+              "teams": { "type": "array", "items": { "type": "string" } }
+            }
+          },
+          "requiredApprovingReviewCount": {
+            "title": "Required approving review count",
+            "type": "number",
+            "description": "Specify the number of reviewers required to approve pull requests. Use a number between 1 and 6 or 0 to not require reviewers. Defaults to 1."
+          },
+          "restrictions": {
+            "title": "Restrict who can push to the protected branch",
+            "description": "Restrict who can push to the protected branch. User, app, and team restrictions are only available for organization-owned repositories.",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "apps": { "type": "array", "items": { "type": "string" } },
+              "users": { "type": "array", "items": { "type": "string" } },
+              "teams": { "type": "array", "items": { "type": "string" } }
+            }
+          },
+          "requireBranchesToBeUpToDate": {
+            "title": "Require Branches To Be Up To Date?",
+            "description": "Require branches to be up to date before merging. The default value is 'true'",
+            "type": "boolean"
+          },
+          "requiredConversationResolution": {
+            "title": "Required Conversation Resolution",
+            "description": "Requires all conversations on code to be resolved before a pull request can be merged into this branch",
+            "type": "boolean"
+          },
+          "defaultBranch": {
+            "title": "Default Branch",
+            "type": "string",
+            "description": "Sets the default branch on the repository. The default value is 'master'"
+          },
+          "protectDefaultBranch": {
+            "title": "Protect Default Branch",
+            "type": "boolean",
+            "description": "Protect the default branch after creating the repository. The default value is 'true'"
+          },
+          "protectEnforceAdmins": {
+            "title": "Enforce Admins On Protected Branches",
+            "type": "boolean",
+            "description": "Enforce admins to adhere to default branch protection. The default value is 'true'"
+          },
+          "gitCommitMessage": {
+            "title": "Git Commit Message",
+            "type": "string",
+            "description": "Sets the commit message on the repository. The default value is 'initial commit'"
+          },
+          "gitAuthorName": {
+            "title": "Default Author Name",
+            "type": "string",
+            "description": "Sets the default author name for the commit. The default value is 'Scaffolder'"
+          },
+          "gitAuthorEmail": {
+            "title": "Default Author Email",
+            "type": "string",
+            "description": "Sets the default author email for the commit."
+          },
+          "sourcePath": {
+            "title": "Source Path",
+            "description": "Path within the workspace that will be used as the repository root. If omitted, the entire workspace will be published as the repository.",
+            "type": "string"
+          },
+          "token": {
+            "title": "Authentication Token",
+            "type": "string",
+            "description": "The token to use for authorization to GitHub"
+          },
+          "requiredCommitSigning": {
+            "title": "Require commit signing",
+            "type": "boolean",
+            "description": "Require commit signing so that you must sign commits on this branch."
+          }
+        }
+      },
+      "githubenvironmentcreate": {
+        "type": "object",
+        "required": ["repoUrl", "name"],
+        "properties": {
+          "repoUrl": {
+            "title": "Repository Location",
+            "description": "Accepts the format 'github.com?repo=reponame&owner=owner' where 'reponame' is the new repository name and 'owner' is an organization or username",
+            "type": "string"
+          },
+          "name": {
+            "title": "Environment Name",
+            "description": "Name of the deployment environment to create",
+            "type": "string"
+          },
+          "deploymentBranchPolicy": {
+            "title": "Deployment Branch Policy",
+            "description": "The type of deployment branch policy for this environment. To allow all branches to deploy, set to null.",
+            "type": "object",
+            "required": ["protected_branches", "custom_branch_policies"],
+            "properties": {
+              "protected_branches": {
+                "title": "Protected Branches",
+                "description": "Whether only branches with branch protection rules can deploy to this environment. If protected_branches is true, custom_branch_policies must be false; if protected_branches is false, custom_branch_policies must be true.",
+                "type": "boolean"
+              },
+              "custom_branch_policies": {
+                "title": "Custom Branch Policies",
+                "description": "Whether only branches that match the specified name patterns can deploy to this environment. If custom_branch_policies is true, protected_branches must be false; if custom_branch_policies is false, protected_branches must be true.",
+                "type": "boolean"
+              }
+            }
+          },
+          "customBranchPolicyNames": {
+            "title": "Custom Branch Policy Name",
+            "description": "The name pattern that branches must match in order to deploy to the environment.\n\n            Wildcard characters will not match /. For example, to match branches that begin with release/ and contain an additional single slash, use release/*/*. For more information about pattern matching syntax, see the Ruby File.fnmatch documentation.",
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "environmentVariables": {
+            "title": "Environment Variables",
+            "description": "Environment variables attached to the deployment environment",
+            "type": "object"
+          },
+          "secrets": {
+            "title": "Deployment Secrets",
+            "description": "Secrets attached to the deployment environment",
+            "type": "object"
+          },
+          "token": {
+            "title": "Authentication Token",
+            "type": "string",
+            "description": "The token to use for authorization to GitHub"
+          }
+        }
+      },
+      "githubdeployKeycreate": {
+        "type": "object",
+        "required": ["repoUrl", "publicKey", "privateKey", "deployKeyName"],
+        "properties": {
+          "repoUrl": {
+            "title": "Repository Location",
+            "description": "Accepts the format 'github.com?repo=reponame&owner=owner' where 'reponame' is the new repository name and 'owner' is an organization or username",
+            "type": "string"
+          },
+          "publicKey": {
+            "title": "SSH Public Key",
+            "description": "Generated from ssh-keygen.  Begins with 'ssh-rsa', 'ecdsa-sha2-nistp256', 'ecdsa-sha2-nistp384', 'ecdsa-sha2-nistp521', 'ssh-ed25519', 'sk-ecdsa-sha2-nistp256@openssh.com', or 'sk-ssh-ed25519@openssh.com'.",
+            "type": "string"
+          },
+          "privateKey": {
+            "title": "SSH Private Key",
+            "description": "SSH Private Key generated from ssh-keygen",
+            "type": "string"
+          },
+          "deployKeyName": {
+            "title": "Deploy Key Name",
+            "description": "Name of the Deploy Key",
+            "type": "string"
+          },
+          "privateKeySecretName": {
+            "title": "Private Key GitHub Secret Name",
+            "description": "Name of the GitHub Secret to store the private key related to the Deploy Key.  Defaults to: 'KEY_NAME_PRIVATE_KEY' where 'KEY_NAME' is the name of the Deploy Key",
+            "type": "string"
+          },
+          "token": {
+            "title": "Authentication Token",
+            "type": "string",
+            "description": "The token to use for authorization to GitHub"
+          }
+        }
+      },
+      "confluencetransformmarkdown": {
+        "properties": {
+          "confluenceUrls": {
+            "type": "array",
+            "title": "Confluence URL",
+            "description": "Paste your Confluence url. Ensure it follows this format: https://{confluence+base+url}/display/{spacekey}/{page+title} or https://{confluence+base+url}/spaces/{spacekey}/pages/1234567/{page+title} for Confluence Cloud",
+            "items": { "type": "string", "default": "Confluence URL" }
+          },
+          "repoUrl": {
+            "type": "string",
+            "title": "GitHub Repo Url",
+            "description": "mkdocs.yml file location inside the github repo you want to store the document"
           }
         }
       }
