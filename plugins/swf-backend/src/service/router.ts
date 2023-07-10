@@ -32,6 +32,7 @@ import YAML from 'yaml';
 import { resolve } from 'path';
 import { exec } from 'child_process';
 import { WorkflowService } from './WorkflowService';
+import { OpenApiService } from './OpenApiService';
 
 export interface RouterOptions {
   eventBroker: EventBroker;
@@ -70,10 +71,19 @@ export async function createRouter(
     config.getOptionalString('swf.workflow-service.container') ??
     'quay.io/kiegroup/kogito-swf-devmode:1.40';
 
-  const workflowService = new WorkflowService();
+  const openApiService = new OpenApiService(logger, discovery);
 
-  setupInternalRoutes(router, kogitoBaseUrl, kogitoPort, workflowService);
+  const workflowService = new WorkflowService(openApiService);
+
+  setupInternalRoutes(
+    router,
+    kogitoBaseUrl,
+    kogitoPort,
+    workflowService,
+    openApiService,
+  );
   setupExternalRoutes(router, discovery);
+
   await setupKogitoService(
     kogitoBaseUrl,
     kogitoPort,
@@ -99,6 +109,7 @@ function setupInternalRoutes(
   kogitoBaseUrl: string,
   kogitoPort: number,
   workflowService: WorkflowService,
+  openApiService: OpenApiService,
 ) {
   router.get('/items', async (_, res) => {
     const serviceRes = await fetch(`${kogitoBaseUrl}:${kogitoPort}/q/openapi`);
@@ -187,31 +198,39 @@ function setupInternalRoutes(
     res.status(200).json(processInstance);
   });
 
+  router.delete('/workflows/:swfId', async (req, res) => {
+    const swfId = req.params.swfId;
+    await workflowService.deleteWorkflowDefinitionById(swfId);
+    res.status(201).send();
+  });
+
   router.post('/workflows', async (req, res) => {
     const url = req.query.url;
     const swfData = req.body;
-    let createdWorkflow;
-    if (url && typeof url === 'string' && url.includes(`http`)) {
-      createdWorkflow = await workflowService.saveWorkflowDefinitionFromUrl(
-        url,
-      );
+
+    if (url && url.includes(`http`)) {
+      await workflowService.saveWorkflowDefinitionFromUrl(url);
     } else {
-      createdWorkflow = await workflowService.saveWorkflowDefinition(swfData);
+      await workflowService.saveWorkflowDefinition(swfData);
     }
 
     const swfItem: SwfItem = {
-      id: createdWorkflow.id,
-      definition: JSON.stringify(createdWorkflow),
+      id: swfData.id,
+      definition: JSON.stringify(swfData),
       name: ``,
       description: ``,
     };
     res.status(201).json(swfItem).send();
   });
 
-  router.delete('/workflows/:swfId', async (req, res) => {
-    const swfId = req.params.swfId;
-    await workflowService.deleteWorkflowDefinitionById(swfId);
-    res.status(201).send();
+  router.get('/actions/schema', async (_, res) => {
+    const openApi = await openApiService.generateOpenApi();
+    res.json(openApi).status(200).send();
+  });
+
+  router.put('/actions/schema', async (_, res) => {
+    const openApi = await workflowService.saveOpenApi();
+    res.json(openApi).status(200).send();
   });
 }
 
@@ -251,7 +270,7 @@ async function setupKogitoService(
   logger: Logger,
 ) {
   const kogitoResourcesAbsPath = resolve(`${kogitoResourcesPath}`);
-  const launcher = `docker run --add-host host.docker.internal:host-gateway --rm -p ${kogitoPort}:8080 -v ${kogitoResourcesAbsPath}:/home/kogito/serverless-workflow-project/src/main/resources ${kogitoServiceContainer}`;
+  const launcher = `docker run --add-host host.docker.internal:host-gateway --rm -p ${kogitoPort}:8080 -v ${kogitoResourcesAbsPath}:/home/kogito/serverless-workflow-project/src/main/resources ${kogitoServiceContainer} -e KOGITO.CODEGEN.PROCESS.FAILONERROR=false`;
   exec(
     launcher,
     (error: ExecException | null, stdout: string, stderr: string) => {
