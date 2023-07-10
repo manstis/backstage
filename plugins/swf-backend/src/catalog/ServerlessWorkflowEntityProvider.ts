@@ -38,26 +38,37 @@ export class ServerlessWorkflowEntityProvider
 {
   private readonly reader: UrlReader;
   private readonly kogitoServiceUrl: string;
-  private readonly logger: Logger;
-  private readonly env: string;
+
   private connection: EntityProviderConnection | undefined;
-  private scheduler: PluginTaskScheduler;
+  private readonly scheduler: PluginTaskScheduler;
+  private readonly logger: Logger;
+  private readonly owner: string;
+  private readonly env: string;
 
   constructor(opts: {
     reader: UrlReader;
     kogitoServiceUrl: string;
     eventBroker: EventBroker;
-    logger: Logger;
-    env: string;
     scheduler: PluginTaskScheduler;
+    logger: Logger;
+    owner: string;
+    env: string;
   }) {
-    const { reader, kogitoServiceUrl, eventBroker, logger, env, scheduler } =
-      opts;
+    const {
+      reader,
+      kogitoServiceUrl,
+      eventBroker,
+      scheduler,
+      owner,
+      logger,
+      env,
+    } = opts;
     this.reader = reader;
     this.kogitoServiceUrl = kogitoServiceUrl;
+    this.scheduler = scheduler;
+    this.owner = owner;
     this.logger = logger;
     this.env = env;
-    this.scheduler = scheduler;
     eventBroker.subscribe(this);
   }
 
@@ -182,7 +193,7 @@ export class ServerlessWorkflowEntityProvider
           },
         },
         spec: {
-          owner: 'swf@example.com',
+          owner: this.owner,
           type: 'serverless-workflow',
           steps: [],
           parameters: this.makeBackstageTemplateParameters(

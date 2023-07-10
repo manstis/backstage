@@ -28,11 +28,12 @@ export const ProcessGraphViewer = (props: ProcessGraphViewerProps) => {
   const { swfId } = props;
 
   const { swfFile, swfEditorRef, swfEditorEnvelopeLocator } =
-    useServerlessWorkflowDiagramEditor(swfId, 'serverless-workflow');
+    useServerlessWorkflowDiagramEditor(swfId);
 
   return (
     <InfoCard title="Status">
       <div style={{ height: '500px', padding: '10px' }}>
+        {swfFile === undefined && <p>No instance selected</p>}
         {swfFile && (
           <EmbeddedEditor
             ref={swfEditorRef}

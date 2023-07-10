@@ -83,6 +83,7 @@ export const ProcessDetailsViewer = (props: ProcessDetailsViewerProps) => {
 
   return (
     <InfoCard title="Details">
+      {selectedInstance === undefined && <p>No instance selected</p>}
       {selectedInstance && (
         <div>
           <Typography variant="caption" style={{ fontWeight: 'bold' }}>

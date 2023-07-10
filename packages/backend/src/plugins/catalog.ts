@@ -36,13 +36,28 @@ export default async function createPlugin(
   builder.addEntityProvider(demoProvider);
 
   // SWF Entity Provider
+  const config = env.config;
+  const logger = env.logger;
+  const kogitoBaseUrl =
+    config.getOptionalString('swf.baseUrl') ?? 'http://localhost';
+  const kogitoPort = config.getOptionalNumber('swf.port') ?? 8899;
+  logger.info(
+    `Using kogito Serverless Workflow Url of: ${kogitoBaseUrl}:${kogitoPort}`,
+  );
+  const owner =
+    config.getOptionalString('swf.workflow-service.owner') ?? 'infrastructure';
+  const environment =
+    config.getOptionalString('swf.workflow-service.environment') ??
+    'development';
+
   const swfProvider = new ServerlessWorkflowEntityProvider({
     reader: env.reader,
-    kogitoServiceUrl: 'http://localhost:8899',
+    kogitoServiceUrl: `${kogitoBaseUrl}:${kogitoPort}`,
     eventBroker: env.eventBroker,
-    logger: env.logger,
-    env: 'development',
     scheduler: env.scheduler,
+    logger: env.logger,
+    owner: owner,
+    env: environment,
   });
   builder.addEntityProvider(swfProvider);
 

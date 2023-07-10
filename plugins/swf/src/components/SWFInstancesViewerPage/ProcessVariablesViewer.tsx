@@ -27,6 +27,7 @@ export const ProcessVariablesViewer = (props: ProcessVariablesViewerProps) => {
 
   return (
     <InfoCard title="Variables">
+      {variables === undefined && <p>No instance selected</p>}
       <div>{variables && <ReactJson src={variables} name={false} />}</div>
     </InfoCard>
   );
