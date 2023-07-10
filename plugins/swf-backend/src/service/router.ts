@@ -68,7 +68,7 @@ export async function createRouter(
     '../../plugins/swf-backend/workflow-service/src/main/resources:/home/kogito/serverless-workflow-project/src/main/resources';
   const kogitoServiceContainer =
     config.getOptionalString('swf.workflow-service.container') ??
-    'quay.io/kiegroup/kogito-swf-devmode:latest';
+    'quay.io/kiegroup/kogito-swf-devmode:1.40';
 
   const workflowService = new WorkflowService();
 
@@ -101,7 +101,9 @@ function setupInternalRoutes(
   workflowService: WorkflowService,
 ) {
   router.get('/items', async (_, res) => {
-    const serviceRes = await fetch(`${kogitoBaseUrl}:${kogitoPort}/q/openapi`);
+    const serviceRes = await executeWithRetry(() =>
+      fetch(`${kogitoBaseUrl}:${kogitoPort}/q/openapi`),
+    );
     const data = YAML.parse((await serviceRes.buffer()).toString());
     const items: SwfItem[] = data.tags?.map((swf: SwfItem) => {
       const swfItem: SwfItem = {
@@ -126,22 +128,11 @@ function setupInternalRoutes(
       params: { swfId },
     } = req;
 
-    let wsRequest;
-    let errorCount = 0;
-    // execute with retry
-    while (errorCount < 10) {
-      wsRequest = await fetch(
+    const wsRequest = await executeWithRetry(() =>
+      fetch(
         `${kogitoBaseUrl}:${kogitoPort}/management/processes/${swfId}/source`,
-      );
-      if (wsRequest.status >= 400) {
-        errorCount++;
-        // backoff
-        this.delay(5000);
-      } else {
-        break;
-      }
-    }
-
+      ),
+    );
     const wsResponse = await wsRequest.json();
     const name = wsResponse.name;
     const description = wsResponse.description;
@@ -161,7 +152,7 @@ function setupInternalRoutes(
       params: { swfId },
     } = req;
     const swfData = req.body;
-    const swfRequest = await fetch(`${kogitoBaseUrl}:${kogitoPort}/${swfId}`, {
+    const swfRequest = fetch(`${kogitoBaseUrl}:${kogitoPort}/${swfId}`, {
       method: 'POST',
       body: JSON.stringify(swfData),
       headers: { 'content-type': 'application/json' },
@@ -173,11 +164,13 @@ function setupInternalRoutes(
   router.get('/instances', async (_, res) => {
     const graphQlQuery =
       '{ ProcessInstances (where: {processId: {isNull: false} } ) { id, processName, processId, state, start, lastUpdate, end, nodes { id }, variables, parentProcessInstance {id, processName, businessKey} } }';
-    const serviceRes = await fetch(`${kogitoBaseUrl}:${kogitoPort}/graphql`, {
-      method: 'POST',
-      body: JSON.stringify({ query: graphQlQuery }),
-      headers: { 'content-type': 'application/json' },
-    });
+    const serviceRes = await executeWithRetry(() =>
+      fetch(`${kogitoBaseUrl}:${kogitoPort}/graphql`, {
+        method: 'POST',
+        body: JSON.stringify({ query: graphQlQuery }),
+        headers: { 'content-type': 'application/json' },
+      }),
+    );
     const response = await serviceRes.json();
     const processInstances: ProcessInstance[] = response.data
       .ProcessInstances as ProcessInstance[];
@@ -189,11 +182,13 @@ function setupInternalRoutes(
       params: { instanceId },
     } = req;
     const graphQlQuery = `{ ProcessInstances (where: { id: {equal: "${instanceId}" } } ) { id, processName, processId, state, start, lastUpdate, end, nodes { id, nodeId, definitionId, type, name, enter, exit }, variables, parentProcessInstance {id, processName, businessKey}, error { nodeDefinitionId, message} } }`;
-    const serviceRes = await fetch(`${kogitoBaseUrl}:${kogitoPort}/graphql`, {
-      method: 'POST',
-      body: JSON.stringify({ query: graphQlQuery }),
-      headers: { 'content-type': 'application/json' },
-    });
+    const serviceRes = await executeWithRetry(() =>
+      fetch(`${kogitoBaseUrl}:${kogitoPort}/graphql`, {
+        method: 'POST',
+        body: JSON.stringify({ query: graphQlQuery }),
+        headers: { 'content-type': 'application/json' },
+      }),
+    );
     const response = await serviceRes.json();
     const processInstances: ProcessInstance[] = response.data
       .ProcessInstances as ProcessInstance[];
@@ -307,4 +302,25 @@ async function setupKogitoService(
       }
     }
   }
+}
+
+async function executeWithRetry(
+  action: () => Promise<Response>,
+): Promise<Response> {
+  let response: Response;
+  let errorCount = 0;
+  // execute with retry
+  const backoff = 5000;
+  const maxErrors = 10;
+  while (errorCount < maxErrors) {
+    response = await action();
+    if (response.status >= 400) {
+      errorCount++;
+      // backoff
+      await delay(backoff);
+    } else {
+      break;
+    }
+  }
+  return response;
 }
