@@ -15,17 +15,27 @@
  */
 import { resolvePackagePath } from '@backstage/backend-common';
 import fs from 'fs-extra';
+import { OpenApiService } from './OpenApiService';
 
 export class WorkflowService {
+  private openApiService: OpenApiService;
+  private readonly resourcesPath = `workflow-service/src/main/resources/`;
+
+  constructor(openApiService: OpenApiService) {
+    this.openApiService = openApiService;
+  }
+
   async saveWorkflowDefinition(data: any): Promise<any> {
     const swfId = data.id;
     const definitionsPath = resolvePackagePath(
       `@backstage/plugin-swf-backend`,
-      `workflow-service/src/main/resources/${swfId}.sw.json`,
+      `${this.resourcesPath}/${swfId}.sw.json`,
     );
-    return fs
-      .writeFile(definitionsPath, JSON.stringify(data), 'utf8')
-      .then(_ => data);
+    return this.saveFile(definitionsPath, data);
+  }
+
+  private saveFile(path: string, data: any) {
+    return fs.writeFile(path, JSON.stringify(data), 'utf8').then(_ => data);
   }
 
   async saveWorkflowDefinitionFromUrl(url: string): Promise<any> {
@@ -37,6 +47,18 @@ export class WorkflowService {
   async fetchWorkflowDefinitionFromUrl(url: string): Promise<any> {
     const response = await fetch(url);
     return response.json();
+  }
+
+  async saveOpenApi(): Promise<any> {
+    const path = resolvePackagePath(
+      `@backstage/plugin-swf-backend`,
+      `${this.resourcesPath}specs/actions-openapi.json`,
+    );
+    return this.openApiService.generateOpenApi().then(data => {
+      if (data) {
+        this.saveFile(path, data);
+      }
+    });
   }
 
   async deleteWorkflowDefinitionById(swfId: string): Promise<void> {
