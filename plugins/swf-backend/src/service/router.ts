@@ -68,7 +68,7 @@ export async function createRouter(
     '../../plugins/swf-backend/workflow-service/src/main/resources:/home/kogito/serverless-workflow-project/src/main/resources';
   const kogitoServiceContainer =
     config.getOptionalString('swf.workflow-service.container') ??
-    'quay.io/kiegroup/kogito-swf-devmode:1.40';
+    'quay.io/kiegroup/kogito-swf-devmode:latest';
 
   const workflowService = new WorkflowService();
 
@@ -125,9 +125,23 @@ function setupInternalRoutes(
     const {
       params: { swfId },
     } = req;
-    const wsRequest = await fetch(
-      `${kogitoBaseUrl}:${kogitoPort}/management/processes/${swfId}/source`,
-    );
+
+    let wsRequest;
+    let errorCount = 0;
+    // execute with retry
+    while (errorCount < 10) {
+      wsRequest = await fetch(
+        `${kogitoBaseUrl}:${kogitoPort}/management/processes/${swfId}/source`,
+      );
+      if (wsRequest.status >= 400) {
+        errorCount++;
+        // backoff
+        this.delay(5000);
+      } else {
+        break;
+      }
+    }
+
     const wsResponse = await wsRequest.json();
     const name = wsResponse.name;
     const description = wsResponse.description;
