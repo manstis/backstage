@@ -15,6 +15,7 @@
  */
 export { swfPlugin, SWFPage, SWFInstancesViewerPage } from './plugin';
 export { SwfClient } from './api/SwfClient';
+export { SWFDialog } from './components/SWFDialog';
 export type { SwfClientOptions } from './api/SwfClient';
 export { swfApiRef } from './api';
 export { useServerlessWorkflowCombinedEditor } from './hooks/useServerlessWorkflowCombinedEditor';

@@ -78,7 +78,6 @@ import {
   PermissionRule,
 } from '@backstage/plugin-permission-node';
 import { scaffolderActionRules, scaffolderTemplateRules } from './rules';
-import { PassThrough } from 'stream';
 import fs from 'fs-extra';
 import fetch from 'node-fetch';
 

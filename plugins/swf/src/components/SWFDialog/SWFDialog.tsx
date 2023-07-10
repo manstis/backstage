@@ -20,16 +20,16 @@ import { EmbeddedEditor } from '@kie-tools-core/editor/dist/embedded';
 import { useServerlessWorkflowDiagramEditor } from '@backstage/plugin-swf';
 
 type SWFDialogProps = {
-  name: string;
+  swfId: string;
   title: string;
   open: boolean;
   close: () => void;
 };
 export const SWFDialog = (props: SWFDialogProps): JSX.Element | null => {
-  const { name, title, open, close } = props;
+  const { swfId, title, open, close } = props;
 
   const { swfFile, swfEditorRef, swfEditorEnvelopeLocator } =
-    useServerlessWorkflowDiagramEditor(name);
+    useServerlessWorkflowDiagramEditor(swfId);
 
   return (
     <Dialog onClose={_ => close()} open={open}>
