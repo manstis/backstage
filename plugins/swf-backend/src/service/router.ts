@@ -23,7 +23,6 @@ import {
   SwfListResult,
 } from '@backstage/plugin-swf-common';
 import { ExecException } from 'child_process';
-import fetch from 'node-fetch';
 import { EventBroker } from '@backstage/plugin-events-node';
 import { topic } from '@backstage/plugin-swf-common';
 import { Config } from '@backstage/config';
@@ -101,11 +100,11 @@ function setupInternalRoutes(
   workflowService: WorkflowService,
 ) {
   router.get('/items', async (_, res) => {
-    const serviceRes = await executeWithRetry(() =>
+    const svcResponse = await executeWithRetry(() =>
       fetch(`${kogitoBaseUrl}:${kogitoPort}/q/openapi`),
     );
-    const data = YAML.parse((await serviceRes.buffer()).toString());
-    const items: SwfItem[] = data.tags?.map((swf: SwfItem) => {
+    const yaml = YAML.parse(await svcResponse.text());
+    const items: SwfItem[] = yaml.tags?.map((swf: SwfItem) => {
       const swfItem: SwfItem = {
         id: swf.name,
         name: swf.name,
@@ -128,19 +127,19 @@ function setupInternalRoutes(
       params: { swfId },
     } = req;
 
-    const wsRequest = await executeWithRetry(() =>
+    const svcResponse = await executeWithRetry(() =>
       fetch(
         `${kogitoBaseUrl}:${kogitoPort}/management/processes/${swfId}/source`,
       ),
     );
-    const wsResponse = await wsRequest.json();
-    const name = wsResponse.name;
-    const description = wsResponse.description;
+    const json = await svcResponse.json();
+    const name = json.name;
+    const description = json.description;
     const swfItem: SwfItem = {
       id: swfId,
       name: name,
       description: description,
-      definition: JSON.stringify(wsResponse, undefined, 2),
+      definition: JSON.stringify(json, undefined, 2),
     };
 
     // When complete return to Backstage
@@ -152,27 +151,29 @@ function setupInternalRoutes(
       params: { swfId },
     } = req;
     const swfData = req.body;
-    const swfRequest = fetch(`${kogitoBaseUrl}:${kogitoPort}/${swfId}`, {
-      method: 'POST',
-      body: JSON.stringify(swfData),
-      headers: { 'content-type': 'application/json' },
-    });
-    const response = await swfRequest.json();
-    res.status(swfRequest.status).json(response);
+    const svcResponse = await executeWithRetry(() =>
+      fetch(`${kogitoBaseUrl}:${kogitoPort}/${swfId}`, {
+        method: 'POST',
+        body: JSON.stringify(swfData),
+        headers: { 'content-type': 'application/json' },
+      }),
+    );
+    const json = await svcResponse.json();
+    res.status(svcResponse.status).json(json);
   });
 
   router.get('/instances', async (_, res) => {
     const graphQlQuery =
       '{ ProcessInstances (where: {processId: {isNull: false} } ) { id, processName, processId, state, start, lastUpdate, end, nodes { id }, variables, parentProcessInstance {id, processName, businessKey} } }';
-    const serviceRes = await executeWithRetry(() =>
+    const svcResponse = await executeWithRetry(() =>
       fetch(`${kogitoBaseUrl}:${kogitoPort}/graphql`, {
         method: 'POST',
         body: JSON.stringify({ query: graphQlQuery }),
         headers: { 'content-type': 'application/json' },
       }),
     );
-    const response = await serviceRes.json();
-    const processInstances: ProcessInstance[] = response.data
+    const json = await svcResponse.json();
+    const processInstances: ProcessInstance[] = json.data
       .ProcessInstances as ProcessInstance[];
     res.status(200).json(processInstances);
   });
@@ -182,15 +183,15 @@ function setupInternalRoutes(
       params: { instanceId },
     } = req;
     const graphQlQuery = `{ ProcessInstances (where: { id: {equal: "${instanceId}" } } ) { id, processName, processId, state, start, lastUpdate, end, nodes { id, nodeId, definitionId, type, name, enter, exit }, variables, parentProcessInstance {id, processName, businessKey}, error { nodeDefinitionId, message} } }`;
-    const serviceRes = await executeWithRetry(() =>
+    const svcResponse = await executeWithRetry(() =>
       fetch(`${kogitoBaseUrl}:${kogitoPort}/graphql`, {
         method: 'POST',
         body: JSON.stringify({ query: graphQlQuery }),
         headers: { 'content-type': 'application/json' },
       }),
     );
-    const response = await serviceRes.json();
-    const processInstances: ProcessInstance[] = response.data
+    const json = await svcResponse.json();
+    const processInstances: ProcessInstance[] = json.data
       .ProcessInstances as ProcessInstance[];
     const processInstance: ProcessInstance = processInstances[0];
     res.status(200).json(processInstance);
@@ -279,28 +280,14 @@ async function setupKogitoService(
   );
 
   // We need to ensure the service is running!
-  let retryCount = 0;
-  let polling = true;
-  while (polling) {
-    try {
-      const healthCheckResponse = await fetch(
-        `${kogitoBaseUrl}:${kogitoPort}/q/health`,
-      );
-      polling = !healthCheckResponse.ok;
-      if (!healthCheckResponse.ok) {
-        // Throw local error to re-use retry mechanism.
-        throw new Error('Retry');
-      }
-    } catch (e) {
-      retryCount++;
-      await delay(5000);
-      if (retryCount > 10) {
-        logger.error(
-          'Kogito failed to start. Serverless Workflow Templates could not be loaded.',
-        );
-        polling = false;
-      }
-    }
+  try {
+    await executeWithRetry(() =>
+      fetch(`${kogitoBaseUrl}:${kogitoPort}/q/health`),
+    );
+  } catch (e) {
+    logger.error(
+      'Kogito failed to start. Serverless Workflow Templates could not be loaded.',
+    );
   }
 }
 
@@ -319,8 +306,8 @@ async function executeWithRetry(
       // backoff
       await delay(backoff);
     } else {
-      break;
+      return response;
     }
   }
-  return response;
+  throw new Error('Unable to execute query.');
 }
