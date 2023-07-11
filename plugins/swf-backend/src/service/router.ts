@@ -215,7 +215,7 @@ function setupInternalRoutes(
   });
 
   router.post('/workflows', async (req, res) => {
-    const url = req.query.url;
+    const url: any = req.query.url;
     const swfData = req.body;
 
     if (url && url.includes(`http`)) {

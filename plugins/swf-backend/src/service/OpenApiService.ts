@@ -48,7 +48,7 @@ export class OpenApiService {
   async generateOpenApi(): Promise<any> {
     const template = await this.openApiTemplate();
     return this.fetchScaffolderActions()
-      .then(async actions => {
+      .then(actions => {
         template.paths = this.mapPaths(actions);
         return actions;
       })
@@ -63,7 +63,7 @@ export class OpenApiService {
   }
 
   private mapPaths(actions: any): any {
-    const paths = {};
+    const paths: any = {};
     for (const action of actions) {
       const actionId: string = action.id;
       const description = action.description;
@@ -104,7 +104,7 @@ export class OpenApiService {
   }
 
   private mapSchemas(actions: any): any {
-    const schemas = {};
+    const schemas: any = {};
 
     for (const action of actions) {
       const actionId: string = action.id;
@@ -116,7 +116,7 @@ export class OpenApiService {
       delete input.$schema;
 
       // dfs to find and handle invalid properties
-      const dfs = function (object: any) {
+      const dfs = (object: any) => {
         if (
           !object ||
           !(Object.prototype.toString.call(object) === '[object Object]')
