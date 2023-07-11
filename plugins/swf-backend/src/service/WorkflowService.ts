@@ -19,7 +19,7 @@ import { OpenApiService } from './OpenApiService';
 
 export class WorkflowService {
   private openApiService: OpenApiService;
-  private readonly resourcesPath = `workflow-service/src/main/resources/`;
+  private readonly resourcesPath = `workflows/`;
 
   constructor(openApiService: OpenApiService) {
     this.openApiService = openApiService;
@@ -64,7 +64,7 @@ export class WorkflowService {
   async deleteWorkflowDefinitionById(swfId: string): Promise<void> {
     const definitionsPath = resolvePackagePath(
       `@backstage/plugin-swf-backend`,
-      `workflow-service/src/main/resources/${swfId}.sw.json`,
+      `${this.resourcesPath}${swfId}.sw.json`,
     );
     return fs.rm(definitionsPath, { force: true });
   }

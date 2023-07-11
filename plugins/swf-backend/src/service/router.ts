@@ -65,7 +65,7 @@ export async function createRouter(
   );
   const kogitoResourcesPath =
     config.getOptionalString('swf.workflow-service.path') ??
-    '../../plugins/swf-backend/workflow-service/src/main/resources:/home/kogito/serverless-workflow-project/src/main/resources';
+    '../../plugins/swf-backend/workflows:/home/kogito/serverless-workflow-project/src/main/resources';
   const kogitoServiceContainer =
     config.getOptionalString('swf.workflow-service.container') ??
     'quay.io/kiegroup/kogito-swf-devmode:1.40';
