@@ -11,13 +11,12 @@
       "post": {
         "operationId": "fetch:plain",
         "description": "Downloads content and places it in the workspace, or optionally in a subdirectory specified by the `targetPath` input option.",
-        "parameters": [],
         "requestBody": {
           "description": "Input parameters for the action fetch:plain in BS",
           "required": true,
           "content": {
-            "application/json;charset=utf-8": {
-              "schema": { "$ref": "#/components/schemas/fetchplain" }
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/fetch_plain" }
             }
           }
         },
@@ -25,9 +24,7 @@
           "default": {
             "description": "Action fetch:plain response",
             "content": {
-              "application/json;charset=utf-8": {
-                "schema": { "type": "object" }
-              }
+              "application/json": { "schema": { "type": "object" } }
             }
           }
         }
@@ -37,13 +34,12 @@
       "post": {
         "operationId": "fetch:plain:file",
         "description": "Downloads single file and places it in the workspace.",
-        "parameters": [],
         "requestBody": {
           "description": "Input parameters for the action fetch:plain:file in BS",
           "required": true,
           "content": {
-            "application/json;charset=utf-8": {
-              "schema": { "$ref": "#/components/schemas/fetchplainfile" }
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/fetch_plain_file" }
             }
           }
         },
@@ -51,9 +47,7 @@
           "default": {
             "description": "Action fetch:plain:file response",
             "content": {
-              "application/json;charset=utf-8": {
-                "schema": { "type": "object" }
-              }
+              "application/json": { "schema": { "type": "object" } }
             }
           }
         }
@@ -63,13 +57,12 @@
       "post": {
         "operationId": "fetch:template",
         "description": "Downloads a skeleton, templates variables into file and directory names and content, and places the result in the workspace, or optionally in a subdirectory specified by the `targetPath` input option.",
-        "parameters": [],
         "requestBody": {
           "description": "Input parameters for the action fetch:template in BS",
           "required": true,
           "content": {
-            "application/json;charset=utf-8": {
-              "schema": { "$ref": "#/components/schemas/fetchtemplate" }
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/fetch_template" }
             }
           }
         },
@@ -77,9 +70,7 @@
           "default": {
             "description": "Action fetch:template response",
             "content": {
-              "application/json;charset=utf-8": {
-                "schema": { "type": "object" }
-              }
+              "application/json": { "schema": { "type": "object" } }
             }
           }
         }
@@ -89,13 +80,12 @@
       "post": {
         "operationId": "publish:gerrit",
         "description": "Initializes a git repository of the content in the workspace, and publishes it to Gerrit.",
-        "parameters": [],
         "requestBody": {
           "description": "Input parameters for the action publish:gerrit in BS",
           "required": true,
           "content": {
-            "application/json;charset=utf-8": {
-              "schema": { "$ref": "#/components/schemas/publishgerrit" }
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/publish_gerrit" }
             }
           }
         },
@@ -103,9 +93,7 @@
           "default": {
             "description": "Action publish:gerrit response",
             "content": {
-              "application/json;charset=utf-8": {
-                "schema": { "type": "object" }
-              }
+              "application/json": { "schema": { "type": "object" } }
             }
           }
         }
@@ -115,13 +103,12 @@
       "post": {
         "operationId": "publish:gerrit:review",
         "description": "Creates a new Gerrit review.",
-        "parameters": [],
         "requestBody": {
           "description": "Input parameters for the action publish:gerrit:review in BS",
           "required": true,
           "content": {
-            "application/json;charset=utf-8": {
-              "schema": { "$ref": "#/components/schemas/publishgerritreview" }
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/publish_gerrit_review" }
             }
           }
         },
@@ -129,9 +116,7 @@
           "default": {
             "description": "Action publish:gerrit:review response",
             "content": {
-              "application/json;charset=utf-8": {
-                "schema": { "type": "object" }
-              }
+              "application/json": { "schema": { "type": "object" } }
             }
           }
         }
@@ -141,13 +126,12 @@
       "post": {
         "operationId": "publish:github",
         "description": "Initializes a git repository of contents in workspace and publishes it to GitHub.",
-        "parameters": [],
         "requestBody": {
           "description": "Input parameters for the action publish:github in BS",
           "required": true,
           "content": {
-            "application/json;charset=utf-8": {
-              "schema": { "$ref": "#/components/schemas/publishgithub" }
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/publish_github" }
             }
           }
         },
@@ -155,9 +139,7 @@
           "default": {
             "description": "Action publish:github response",
             "content": {
-              "application/json;charset=utf-8": {
-                "schema": { "type": "object" }
-              }
+              "application/json": { "schema": { "type": "object" } }
             }
           }
         }
@@ -166,14 +148,13 @@
     "/actions/publish:github:pull-request": {
       "post": {
         "operationId": "publish:github:pull-request",
-        "parameters": [],
         "requestBody": {
           "description": "Input parameters for the action publish:github:pull-request in BS",
           "required": true,
           "content": {
-            "application/json;charset=utf-8": {
+            "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/publishgithubpull-request"
+                "$ref": "#/components/schemas/publish_github_pull-request"
               }
             }
           }
@@ -182,9 +163,7 @@
           "default": {
             "description": "Action publish:github:pull-request response",
             "content": {
-              "application/json;charset=utf-8": {
-                "schema": { "type": "object" }
-              }
+              "application/json": { "schema": { "type": "object" } }
             }
           }
         }
@@ -194,13 +173,12 @@
       "post": {
         "operationId": "publish:gitlab",
         "description": "Initializes a git repository of the content in the workspace, and publishes it to GitLab.",
-        "parameters": [],
         "requestBody": {
           "description": "Input parameters for the action publish:gitlab in BS",
           "required": true,
           "content": {
-            "application/json;charset=utf-8": {
-              "schema": { "$ref": "#/components/schemas/publishgitlab" }
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/publish_gitlab" }
             }
           }
         },
@@ -208,9 +186,7 @@
           "default": {
             "description": "Action publish:gitlab response",
             "content": {
-              "application/json;charset=utf-8": {
-                "schema": { "type": "object" }
-              }
+              "application/json": { "schema": { "type": "object" } }
             }
           }
         }
@@ -219,14 +195,13 @@
     "/actions/publish:gitlab:merge-request": {
       "post": {
         "operationId": "publish:gitlab:merge-request",
-        "parameters": [],
         "requestBody": {
           "description": "Input parameters for the action publish:gitlab:merge-request in BS",
           "required": true,
           "content": {
-            "application/json;charset=utf-8": {
+            "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/publishgitlabmerge-request"
+                "$ref": "#/components/schemas/publish_gitlab_merge-request"
               }
             }
           }
@@ -235,9 +210,7 @@
           "default": {
             "description": "Action publish:gitlab:merge-request response",
             "content": {
-              "application/json;charset=utf-8": {
-                "schema": { "type": "object" }
-              }
+              "application/json": { "schema": { "type": "object" } }
             }
           }
         }
@@ -247,13 +220,12 @@
       "post": {
         "operationId": "publish:bitbucket",
         "description": "Initializes a git repository of the content in the workspace, and publishes it to Bitbucket.",
-        "parameters": [],
         "requestBody": {
           "description": "Input parameters for the action publish:bitbucket in BS",
           "required": true,
           "content": {
-            "application/json;charset=utf-8": {
-              "schema": { "$ref": "#/components/schemas/publishbitbucket" }
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/publish_bitbucket" }
             }
           }
         },
@@ -261,9 +233,7 @@
           "default": {
             "description": "Action publish:bitbucket response",
             "content": {
-              "application/json;charset=utf-8": {
-                "schema": { "type": "object" }
-              }
+              "application/json": { "schema": { "type": "object" } }
             }
           }
         }
@@ -273,13 +243,14 @@
       "post": {
         "operationId": "publish:bitbucketCloud",
         "description": "Initializes a git repository of the content in the workspace, and publishes it to Bitbucket Cloud.",
-        "parameters": [],
         "requestBody": {
           "description": "Input parameters for the action publish:bitbucketCloud in BS",
           "required": true,
           "content": {
-            "application/json;charset=utf-8": {
-              "schema": { "$ref": "#/components/schemas/publishbitbucketCloud" }
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/publish_bitbucketCloud"
+              }
             }
           }
         },
@@ -287,9 +258,7 @@
           "default": {
             "description": "Action publish:bitbucketCloud response",
             "content": {
-              "application/json;charset=utf-8": {
-                "schema": { "type": "object" }
-              }
+              "application/json": { "schema": { "type": "object" } }
             }
           }
         }
@@ -299,14 +268,13 @@
       "post": {
         "operationId": "publish:bitbucketServer",
         "description": "Initializes a git repository of the content in the workspace, and publishes it to Bitbucket Server.",
-        "parameters": [],
         "requestBody": {
           "description": "Input parameters for the action publish:bitbucketServer in BS",
           "required": true,
           "content": {
-            "application/json;charset=utf-8": {
+            "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/publishbitbucketServer"
+                "$ref": "#/components/schemas/publish_bitbucketServer"
               }
             }
           }
@@ -315,9 +283,7 @@
           "default": {
             "description": "Action publish:bitbucketServer response",
             "content": {
-              "application/json;charset=utf-8": {
-                "schema": { "type": "object" }
-              }
+              "application/json": { "schema": { "type": "object" } }
             }
           }
         }
@@ -326,14 +292,13 @@
     "/actions/publish:bitbucketServer:pull-request": {
       "post": {
         "operationId": "publish:bitbucketServer:pull-request",
-        "parameters": [],
         "requestBody": {
           "description": "Input parameters for the action publish:bitbucketServer:pull-request in BS",
           "required": true,
           "content": {
-            "application/json;charset=utf-8": {
+            "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/publishbitbucketServerpull-request"
+                "$ref": "#/components/schemas/publish_bitbucketServer_pull-request"
               }
             }
           }
@@ -342,9 +307,7 @@
           "default": {
             "description": "Action publish:bitbucketServer:pull-request response",
             "content": {
-              "application/json;charset=utf-8": {
-                "schema": { "type": "object" }
-              }
+              "application/json": { "schema": { "type": "object" } }
             }
           }
         }
@@ -354,13 +317,12 @@
       "post": {
         "operationId": "publish:azure",
         "description": "Initializes a git repository of the content in the workspace, and publishes it to Azure.",
-        "parameters": [],
         "requestBody": {
           "description": "Input parameters for the action publish:azure in BS",
           "required": true,
           "content": {
-            "application/json;charset=utf-8": {
-              "schema": { "$ref": "#/components/schemas/publishazure" }
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/publish_azure" }
             }
           }
         },
@@ -368,9 +330,7 @@
           "default": {
             "description": "Action publish:azure response",
             "content": {
-              "application/json;charset=utf-8": {
-                "schema": { "type": "object" }
-              }
+              "application/json": { "schema": { "type": "object" } }
             }
           }
         }
@@ -380,13 +340,12 @@
       "post": {
         "operationId": "debug:log",
         "description": "Writes a message into the log or lists all files in the workspace.",
-        "parameters": [],
         "requestBody": {
           "description": "Input parameters for the action debug:log in BS",
           "required": true,
           "content": {
-            "application/json;charset=utf-8": {
-              "schema": { "$ref": "#/components/schemas/debuglog" }
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/debug_log" }
             }
           }
         },
@@ -394,9 +353,7 @@
           "default": {
             "description": "Action debug:log response",
             "content": {
-              "application/json;charset=utf-8": {
-                "schema": { "type": "object" }
-              }
+              "application/json": { "schema": { "type": "object" } }
             }
           }
         }
@@ -406,13 +363,12 @@
       "post": {
         "operationId": "debug:wait",
         "description": "Waits for a certain period of time.",
-        "parameters": [],
         "requestBody": {
           "description": "Input parameters for the action debug:wait in BS",
           "required": true,
           "content": {
-            "application/json;charset=utf-8": {
-              "schema": { "$ref": "#/components/schemas/debugwait" }
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/debug_wait" }
             }
           }
         },
@@ -420,9 +376,7 @@
           "default": {
             "description": "Action debug:wait response",
             "content": {
-              "application/json;charset=utf-8": {
-                "schema": { "type": "object" }
-              }
+              "application/json": { "schema": { "type": "object" } }
             }
           }
         }
@@ -432,13 +386,12 @@
       "post": {
         "operationId": "catalog:register",
         "description": "Registers entities from a catalog descriptor file in the workspace into the software catalog.",
-        "parameters": [],
         "requestBody": {
           "description": "Input parameters for the action catalog:register in BS",
           "required": true,
           "content": {
-            "application/json;charset=utf-8": {
-              "schema": { "$ref": "#/components/schemas/catalogregister" }
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/catalog_register" }
             }
           }
         },
@@ -446,9 +399,7 @@
           "default": {
             "description": "Action catalog:register response",
             "content": {
-              "application/json;charset=utf-8": {
-                "schema": { "type": "object" }
-              }
+              "application/json": { "schema": { "type": "object" } }
             }
           }
         }
@@ -458,13 +409,12 @@
       "post": {
         "operationId": "catalog:fetch",
         "description": "Returns entity or entities from the catalog by entity reference(s)",
-        "parameters": [],
         "requestBody": {
           "description": "Input parameters for the action catalog:fetch in BS",
           "required": true,
           "content": {
-            "application/json;charset=utf-8": {
-              "schema": { "$ref": "#/components/schemas/catalogfetch" }
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/catalog_fetch" }
             }
           }
         },
@@ -472,9 +422,7 @@
           "default": {
             "description": "Action catalog:fetch response",
             "content": {
-              "application/json;charset=utf-8": {
-                "schema": { "type": "object" }
-              }
+              "application/json": { "schema": { "type": "object" } }
             }
           }
         }
@@ -484,13 +432,12 @@
       "post": {
         "operationId": "catalog:write",
         "description": "Writes the catalog-info.yaml for your template",
-        "parameters": [],
         "requestBody": {
           "description": "Input parameters for the action catalog:write in BS",
           "required": true,
           "content": {
-            "application/json;charset=utf-8": {
-              "schema": { "$ref": "#/components/schemas/catalogwrite" }
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/catalog_write" }
             }
           }
         },
@@ -498,9 +445,7 @@
           "default": {
             "description": "Action catalog:write response",
             "content": {
-              "application/json;charset=utf-8": {
-                "schema": { "type": "object" }
-              }
+              "application/json": { "schema": { "type": "object" } }
             }
           }
         }
@@ -510,13 +455,12 @@
       "post": {
         "operationId": "fs:delete",
         "description": "Deletes files and directories from the workspace",
-        "parameters": [],
         "requestBody": {
           "description": "Input parameters for the action fs:delete in BS",
           "required": true,
           "content": {
-            "application/json;charset=utf-8": {
-              "schema": { "$ref": "#/components/schemas/fsdelete" }
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/fs_delete" }
             }
           }
         },
@@ -524,9 +468,7 @@
           "default": {
             "description": "Action fs:delete response",
             "content": {
-              "application/json;charset=utf-8": {
-                "schema": { "type": "object" }
-              }
+              "application/json": { "schema": { "type": "object" } }
             }
           }
         }
@@ -536,13 +478,12 @@
       "post": {
         "operationId": "fs:rename",
         "description": "Renames files and directories within the workspace",
-        "parameters": [],
         "requestBody": {
           "description": "Input parameters for the action fs:rename in BS",
           "required": true,
           "content": {
-            "application/json;charset=utf-8": {
-              "schema": { "$ref": "#/components/schemas/fsrename" }
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/fs_rename" }
             }
           }
         },
@@ -550,9 +491,7 @@
           "default": {
             "description": "Action fs:rename response",
             "content": {
-              "application/json;charset=utf-8": {
-                "schema": { "type": "object" }
-              }
+              "application/json": { "schema": { "type": "object" } }
             }
           }
         }
@@ -562,13 +501,14 @@
       "post": {
         "operationId": "github:actions:dispatch",
         "description": "Dispatches a GitHub Action workflow for a given branch or tag",
-        "parameters": [],
         "requestBody": {
           "description": "Input parameters for the action github:actions:dispatch in BS",
           "required": true,
           "content": {
-            "application/json;charset=utf-8": {
-              "schema": { "$ref": "#/components/schemas/githubactionsdispatch" }
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/github_actions_dispatch"
+              }
             }
           }
         },
@@ -576,9 +516,7 @@
           "default": {
             "description": "Action github:actions:dispatch response",
             "content": {
-              "application/json;charset=utf-8": {
-                "schema": { "type": "object" }
-              }
+              "application/json": { "schema": { "type": "object" } }
             }
           }
         }
@@ -588,13 +526,12 @@
       "post": {
         "operationId": "github:webhook",
         "description": "Creates webhook for a repository on GitHub.",
-        "parameters": [],
         "requestBody": {
           "description": "Input parameters for the action github:webhook in BS",
           "required": true,
           "content": {
-            "application/json;charset=utf-8": {
-              "schema": { "$ref": "#/components/schemas/githubwebhook" }
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/github_webhook" }
             }
           }
         },
@@ -602,9 +539,7 @@
           "default": {
             "description": "Action github:webhook response",
             "content": {
-              "application/json;charset=utf-8": {
-                "schema": { "type": "object" }
-              }
+              "application/json": { "schema": { "type": "object" } }
             }
           }
         }
@@ -614,13 +549,12 @@
       "post": {
         "operationId": "github:issues:label",
         "description": "Adds labels to a pull request or issue on GitHub.",
-        "parameters": [],
         "requestBody": {
           "description": "Input parameters for the action github:issues:label in BS",
           "required": true,
           "content": {
-            "application/json;charset=utf-8": {
-              "schema": { "$ref": "#/components/schemas/githubissueslabel" }
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/github_issues_label" }
             }
           }
         },
@@ -628,9 +562,7 @@
           "default": {
             "description": "Action github:issues:label response",
             "content": {
-              "application/json;charset=utf-8": {
-                "schema": { "type": "object" }
-              }
+              "application/json": { "schema": { "type": "object" } }
             }
           }
         }
@@ -640,13 +572,12 @@
       "post": {
         "operationId": "github:repo:create",
         "description": "Creates a GitHub repository.",
-        "parameters": [],
         "requestBody": {
           "description": "Input parameters for the action github:repo:create in BS",
           "required": true,
           "content": {
-            "application/json;charset=utf-8": {
-              "schema": { "$ref": "#/components/schemas/githubrepocreate" }
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/github_repo_create" }
             }
           }
         },
@@ -654,9 +585,7 @@
           "default": {
             "description": "Action github:repo:create response",
             "content": {
-              "application/json;charset=utf-8": {
-                "schema": { "type": "object" }
-              }
+              "application/json": { "schema": { "type": "object" } }
             }
           }
         }
@@ -666,13 +595,12 @@
       "post": {
         "operationId": "github:repo:push",
         "description": "Initializes a git repository of contents in workspace and publishes it to GitHub.",
-        "parameters": [],
         "requestBody": {
           "description": "Input parameters for the action github:repo:push in BS",
           "required": true,
           "content": {
-            "application/json;charset=utf-8": {
-              "schema": { "$ref": "#/components/schemas/githubrepopush" }
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/github_repo_push" }
             }
           }
         },
@@ -680,9 +608,7 @@
           "default": {
             "description": "Action github:repo:push response",
             "content": {
-              "application/json;charset=utf-8": {
-                "schema": { "type": "object" }
-              }
+              "application/json": { "schema": { "type": "object" } }
             }
           }
         }
@@ -692,14 +618,13 @@
       "post": {
         "operationId": "github:environment:create",
         "description": "Creates Deployment Environments",
-        "parameters": [],
         "requestBody": {
           "description": "Input parameters for the action github:environment:create in BS",
           "required": true,
           "content": {
-            "application/json;charset=utf-8": {
+            "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/githubenvironmentcreate"
+                "$ref": "#/components/schemas/github_environment_create"
               }
             }
           }
@@ -708,9 +633,7 @@
           "default": {
             "description": "Action github:environment:create response",
             "content": {
-              "application/json;charset=utf-8": {
-                "schema": { "type": "object" }
-              }
+              "application/json": { "schema": { "type": "object" } }
             }
           }
         }
@@ -720,13 +643,14 @@
       "post": {
         "operationId": "github:deployKey:create",
         "description": "Creates and stores Deploy Keys",
-        "parameters": [],
         "requestBody": {
           "description": "Input parameters for the action github:deployKey:create in BS",
           "required": true,
           "content": {
-            "application/json;charset=utf-8": {
-              "schema": { "$ref": "#/components/schemas/githubdeployKeycreate" }
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/github_deployKey_create"
+              }
             }
           }
         },
@@ -734,9 +658,7 @@
           "default": {
             "description": "Action github:deployKey:create response",
             "content": {
-              "application/json;charset=utf-8": {
-                "schema": { "type": "object" }
-              }
+              "application/json": { "schema": { "type": "object" } }
             }
           }
         }
@@ -745,14 +667,13 @@
     "/actions/confluence:transform:markdown": {
       "post": {
         "operationId": "confluence:transform:markdown",
-        "parameters": [],
         "requestBody": {
           "description": "Input parameters for the action confluence:transform:markdown in BS",
           "required": true,
           "content": {
-            "application/json;charset=utf-8": {
+            "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/confluencetransformmarkdown"
+                "$ref": "#/components/schemas/confluence_transform_markdown"
               }
             }
           }
@@ -761,9 +682,7 @@
           "default": {
             "description": "Action confluence:transform:markdown response",
             "content": {
-              "application/json;charset=utf-8": {
-                "schema": { "type": "object" }
-              }
+              "application/json": { "schema": { "type": "object" } }
             }
           }
         }

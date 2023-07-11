@@ -67,19 +67,18 @@ export class OpenApiService {
     for (const action of actions) {
       const actionId: string = action.id;
       const description = action.description;
-      const schemaName = actionId.replaceAll(':', '');
+      const schemaName = actionId.replaceAll(':', '_');
 
       const path = `/actions/${actionId}`;
       paths[path] = {
         post: {
           operationId: actionId,
           description: description,
-          parameters: [],
           requestBody: {
             description: `Input parameters for the action ${actionId} in BS`,
             required: true,
             content: {
-              'application/json;charset=utf-8': {
+              'application/json': {
                 schema: {
                   $ref: `#/components/schemas/${schemaName}`,
                 },
@@ -90,7 +89,7 @@ export class OpenApiService {
             default: {
               description: `Action ${actionId} response`,
               content: {
-                'application/json;charset=utf-8': {
+                'application/json': {
                   schema: {
                     type: 'object',
                   },
