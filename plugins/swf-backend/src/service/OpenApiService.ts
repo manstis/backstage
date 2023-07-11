@@ -62,12 +62,15 @@ export class OpenApiService {
       });
   }
 
+  private generateSchemaName(actionId: string): string {
+    return actionId.replaceAll(':', '_');
+  }
   private async mapPaths(actions: any): Promise<any> {
     const paths = {};
     for (const action of actions) {
       const actionId: string = action.id;
       const description = action.description;
-      const schemaName = actionId.replaceAll(':', '_');
+      const schemaName = this.generateSchemaName(actionId);
 
       const path = `/actions/${actionId}`;
       paths[path] = {
@@ -109,8 +112,9 @@ export class OpenApiService {
       const actionId: string = action.id;
       const schema = action.schema;
       const input = schema.input;
-      const schemaName = actionId.replaceAll(':', '');
+      const schemaName = this.generateSchemaName(actionId);
 
+      // removing invalid attribute
       delete input.$schema;
 
       // dfs to find and handle invalid properties

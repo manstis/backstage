@@ -5,7 +5,11 @@
     "description": "Workflow Actions BS API",
     "version": "0.0.1"
   },
-  "servers": [{ "url": "http://host.docker.internal:7007/api/swf" }],
+  "servers": [
+    {
+      "url": "http://host.docker.internal:7007/api/swf"
+    }
+  ],
   "paths": {
     "/actions/fetch:plain": {
       "post": {
@@ -16,7 +20,9 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/fetch_plain" }
+              "schema": {
+                "$ref": "#/components/schemas/fetch_plain"
+              }
             }
           }
         },
@@ -24,7 +30,11 @@
           "default": {
             "description": "Action fetch:plain response",
             "content": {
-              "application/json": { "schema": { "type": "object" } }
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
             }
           }
         }
@@ -39,7 +49,9 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/fetch_plain_file" }
+              "schema": {
+                "$ref": "#/components/schemas/fetch_plain_file"
+              }
             }
           }
         },
@@ -47,7 +59,11 @@
           "default": {
             "description": "Action fetch:plain:file response",
             "content": {
-              "application/json": { "schema": { "type": "object" } }
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
             }
           }
         }
@@ -62,7 +78,9 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/fetch_template" }
+              "schema": {
+                "$ref": "#/components/schemas/fetch_template"
+              }
             }
           }
         },
@@ -70,7 +88,11 @@
           "default": {
             "description": "Action fetch:template response",
             "content": {
-              "application/json": { "schema": { "type": "object" } }
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
             }
           }
         }
@@ -85,7 +107,9 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/publish_gerrit" }
+              "schema": {
+                "$ref": "#/components/schemas/publish_gerrit"
+              }
             }
           }
         },
@@ -93,7 +117,11 @@
           "default": {
             "description": "Action publish:gerrit response",
             "content": {
-              "application/json": { "schema": { "type": "object" } }
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
             }
           }
         }
@@ -108,7 +136,9 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/publish_gerrit_review" }
+              "schema": {
+                "$ref": "#/components/schemas/publish_gerrit_review"
+              }
             }
           }
         },
@@ -116,7 +146,11 @@
           "default": {
             "description": "Action publish:gerrit:review response",
             "content": {
-              "application/json": { "schema": { "type": "object" } }
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
             }
           }
         }
@@ -131,7 +165,9 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/publish_github" }
+              "schema": {
+                "$ref": "#/components/schemas/publish_github"
+              }
             }
           }
         },
@@ -139,7 +175,11 @@
           "default": {
             "description": "Action publish:github response",
             "content": {
-              "application/json": { "schema": { "type": "object" } }
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
             }
           }
         }
@@ -163,7 +203,11 @@
           "default": {
             "description": "Action publish:github:pull-request response",
             "content": {
-              "application/json": { "schema": { "type": "object" } }
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
             }
           }
         }
@@ -178,7 +222,9 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/publish_gitlab" }
+              "schema": {
+                "$ref": "#/components/schemas/publish_gitlab"
+              }
             }
           }
         },
@@ -186,7 +232,11 @@
           "default": {
             "description": "Action publish:gitlab response",
             "content": {
-              "application/json": { "schema": { "type": "object" } }
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
             }
           }
         }
@@ -210,7 +260,11 @@
           "default": {
             "description": "Action publish:gitlab:merge-request response",
             "content": {
-              "application/json": { "schema": { "type": "object" } }
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
             }
           }
         }
@@ -225,7 +279,9 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/publish_bitbucket" }
+              "schema": {
+                "$ref": "#/components/schemas/publish_bitbucket"
+              }
             }
           }
         },
@@ -233,7 +289,11 @@
           "default": {
             "description": "Action publish:bitbucket response",
             "content": {
-              "application/json": { "schema": { "type": "object" } }
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
             }
           }
         }
@@ -258,7 +318,11 @@
           "default": {
             "description": "Action publish:bitbucketCloud response",
             "content": {
-              "application/json": { "schema": { "type": "object" } }
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
             }
           }
         }
@@ -283,7 +347,11 @@
           "default": {
             "description": "Action publish:bitbucketServer response",
             "content": {
-              "application/json": { "schema": { "type": "object" } }
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
             }
           }
         }
@@ -307,7 +375,11 @@
           "default": {
             "description": "Action publish:bitbucketServer:pull-request response",
             "content": {
-              "application/json": { "schema": { "type": "object" } }
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
             }
           }
         }
@@ -322,7 +394,9 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/publish_azure" }
+              "schema": {
+                "$ref": "#/components/schemas/publish_azure"
+              }
             }
           }
         },
@@ -330,7 +404,11 @@
           "default": {
             "description": "Action publish:azure response",
             "content": {
-              "application/json": { "schema": { "type": "object" } }
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
             }
           }
         }
@@ -345,7 +423,9 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/debug_log" }
+              "schema": {
+                "$ref": "#/components/schemas/debug_log"
+              }
             }
           }
         },
@@ -353,7 +433,11 @@
           "default": {
             "description": "Action debug:log response",
             "content": {
-              "application/json": { "schema": { "type": "object" } }
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
             }
           }
         }
@@ -368,7 +452,9 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/debug_wait" }
+              "schema": {
+                "$ref": "#/components/schemas/debug_wait"
+              }
             }
           }
         },
@@ -376,7 +462,11 @@
           "default": {
             "description": "Action debug:wait response",
             "content": {
-              "application/json": { "schema": { "type": "object" } }
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
             }
           }
         }
@@ -391,7 +481,9 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/catalog_register" }
+              "schema": {
+                "$ref": "#/components/schemas/catalog_register"
+              }
             }
           }
         },
@@ -399,7 +491,11 @@
           "default": {
             "description": "Action catalog:register response",
             "content": {
-              "application/json": { "schema": { "type": "object" } }
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
             }
           }
         }
@@ -414,7 +510,9 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/catalog_fetch" }
+              "schema": {
+                "$ref": "#/components/schemas/catalog_fetch"
+              }
             }
           }
         },
@@ -422,7 +520,11 @@
           "default": {
             "description": "Action catalog:fetch response",
             "content": {
-              "application/json": { "schema": { "type": "object" } }
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
             }
           }
         }
@@ -437,7 +539,9 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/catalog_write" }
+              "schema": {
+                "$ref": "#/components/schemas/catalog_write"
+              }
             }
           }
         },
@@ -445,7 +549,11 @@
           "default": {
             "description": "Action catalog:write response",
             "content": {
-              "application/json": { "schema": { "type": "object" } }
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
             }
           }
         }
@@ -460,7 +568,9 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/fs_delete" }
+              "schema": {
+                "$ref": "#/components/schemas/fs_delete"
+              }
             }
           }
         },
@@ -468,7 +578,11 @@
           "default": {
             "description": "Action fs:delete response",
             "content": {
-              "application/json": { "schema": { "type": "object" } }
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
             }
           }
         }
@@ -483,7 +597,9 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/fs_rename" }
+              "schema": {
+                "$ref": "#/components/schemas/fs_rename"
+              }
             }
           }
         },
@@ -491,7 +607,11 @@
           "default": {
             "description": "Action fs:rename response",
             "content": {
-              "application/json": { "schema": { "type": "object" } }
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
             }
           }
         }
@@ -516,7 +636,11 @@
           "default": {
             "description": "Action github:actions:dispatch response",
             "content": {
-              "application/json": { "schema": { "type": "object" } }
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
             }
           }
         }
@@ -531,7 +655,9 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/github_webhook" }
+              "schema": {
+                "$ref": "#/components/schemas/github_webhook"
+              }
             }
           }
         },
@@ -539,7 +665,11 @@
           "default": {
             "description": "Action github:webhook response",
             "content": {
-              "application/json": { "schema": { "type": "object" } }
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
             }
           }
         }
@@ -554,7 +684,9 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/github_issues_label" }
+              "schema": {
+                "$ref": "#/components/schemas/github_issues_label"
+              }
             }
           }
         },
@@ -562,7 +694,11 @@
           "default": {
             "description": "Action github:issues:label response",
             "content": {
-              "application/json": { "schema": { "type": "object" } }
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
             }
           }
         }
@@ -577,7 +713,9 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/github_repo_create" }
+              "schema": {
+                "$ref": "#/components/schemas/github_repo_create"
+              }
             }
           }
         },
@@ -585,7 +723,11 @@
           "default": {
             "description": "Action github:repo:create response",
             "content": {
-              "application/json": { "schema": { "type": "object" } }
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
             }
           }
         }
@@ -600,7 +742,9 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/github_repo_push" }
+              "schema": {
+                "$ref": "#/components/schemas/github_repo_push"
+              }
             }
           }
         },
@@ -608,7 +752,11 @@
           "default": {
             "description": "Action github:repo:push response",
             "content": {
-              "application/json": { "schema": { "type": "object" } }
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
             }
           }
         }
@@ -633,7 +781,11 @@
           "default": {
             "description": "Action github:environment:create response",
             "content": {
-              "application/json": { "schema": { "type": "object" } }
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
             }
           }
         }
@@ -658,7 +810,11 @@
           "default": {
             "description": "Action github:deployKey:create response",
             "content": {
-              "application/json": { "schema": { "type": "object" } }
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
             }
           }
         }
@@ -682,7 +838,11 @@
           "default": {
             "description": "Action confluence:transform:markdown response",
             "content": {
-              "application/json": { "schema": { "type": "object" } }
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
             }
           }
         }
@@ -746,13 +906,17 @@
             "title": "[Deprecated] Copy Without Render",
             "description": "An array of glob patterns. Any files or directories which match are copied without being processed as templates.",
             "type": "array",
-            "items": { "type": "string" }
+            "items": {
+              "type": "string"
+            }
           },
           "copyWithoutTemplating": {
             "title": "Copy Without Templating",
             "description": "An array of glob patterns. Contents of matched files or directories are copied without being processed, but paths are subject to rendering.",
             "type": "array",
-            "items": { "type": "string" }
+            "items": {
+              "type": "string"
+            }
           },
           "cookiecutterCompat": {
             "title": "Cookiecutter compatibility mode",
@@ -775,7 +939,10 @@
         "type": "object",
         "required": ["repoUrl"],
         "properties": {
-          "repoUrl": { "title": "Repository Location", "type": "string" },
+          "repoUrl": {
+            "title": "Repository Location",
+            "type": "string"
+          },
           "description": {
             "title": "Repository Description",
             "type": "string"
@@ -811,7 +978,10 @@
         "type": "object",
         "required": ["repoUrl", "gitCommitMessage"],
         "properties": {
-          "repoUrl": { "title": "Repository Location", "type": "string" },
+          "repoUrl": {
+            "title": "Repository Location",
+            "type": "string"
+          },
           "branch": {
             "title": "Repository branch",
             "type": "string",
@@ -852,7 +1022,10 @@
             "title": "Repository Description",
             "type": "string"
           },
-          "homepage": { "title": "Repository Homepage", "type": "string" },
+          "homepage": {
+            "title": "Repository Homepage",
+            "type": "string"
+          },
           "access": {
             "title": "Repository Access",
             "description": "Sets an admin collaborator on the repository. Can either be a user reference different from 'owner' in 'repoUrl' or team reference, eg. 'org/team-name'",
@@ -864,9 +1037,24 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "apps": { "type": "array", "items": { "type": "string" } },
-              "users": { "type": "array", "items": { "type": "string" } },
-              "teams": { "type": "array", "items": { "type": "string" } }
+              "apps": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "users": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "teams": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
             }
           },
           "requiredApprovingReviewCount": {
@@ -880,9 +1068,24 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "apps": { "type": "array", "items": { "type": "string" } },
-              "users": { "type": "array", "items": { "type": "string" } },
-              "teams": { "type": "array", "items": { "type": "string" } }
+              "apps": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "users": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "teams": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
             }
           },
           "requireCodeOwnerReviews": {
@@ -899,7 +1102,9 @@
             "title": "Required Status Check Contexts",
             "description": "The list of status checks to require in order to merge into this branch",
             "type": "array",
-            "items": { "type": "string" }
+            "items": {
+              "type": "string"
+            }
           },
           "requireBranchesToBeUpToDate": {
             "title": "Require Branches To Be Up To Date?",
@@ -1033,7 +1238,9 @@
           "topics": {
             "title": "Topics",
             "type": "array",
-            "items": { "type": "string" }
+            "items": {
+              "type": "string"
+            }
           },
           "repoVariables": {
             "title": "Repository Variables",
@@ -1104,13 +1311,17 @@
           "reviewers": {
             "title": "Pull Request Reviewers",
             "type": "array",
-            "items": { "type": "string" },
+            "items": {
+              "type": "string"
+            },
             "description": "The users that will be added as reviewers to the pull request"
           },
           "teamReviewers": {
             "title": "Pull Request Team Reviewers",
             "type": "array",
-            "items": { "type": "string" },
+            "items": {
+              "type": "string"
+            },
             "description": "The teams that will be added as reviewers to the pull request"
           },
           "commitMessage": {
@@ -1173,7 +1384,9 @@
             "title": "Topic labels",
             "description": "Topic labels to apply on the repository.",
             "type": "array",
-            "items": { "type": "string" }
+            "items": {
+              "type": "string"
+            }
           }
         }
       },
@@ -1248,7 +1461,10 @@
         "type": "object",
         "required": ["repoUrl"],
         "properties": {
-          "repoUrl": { "title": "Repository Location", "type": "string" },
+          "repoUrl": {
+            "title": "Repository Location",
+            "type": "string"
+          },
           "description": {
             "title": "Repository Description",
             "type": "string"
@@ -1299,7 +1515,10 @@
         "type": "object",
         "required": ["repoUrl"],
         "properties": {
-          "repoUrl": { "title": "Repository Location", "type": "string" },
+          "repoUrl": {
+            "title": "Repository Location",
+            "type": "string"
+          },
           "description": {
             "title": "Repository Description",
             "type": "string"
@@ -1330,7 +1549,10 @@
         "type": "object",
         "required": ["repoUrl"],
         "properties": {
-          "repoUrl": { "title": "Repository Location", "type": "string" },
+          "repoUrl": {
+            "title": "Repository Location",
+            "type": "string"
+          },
           "description": {
             "title": "Repository Description",
             "type": "string"
@@ -1381,7 +1603,10 @@
         "type": "object",
         "required": ["repoUrl", "title", "sourceBranch"],
         "properties": {
-          "repoUrl": { "title": "Repository Location", "type": "string" },
+          "repoUrl": {
+            "title": "Repository Location",
+            "type": "string"
+          },
           "title": {
             "title": "Pull Request title",
             "type": "string",
@@ -1413,7 +1638,10 @@
         "type": "object",
         "required": ["repoUrl"],
         "properties": {
-          "repoUrl": { "title": "Repository Location", "type": "string" },
+          "repoUrl": {
+            "title": "Repository Location",
+            "type": "string"
+          },
           "description": {
             "title": "Repository Description",
             "type": "string"
@@ -1453,12 +1681,17 @@
       "debuglog": {
         "type": "object",
         "properties": {
-          "message": { "title": "Message to output.", "type": "string" },
+          "message": {
+            "title": "Message to output.",
+            "type": "string"
+          },
           "listWorkspace": {
             "title": "List all files in the workspace, if true.",
             "type": "boolean"
           },
-          "extra": { "title": "Extra info" }
+          "extra": {
+            "title": "Extra info"
+          }
         }
       },
       "debugwait": {
@@ -1507,7 +1740,9 @@
           },
           "entityRefs": {
             "type": "array",
-            "items": { "type": "string" },
+            "items": {
+              "type": "string"
+            },
             "description": "Entity references of the entities to get"
           },
           "optional": {
@@ -1549,7 +1784,9 @@
             "title": "Files",
             "description": "A list of files and directories that will be deleted",
             "type": "array",
-            "items": { "type": "string" }
+            "items": {
+              "type": "string"
+            }
           }
         }
       },
@@ -1678,7 +1915,9 @@
             "title": "Labels",
             "description": "The labels to add to the pull request or issue",
             "type": "array",
-            "items": { "type": "string" }
+            "items": {
+              "type": "string"
+            }
           },
           "token": {
             "title": "Authentication Token",
@@ -1700,7 +1939,10 @@
             "title": "Repository Description",
             "type": "string"
           },
-          "homepage": { "title": "Repository Homepage", "type": "string" },
+          "homepage": {
+            "title": "Repository Homepage",
+            "type": "string"
+          },
           "access": {
             "title": "Repository Access",
             "description": "Sets an admin collaborator on the repository. Can either be a user reference different from 'owner' in 'repoUrl' or team reference, eg. 'org/team-name'",
@@ -1717,9 +1959,24 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "apps": { "type": "array", "items": { "type": "string" } },
-              "users": { "type": "array", "items": { "type": "string" } },
-              "teams": { "type": "array", "items": { "type": "string" } }
+              "apps": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "users": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "teams": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
             }
           },
           "requiredApprovingReviewCount": {
@@ -1733,16 +1990,33 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "apps": { "type": "array", "items": { "type": "string" } },
-              "users": { "type": "array", "items": { "type": "string" } },
-              "teams": { "type": "array", "items": { "type": "string" } }
+              "apps": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "users": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "teams": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
             }
           },
           "requiredStatusCheckContexts": {
             "title": "Required Status Check Contexts",
             "description": "The list of status checks to require in order to merge into this branch",
             "type": "array",
-            "items": { "type": "string" }
+            "items": {
+              "type": "string"
+            }
           },
           "requireBranchesToBeUpToDate": {
             "title": "Require Branches To Be Up To Date?",
@@ -1841,7 +2115,9 @@
           "topics": {
             "title": "Topics",
             "type": "array",
-            "items": { "type": "string" }
+            "items": {
+              "type": "string"
+            }
           },
           "repoVariables": {
             "title": "Repository Variables",
@@ -1883,7 +2159,9 @@
             "title": "Required Status Check Contexts",
             "description": "The list of status checks to require in order to merge into this branch",
             "type": "array",
-            "items": { "type": "string" }
+            "items": {
+              "type": "string"
+            }
           },
           "bypassPullRequestAllowances": {
             "title": "Bypass pull request requirements",
@@ -1891,9 +2169,24 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "apps": { "type": "array", "items": { "type": "string" } },
-              "users": { "type": "array", "items": { "type": "string" } },
-              "teams": { "type": "array", "items": { "type": "string" } }
+              "apps": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "users": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "teams": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
             }
           },
           "requiredApprovingReviewCount": {
@@ -1907,9 +2200,24 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "apps": { "type": "array", "items": { "type": "string" } },
-              "users": { "type": "array", "items": { "type": "string" } },
-              "teams": { "type": "array", "items": { "type": "string" } }
+              "apps": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "users": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "teams": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
             }
           },
           "requireBranchesToBeUpToDate": {
@@ -2005,7 +2313,9 @@
             "title": "Custom Branch Policy Name",
             "description": "The name pattern that branches must match in order to deploy to the environment.\n\n            Wildcard characters will not match /. For example, to match branches that begin with release/ and contain an additional single slash, use release/*/*. For more information about pattern matching syntax, see the Ruby File.fnmatch documentation.",
             "type": "array",
-            "items": { "type": "string" }
+            "items": {
+              "type": "string"
+            }
           },
           "environmentVariables": {
             "title": "Environment Variables",
@@ -2066,7 +2376,10 @@
             "type": "array",
             "title": "Confluence URL",
             "description": "Paste your Confluence url. Ensure it follows this format: https://{confluence+base+url}/display/{spacekey}/{page+title} or https://{confluence+base+url}/spaces/{spacekey}/pages/1234567/{page+title} for Confluence Cloud",
-            "items": { "type": "string", "default": "Confluence URL" }
+            "items": {
+              "type": "string",
+              "default": "Confluence URL"
+            }
           },
           "repoUrl": {
             "type": "string",
