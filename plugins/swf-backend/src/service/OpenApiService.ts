@@ -49,10 +49,10 @@ export class OpenApiService {
     const template = await this.openApiTemplate();
     return this.fetchScaffolderActions()
       .then(async actions => {
-        template.paths = await this.mapPaths(actions);
+        template.paths = this.mapPaths(actions);
         return actions;
       })
-      .then(this.mapSchemas)
+      .then(actions => this.mapSchemas(actions))
       .then(schemas => {
         template.components.schemas = schemas;
         return template;
@@ -62,12 +62,12 @@ export class OpenApiService {
       });
   }
 
-  private async mapPaths(actions: any): Promise<any> {
+  private mapPaths(actions: any): any {
     const paths = {};
     for (const action of actions) {
       const actionId: string = action.id;
       const description = action.description;
-      const schemaName = generateSchemaName(actionId);
+      const schemaName = this.generateSchemaName(actionId);
 
       const path = `/actions/${actionId}`;
       paths[path] = {
@@ -103,14 +103,14 @@ export class OpenApiService {
     return paths;
   }
 
-  private async mapSchemas(actions: any): Promise<any> {
+  private mapSchemas(actions: any): any {
     const schemas = {};
 
     for (const action of actions) {
       const actionId: string = action.id;
       const schema = action.schema;
       const input = schema.input;
-      const schemaName = generateSchemaName(actionId);
+      const schemaName = this.generateSchemaName(actionId);
 
       // removing invalid attribute
       delete input.$schema;
@@ -154,11 +154,8 @@ export class OpenApiService {
     }
     return schemas;
   }
-}
 
-function generateSchemaName(actionId: string): string {
-  if (actionId) {
-    return actionId.replaceAll(':', '_');
+  private generateSchemaName(actionId: string): string {
+    return actionId?.replaceAll(':', '_') ?? actionId;
   }
-  return actionId;
 }
