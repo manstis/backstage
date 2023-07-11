@@ -62,15 +62,12 @@ export class OpenApiService {
       });
   }
 
-  private generateSchemaName(actionId: string): string {
-    return actionId.replaceAll(':', '_');
-  }
   private async mapPaths(actions: any): Promise<any> {
     const paths = {};
     for (const action of actions) {
       const actionId: string = action.id;
       const description = action.description;
-      const schemaName = this.generateSchemaName(actionId);
+      const schemaName = generateSchemaName(actionId);
 
       const path = `/actions/${actionId}`;
       paths[path] = {
@@ -108,11 +105,12 @@ export class OpenApiService {
 
   private async mapSchemas(actions: any): Promise<any> {
     const schemas = {};
+
     for (const action of actions) {
       const actionId: string = action.id;
       const schema = action.schema;
       const input = schema.input;
-      const schemaName = this.generateSchemaName(actionId);
+      const schemaName = generateSchemaName(actionId);
 
       // removing invalid attribute
       delete input.$schema;
@@ -156,4 +154,11 @@ export class OpenApiService {
     }
     return schemas;
   }
+}
+
+function generateSchemaName(actionId: string): string {
+  if (actionId) {
+    return actionId.replaceAll(':', '_');
+  }
+  return actionId;
 }
