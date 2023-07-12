@@ -19,9 +19,12 @@ import {
   SwfItem,
   SwfListResult,
 } from '@backstage/plugin-swf-common';
+import { OpenAPIV3 } from 'openapi-types';
 
 export interface SwfApi {
   getSwf(swfId: string): Promise<SwfItem>;
+
+  getActionsSchema(): Promise<OpenAPIV3.Document>;
 
   listSwfs(): Promise<SwfListResult>;
 

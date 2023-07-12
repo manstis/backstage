@@ -21,6 +21,7 @@ import {
   SwfItem,
   SwfListResult,
 } from '@backstage/plugin-swf-common';
+import { OpenAPIV3 } from 'openapi-types';
 
 export interface SwfClientOptions {
   discoveryApi: DiscoveryApi;
@@ -95,5 +96,14 @@ export class SwfClient implements SwfApi {
     if (!res.ok) {
       throw await ResponseError.fromResponse(res);
     }
+  }
+
+  async getActionsSchema(): Promise<OpenAPIV3.Document> {
+    const baseUrl = await this.discoveryApi.getBaseUrl('swf');
+    const res = await fetch(`${baseUrl}/actions/schema`);
+    if (!res.ok) {
+      throw await ResponseError.fromResponse(res);
+    }
+    return res.json();
   }
 }

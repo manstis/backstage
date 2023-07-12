@@ -21,8 +21,10 @@ import {
   SwfJsonLanguageService,
   SwfLanguageServiceArgs,
 } from '@kie-tools/serverless-workflow-language-service/dist/channel';
+import { SwfServiceCatalogService } from '@kie-tools/serverless-workflow-service-catalog/dist/api';
 
 export class SwfLanguageService {
+  constructor(private readonly services: SwfServiceCatalogService[]) {}
   public getLs(relativePath: string): SwfJsonLanguageService {
     const swfLanguageLsArgs = this.getDefaultLsArgs({});
 
@@ -43,7 +45,7 @@ export class SwfLanguageService {
           getServices: async () => [],
         },
         relative: {
-          getServices: async _textDocument => [],
+          getServices: async _textDocument => this.services,
         },
         getServiceFileNameFromSwfServiceCatalogServiceId: async (
           registryName: string,
@@ -55,8 +57,8 @@ export class SwfLanguageService {
         shouldIncludeJsonSchemaDiagnostics: async () => true,
         shouldReferenceServiceRegistryFunctionsWithUrls: async () => true,
         getSpecsDirPosixPaths: async _textDocument => ({
-          specsDirRelativePosixPath: '',
-          specsDirAbsolutePosixPath: '',
+          specsDirRelativePosixPath: 'specs',
+          specsDirAbsolutePosixPath: 'specs',
         }),
         getRoutesDirPosixPaths: async _textDocument => ({
           routesDirRelativePosixPath: '',
