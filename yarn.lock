@@ -9456,15 +9456,19 @@ __metadata:
     "@backstage/plugin-events-node": "workspace:^"
     "@backstage/plugin-scaffolder-common": "workspace:^"
     "@backstage/plugin-swf-common": "workspace:^"
+    "@severlessworkflow/sdk-typescript": ^3.0.3
     "@types/express": "*"
+    "@types/json-schema": ^7.0.12
     "@types/node-fetch": ^2.6.4
     "@types/supertest": ^2.0.8
     express: ^4.17.1
     express-http-proxy: ^1.6.3
     express-promise-router: ^4.1.0
     fs-extra: ^11.1.1
+    json-schema: ^0.4.0
     msw: ^1.0.0
     node-fetch: ^2.6.4
+    openapi-types: ^12.1.3
     supertest: ^6.2.4
     winston: ^3.2.1
     yaml: ^2.3.1
@@ -9498,24 +9502,29 @@ __metadata:
     "@backstage/plugin-swf-common": "workspace:^"
     "@backstage/test-utils": "workspace:^"
     "@backstage/theme": "workspace:^"
-    "@kie-tools-core/editor": ^0.29.0
-    "@kie-tools-core/envelope-bus": ^0.29.0
-    "@kie-tools-core/notifications": ^0.29.0
-    "@kie-tools-core/workspace": ^0.29.0
-    "@kie-tools/serverless-workflow-diagram-editor-envelope": ^0.29.0
-    "@kie-tools/serverless-workflow-language-service": ^0.29.0
-    "@kie-tools/serverless-workflow-service-catalog": ^0.29.0
-    "@kie-tools/serverless-workflow-text-editor": ^0.29.0
+    "@kie-tools-core/editor": ^0.30.0
+    "@kie-tools-core/envelope-bus": ^0.30.0
+    "@kie-tools-core/notifications": ^0.30.0
+    "@kie-tools-core/workspace": ^0.30.0
+    "@kie-tools/serverless-workflow-combined-editor": ^0.30.0
+    "@kie-tools/serverless-workflow-diagram-editor-envelope": ^0.30.0
+    "@kie-tools/serverless-workflow-language-service": ^0.30.0
+    "@kie-tools/serverless-workflow-service-catalog": ^0.30.0
+    "@kie-tools/serverless-workflow-text-editor": ^0.30.0
     "@material-table/core": ^3.1.0
     "@material-ui/core": ^4.9.13
     "@material-ui/icons": ^4.9.1
     "@material-ui/lab": ^4.0.0-alpha.60
+    "@severlessworkflow/sdk-typescript": ^3.0.3
     "@testing-library/jest-dom": ^5.10.1
     "@testing-library/react": ^12.1.3
     "@testing-library/user-event": ^14.0.0
+    "@types/json-schema": ^7.0.12
     "@types/node": "*"
     cross-fetch: ^3.1.5
+    json-schema: ^0.4.0
     msw: ^1.0.0
+    openapi-types: ^12.1.3
     react-hook-form: ^7.45.1
     react-json-view: ^1.21.3
     react-moment: ^1.1.3
@@ -12978,22 +12987,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@kie-tools-core/backend@npm:0.29.0":
-  version: 0.29.0
-  resolution: "@kie-tools-core/backend@npm:0.29.0"
-  dependencies:
-    "@kie-tools-core/i18n": 0.29.0
-    "@kie-tools-core/notifications": 0.29.0
-    "@kie-tools-core/workspace": 0.29.0
-    axios: ^0.27.2
-    fast-xml-parser: ^4.1.2
-    portfinder: ^1.0.32
-    semver: ^7.3.5
-    sinon: ^11.1.1
-  checksum: 77f9be10793a2ae5871b6ae3cb0f869f685aed7b1a7c29908aa50bc37f3f4b0b27463bd3072f1b62d8cc81e3c5ee27bc68001124a02dd176868d920413b17e81
-  languageName: node
-  linkType: hard
-
 "@kie-tools-core/backend@npm:0.30.0":
   version: 0.30.0
   resolution: "@kie-tools-core/backend@npm:0.30.0"
@@ -13007,29 +13000,6 @@ __metadata:
     semver: ^7.3.5
     sinon: ^11.1.1
   checksum: 790c8bd163ff7f5b0d8e80250e1fa0b917a46e0709cafef20908fd87299f7cf223289bb163cec3d2309dea31fc6fc72624fb33193cdf0404c7b4964ec383c621
-  languageName: node
-  linkType: hard
-
-"@kie-tools-core/editor@npm:0.29.0, @kie-tools-core/editor@npm:^0.29.0":
-  version: 0.29.0
-  resolution: "@kie-tools-core/editor@npm:0.29.0"
-  dependencies:
-    "@kie-tools-core/backend": 0.29.0
-    "@kie-tools-core/envelope": 0.29.0
-    "@kie-tools-core/envelope-bus": 0.29.0
-    "@kie-tools-core/i18n": 0.29.0
-    "@kie-tools-core/keyboard-shortcuts": 0.29.0
-    "@kie-tools-core/notifications": 0.29.0
-    "@kie-tools-core/operating-system": 0.29.0
-    "@kie-tools-core/patternfly-base": 0.29.0
-    "@kie-tools-core/workspace": 0.29.0
-    "@patternfly/react-core": ^4.276.6
-    "@patternfly/react-icons": ^4.93.6
-    csstype: ^3.0.11
-    minimatch: ^3.0.4
-    react: ^17.0.2
-    react-dom: ^17.0.2
-  checksum: 82b6ac5e54852ba5e67e8f4206ce615c671e52365f6b55814f3cce17d06439b6c76ed036beabf4ac15dbfa97bdab360735fd00ca12b5b8958b4e011aa09b048e
   languageName: node
   linkType: hard
 
@@ -13056,35 +13026,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@kie-tools-core/envelope-bus@npm:0.29.0, @kie-tools-core/envelope-bus@npm:^0.29.0":
-  version: 0.29.0
-  resolution: "@kie-tools-core/envelope-bus@npm:0.29.0"
-  dependencies:
-    react: ^17.0.2
-    react-dom: ^17.0.2
-  checksum: d0add2b35f514206a3912a245820410120851690e049f9ab5b1da70bf1358318ef5563567ce01e184ebec77b9fc40e992f26de2d7eedfcd3590c47a21f89d992
-  languageName: node
-  linkType: hard
-
-"@kie-tools-core/envelope-bus@npm:0.30.0":
+"@kie-tools-core/envelope-bus@npm:0.30.0, @kie-tools-core/envelope-bus@npm:^0.30.0":
   version: 0.30.0
   resolution: "@kie-tools-core/envelope-bus@npm:0.30.0"
   dependencies:
     react: ^17.0.2
     react-dom: ^17.0.2
   checksum: c1d06a845bad2cb31044f92721305054c6d47fb5d39b77a8aa5dc6d6c32987c1d04d6594d61ac0c9576a8e2d42c103d5ffde6d03c2d948b1117bbfc63119bb4a
-  languageName: node
-  linkType: hard
-
-"@kie-tools-core/envelope@npm:0.29.0":
-  version: 0.29.0
-  resolution: "@kie-tools-core/envelope@npm:0.29.0"
-  dependencies:
-    "@kie-tools-core/envelope-bus": 0.29.0
-    csstype: ^3.0.11
-    react: ^17.0.2
-    react-dom: ^17.0.2
-  checksum: 55469f94d4329a2474808d1490a31512283d86ed483759995f7bdf806e2e45913d6f9c1420849f0c00be697cfab6f92cbd76675459b6d017c1e673d7949826aa
   languageName: node
   linkType: hard
 
@@ -13100,16 +13048,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@kie-tools-core/i18n@npm:0.29.0":
-  version: 0.29.0
-  resolution: "@kie-tools-core/i18n@npm:0.29.0"
-  dependencies:
-    react: ^17.0.2
-    react-dom: ^17.0.2
-  checksum: a027aec85fffb1aa984d5953bb4d50cd20169d56db19dc3ac8e473f29947b02269ef2abc182326fe24378a06b5f8edd19cb30c7c7c926ae52f0b1b3b6a39846e
-  languageName: node
-  linkType: hard
-
 "@kie-tools-core/i18n@npm:0.30.0":
   version: 0.30.0
   resolution: "@kie-tools-core/i18n@npm:0.30.0"
@@ -13117,17 +13055,6 @@ __metadata:
     react: ^17.0.2
     react-dom: ^17.0.2
   checksum: 3f79573812ec9416453af9cd53549d45cbb8587c6683fc45913d6a855032dcef1e53c43a26313497d607861abd6f7f251846a53723228771853c19c8bd06bf69
-  languageName: node
-  linkType: hard
-
-"@kie-tools-core/keyboard-shortcuts@npm:0.29.0":
-  version: 0.29.0
-  resolution: "@kie-tools-core/keyboard-shortcuts@npm:0.29.0"
-  dependencies:
-    "@kie-tools-core/envelope-bus": 0.29.0
-    "@kie-tools-core/operating-system": 0.29.0
-    react: ^17.0.2
-  checksum: c4587aaa89066508f17f538c73a7991b5f92f333af13b6ed2a25ba084adbb0bbab938b558739b79d0cf8d1c28cf7c0eaa702ccaa882809aa610b3bf1d914f401
   languageName: node
   linkType: hard
 
@@ -13142,30 +13069,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@kie-tools-core/notifications@npm:0.29.0, @kie-tools-core/notifications@npm:^0.29.0":
-  version: 0.29.0
-  resolution: "@kie-tools-core/notifications@npm:0.29.0"
-  dependencies:
-    "@kie-tools-core/i18n": 0.29.0
-    "@kie-tools-core/workspace": 0.29.0
-  checksum: 56da70f6591a5336848de37d303a6ce983ed2558f3a62c33075b374c695d6f8bdf936288b07492cb34238c68f7813f0eea32bc7cd2f8a7e112b089789bc7b0b7
-  languageName: node
-  linkType: hard
-
-"@kie-tools-core/notifications@npm:0.30.0":
+"@kie-tools-core/notifications@npm:0.30.0, @kie-tools-core/notifications@npm:^0.30.0":
   version: 0.30.0
   resolution: "@kie-tools-core/notifications@npm:0.30.0"
   dependencies:
     "@kie-tools-core/i18n": 0.30.0
     "@kie-tools-core/workspace": 0.30.0
   checksum: fb904d3119916464133373f81550fe00438b37786ad969267318f1dfe0ff59a20543d1784cb0dae6c37264dd8eeece70b05e5d81c7730911c19cd6f460464b0f
-  languageName: node
-  linkType: hard
-
-"@kie-tools-core/operating-system@npm:0.29.0":
-  version: 0.29.0
-  resolution: "@kie-tools-core/operating-system@npm:0.29.0"
-  checksum: 2a3b4c59622fe69a88b74969561810873e443dcf335edf7b49813cf8026506de6ca5e213cd72387e26f05cc029260d58301b62f82247f79e5ff675e38c51625b
   languageName: node
   linkType: hard
 
@@ -13176,24 +13086,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@kie-tools-core/patternfly-base@npm:0.29.0":
-  version: 0.29.0
-  resolution: "@kie-tools-core/patternfly-base@npm:0.29.0"
-  checksum: f8382d98db0142ca14e51f2a17829537a3ace282268b224b6bc714f203a7ad1cf1d2f417533c54ce3e869eb7e2d91a3e2225cafc33befd7670ac3566a6ede622
-  languageName: node
-  linkType: hard
-
 "@kie-tools-core/patternfly-base@npm:0.30.0":
   version: 0.30.0
   resolution: "@kie-tools-core/patternfly-base@npm:0.30.0"
   checksum: 7b293bba6b4185a65fd4d5f2bfd164d25bc92988550050da80898804e6841900a08e0fbdd217ef4aa7a731f93d74babdee80c560ace8b64d911e882bf3e73576
-  languageName: node
-  linkType: hard
-
-"@kie-tools-core/vscode-java-code-completion@npm:0.29.0":
-  version: 0.29.0
-  resolution: "@kie-tools-core/vscode-java-code-completion@npm:0.29.0"
-  checksum: 75260ede8c93ab3d17562ad4856928f1f5ce160b8e6abb08246529a283a139a3fafbb459104d2cfba6a65fe8c13b06c8cd988f2c8e1952912491b25b3fdb7189
   languageName: node
   linkType: hard
 
@@ -13204,28 +13100,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@kie-tools-core/workspace@npm:0.29.0, @kie-tools-core/workspace@npm:^0.29.0":
-  version: 0.29.0
-  resolution: "@kie-tools-core/workspace@npm:0.29.0"
-  dependencies:
-    "@kie-tools-core/operating-system": 0.29.0
-  checksum: 22d48c2e9d281f77d8ae4841b3df2027cf0fbef408d0299e22ec404c45af8323b38aab8cd19fc113aa24df33ea526213a4cdbec80e90c1520428b185ac340221
-  languageName: node
-  linkType: hard
-
-"@kie-tools-core/workspace@npm:0.30.0":
+"@kie-tools-core/workspace@npm:0.30.0, @kie-tools-core/workspace@npm:^0.30.0":
   version: 0.30.0
   resolution: "@kie-tools-core/workspace@npm:0.30.0"
   dependencies:
     "@kie-tools-core/operating-system": 0.30.0
   checksum: 2052e2ee2d1c5316adf27ca47dccf0950ddd45a40972316314d016b011516691288b1b7bc0453051f8d907a239ee8309a63c7274ec59debf05d6d234e15466f8
-  languageName: node
-  linkType: hard
-
-"@kie-tools/dmn-language-service@npm:0.29.0":
-  version: 0.29.0
-  resolution: "@kie-tools/dmn-language-service@npm:0.29.0"
-  checksum: 2a705e45ce44b88fe0bedc9c94357a43c0fc745356ba900e2bc966a9ad74bb7acc80fb2a2b13adde4540b58d61918a2c73f80b7b9c369e3b3ff1edb86a9c015d
   languageName: node
   linkType: hard
 
@@ -13243,22 +13123,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@kie-tools/json-yaml-language-service@npm:0.29.0":
-  version: 0.29.0
-  resolution: "@kie-tools/json-yaml-language-service@npm:0.29.0"
-  dependencies:
-    "@kie-tools/yaml-language-server": 0.29.0
-    jsonata: ^1.8.3
-    jsonc-parser: ^3.0.0
-    vscode-json-languageservice: ^4.2.1
-    vscode-languageserver: ^7.0.0
-    vscode-languageserver-textdocument: ^1.0.4
-    vscode-languageserver-types: ^3.16.0
-    yaml-language-server-parser: ^0.1.3
-  checksum: 59078cd18c239ba7300444cb25e9fea0a8285dd12c20ea1d437d9824d5ac21ed18e85bf18c30b869dd38cc94ae024996b7ff3e6be64bc5173619c65fb5992aa0
-  languageName: node
-  linkType: hard
-
 "@kie-tools/json-yaml-language-service@npm:0.30.0":
   version: 0.30.0
   resolution: "@kie-tools/json-yaml-language-service@npm:0.30.0"
@@ -13272,27 +13136,6 @@ __metadata:
     vscode-languageserver-types: ^3.16.0
     yaml-language-server-parser: ^0.1.3
   checksum: 5720f7056012eaa15e194ef2a0dac26d89af66718d321af921ef90c3417ee786d7b892595d1a91e7e161bfda613790f3d6a23f7702fa68783bcfa0433e68cecc
-  languageName: node
-  linkType: hard
-
-"@kie-tools/kie-bc-editors@npm:0.29.0":
-  version: 0.29.0
-  resolution: "@kie-tools/kie-bc-editors@npm:0.29.0"
-  dependencies:
-    "@kie-tools-core/editor": 0.29.0
-    "@kie-tools-core/envelope": 0.29.0
-    "@kie-tools-core/envelope-bus": 0.29.0
-    "@kie-tools-core/i18n": 0.29.0
-    "@kie-tools-core/notifications": 0.29.0
-    "@kie-tools-core/operating-system": 0.29.0
-    "@kie-tools-core/vscode-java-code-completion": 0.29.0
-    "@kie-tools-core/workspace": 0.29.0
-    "@kie-tools/dmn-language-service": 0.29.0
-    "@kie-tools/pmml-editor-marshaller": 0.29.0
-    "@patternfly/react-core": ^4.276.6
-    react: ^17.0.2
-    react-dom: ^17.0.2
-  checksum: d28cc99a0f521578e388ac8554fdb2c7768162a1deecbb0e67fc7fb2a4a362d6288e0839a0113c466569aa5084842870750c77ae221a8e1d65e375d20e48a040
   languageName: node
   linkType: hard
 
@@ -13314,16 +13157,6 @@ __metadata:
     react: ^17.0.2
     react-dom: ^17.0.2
   checksum: fba76f85abc7f9eb96958fbee3fec653ff3208e9cffc8d10c9495f2132dec5eef579fe5e0a266d3f70e67ea7bcc7602286b2d11fd3edb2d61f395f5af4cb4ca5
-  languageName: node
-  linkType: hard
-
-"@kie-tools/pmml-editor-marshaller@npm:0.29.0":
-  version: 0.29.0
-  resolution: "@kie-tools/pmml-editor-marshaller@npm:0.29.0"
-  dependencies:
-    jsonata: ^1.8.3
-    xml-js: ^1.6.11
-  checksum: 66cda1e0861b3c3b0038bf1dfe0972e7ca60de62aa908c7c3ec23694b303a6f8d166cf9a2352ec45900ca660395de75806e5c8bad7f5bce5dfb1b53e8d003e7b
   languageName: node
   linkType: hard
 
@@ -13391,33 +13224,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@kie-tools/serverless-workflow-diagram-editor-envelope@npm:^0.29.0":
-  version: 0.29.0
-  resolution: "@kie-tools/serverless-workflow-diagram-editor-envelope@npm:0.29.0"
-  dependencies:
-    "@kie-tools-core/editor": 0.29.0
-    "@kie-tools-core/envelope": 0.29.0
-    "@kie-tools-core/envelope-bus": 0.29.0
-    "@kie-tools-core/i18n": 0.29.0
-    "@kie-tools-core/notifications": 0.29.0
-    "@kie-tools-core/operating-system": 0.29.0
-    "@kie-tools-core/vscode-java-code-completion": 0.29.0
-    "@kie-tools-core/workspace": 0.29.0
-    "@kie-tools/kie-bc-editors": 0.29.0
-  checksum: a8d4928a124e25cefb2a8f3f25c97959291ad6b71d764fe04ea3d73e7ac4d768772267fd75db41178d001d28b02b22ac16b58a6da260e588393496c174a02c80
-  languageName: node
-  linkType: hard
-
-"@kie-tools/serverless-workflow-jq-expressions@npm:0.29.0":
-  version: 0.29.0
-  resolution: "@kie-tools/serverless-workflow-jq-expressions@npm:0.29.0"
-  dependencies:
-    "@kie-tools/serverless-workflow-service-catalog": 0.29.0
-    cross-fetch: ^3.1.5
-  checksum: 7c1794986b300f5af39658232f399027d7c9f8b7d6df1611dcae484ef7eb20b37bdfa431da6d65aa8dbfbc370d642c926a8cd5000aab0d868154030e2ce5364c
-  languageName: node
-  linkType: hard
-
 "@kie-tools/serverless-workflow-jq-expressions@npm:0.30.0, @kie-tools/serverless-workflow-jq-expressions@npm:^0.30.0":
   version: 0.30.0
   resolution: "@kie-tools/serverless-workflow-jq-expressions@npm:0.30.0"
@@ -13425,27 +13231,6 @@ __metadata:
     "@kie-tools/serverless-workflow-service-catalog": 0.30.0
     cross-fetch: ^3.1.5
   checksum: 1c0f023155d3581c74e137620eaff41f6b8fac47cb68b8270df647b92947c093fcf2be4b3409af618bac5e6ec08f5ddc1ef1ebec3dc91dd01167f705045bc70e
-  languageName: node
-  linkType: hard
-
-"@kie-tools/serverless-workflow-language-service@npm:0.29.0, @kie-tools/serverless-workflow-language-service@npm:^0.29.0":
-  version: 0.29.0
-  resolution: "@kie-tools/serverless-workflow-language-service@npm:0.29.0"
-  dependencies:
-    "@kie-tools/json-yaml-language-service": 0.29.0
-    "@kie-tools/serverless-workflow-jq-expressions": 0.29.0
-    "@kie-tools/serverless-workflow-service-catalog": 0.29.0
-    "@kie-tools/yaml-language-server": 0.29.0
-    "@severlessworkflow/sdk-typescript": ^3.0.3
-    json-to-ast: ^2.1.0
-    jsonata: ^1.8.3
-    jsonc-parser: ^3.0.0
-    vscode-json-languageservice: ^4.2.1
-    vscode-languageserver: ^7.0.0
-    vscode-languageserver-textdocument: ^1.0.4
-    vscode-languageserver-types: ^3.16.0
-    yaml-language-server-parser: ^0.1.3
-  checksum: 0f34027e42d428b58ab4efa058e0047b5e259926a8947883aab3702e140d59cf431fe5c326454e45e41ee69db9ff3ec157ab8ed7a2f26e258f42298fc1b2066d
   languageName: node
   linkType: hard
 
@@ -13492,19 +13277,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@kie-tools/serverless-workflow-service-catalog@npm:0.29.0, @kie-tools/serverless-workflow-service-catalog@npm:^0.29.0":
-  version: 0.29.0
-  resolution: "@kie-tools/serverless-workflow-service-catalog@npm:0.29.0"
-  dependencies:
-    "@kie-tools-core/envelope-bus": 0.29.0
-    "@types/js-yaml": ^4.0.5
-    js-yaml: ^4.1.0
-    lodash: ^4.17.21
-    openapi-types: ^7.0.1
-  checksum: d9f171c6ef7da75b71d13e35f43bee8d4382a98683e8f2fdf0932ef6a62618d5b2461fce7da172c6ddccf31f10d4bc49ec0f4570715d622943f9211697f63ba2
-  languageName: node
-  linkType: hard
-
 "@kie-tools/serverless-workflow-service-catalog@npm:0.30.0, @kie-tools/serverless-workflow-service-catalog@npm:^0.30.0":
   version: 0.30.0
   resolution: "@kie-tools/serverless-workflow-service-catalog@npm:0.30.0"
@@ -13543,31 +13315,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@kie-tools/serverless-workflow-text-editor@npm:^0.29.0":
-  version: 0.29.0
-  resolution: "@kie-tools/serverless-workflow-text-editor@npm:0.29.0"
-  dependencies:
-    "@kie-tools-core/editor": 0.29.0
-    "@kie-tools-core/envelope": 0.29.0
-    "@kie-tools-core/envelope-bus": 0.29.0
-    "@kie-tools-core/notifications": 0.29.0
-    "@kie-tools-core/operating-system": 0.29.0
-    "@kie-tools-core/patternfly-base": 0.29.0
-    "@kie-tools-core/workspace": 0.29.0
-    "@kie-tools/serverless-workflow-language-service": 0.29.0
-    "@kie-tools/serverless-workflow-service-catalog": 0.29.0
-    "@patternfly/react-core": ^4.276.6
-    "@patternfly/react-icons": ^4.93.6
-    json-schema: ^0.4.0
-    monaco-editor: ^0.33.0
-    monaco-yaml: ^4.0.0
-    react: ^17.0.2
-    react-dom: ^17.0.2
-    vscode-languageserver-types: ^3.16.0
-  checksum: 88fcf045be5c0c1183d991cd0e9ec0ffe45cd97cf95ea37c0a3f8483e0054f7f3f3b9d912bdab6ca7ab35c1bfdda2ea8af9ecec6f62370f219f57b8e035aa395
-  languageName: node
-  linkType: hard
-
 "@kie-tools/text-editor@npm:^0.30.0":
   version: 0.30.0
   resolution: "@kie-tools/text-editor@npm:0.30.0"
@@ -13584,19 +13331,6 @@ __metadata:
     react: ^17.0.2
     react-dom: ^17.0.2
   checksum: 850d07d1756b05c5cc3f7c94164d51584bc9af178a53a9b4aa1240face35d9ff379b5f34c5e7076c008459aa41d8acf9527c8337483022a4c338bb34f3a54f7d
-  languageName: node
-  linkType: hard
-
-"@kie-tools/yaml-language-server@npm:0.29.0":
-  version: 0.29.0
-  resolution: "@kie-tools/yaml-language-server@npm:0.29.0"
-  dependencies:
-    path-browserify: ^1.0.1
-    vscode-json-languageservice: ^4.2.1
-    vscode-languageserver: ^7.0.0
-    vscode-languageserver-textdocument: ^1.0.4
-    vscode-languageserver-types: ^3.16.0
-  checksum: 422fcea04f2b03c724c449385537c8991d0f2da4fbb74c4a8676fc3b67ce5b460b7f1b3854a10106c1d07ce2f2d5b3f137acfbd9d2363f2cf5311e1ea93645bb
   languageName: node
   linkType: hard
 
@@ -18077,7 +17811,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/json-schema@npm:*, @types/json-schema@npm:^7.0.0, @types/json-schema@npm:^7.0.11, @types/json-schema@npm:^7.0.4, @types/json-schema@npm:^7.0.5, @types/json-schema@npm:^7.0.6, @types/json-schema@npm:^7.0.7, @types/json-schema@npm:^7.0.8, @types/json-schema@npm:^7.0.9":
+"@types/json-schema@npm:*, @types/json-schema@npm:^7.0.0, @types/json-schema@npm:^7.0.11, @types/json-schema@npm:^7.0.12, @types/json-schema@npm:^7.0.4, @types/json-schema@npm:^7.0.5, @types/json-schema@npm:^7.0.6, @types/json-schema@npm:^7.0.7, @types/json-schema@npm:^7.0.8, @types/json-schema@npm:^7.0.9":
   version: 7.0.12
   resolution: "@types/json-schema@npm:7.0.12"
   checksum: 00239e97234eeb5ceefb0c1875d98ade6e922bfec39dd365ec6bd360b5c2f825e612ac4f6e5f1d13601b8b30f378f15e6faa805a3a732f4a1bbe61915163d293
@@ -27124,7 +26858,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fast-xml-parser@npm:^4.1.2, fast-xml-parser@npm:^4.2.4":
+"fast-xml-parser@npm:^4.2.4":
   version: 4.2.5
   resolution: "fast-xml-parser@npm:4.2.5"
   dependencies:
@@ -35896,7 +35630,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"openapi-types@npm:^12.0.0":
+"openapi-types@npm:^12.0.0, openapi-types@npm:^12.1.3":
   version: 12.1.3
   resolution: "openapi-types@npm:12.1.3"
   checksum: 7fa5547f87a58d2aa0eba6e91d396f42d7d31bc3ae140e61b5d60b47d2fd068b48776f42407d5a8da7280cf31195aa128c2fc285e8bb871d1105edee5647a0bb

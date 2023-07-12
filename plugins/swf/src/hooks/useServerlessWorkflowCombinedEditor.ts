@@ -34,9 +34,15 @@ import { empty_definition } from '@backstage/plugin-swf-common';
 import { SwfLanguageService } from './SwfLanguageService';
 import { Diagnostic, DiagnosticSeverity } from 'vscode-languageserver-types';
 import { Notification } from '@kie-tools-core/notifications/dist/api';
-import { SwfTextEditorChannelApiImpl } from './SwfTextEditorChannelApiImpl';
-import { ServerlessWorkflowTextEditorChannelApi } from '@kie-tools/serverless-workflow-text-editor/dist/api';
 import { SwfLanguageServiceChannelApiImpl } from './SwfLanguageServiceChannelApiImpl';
+import { parseApiContent } from '@kie-tools/serverless-workflow-service-catalog/dist/channel';
+import { SwfCatalogSourceType } from '@kie-tools/serverless-workflow-service-catalog/dist/api/types';
+import { SwfServiceCatalogService } from '@kie-tools/serverless-workflow-service-catalog/dist/api';
+import { SwfCombinedEditorChannelApiImpl } from '@kie-tools/serverless-workflow-combined-editor/dist/impl';
+import { ServerlessWorkflowCombinedEditorChannelApi } from '@kie-tools/serverless-workflow-combined-editor/dist/api';
+
+// This filename should probably be returned by the backend
+const ACTIONS_OPEN_API_FILE = 'actions-openapi.json';
 
 export const useServerlessWorkflowCombinedEditor = (
   swfId: string | undefined,
@@ -45,21 +51,36 @@ export const useServerlessWorkflowCombinedEditor = (
   swfEditor: EmbeddedEditorRef | undefined;
   swfEditorRef: (node: EmbeddedEditorRef) => void;
   swfEditorEnvelopeLocator: EditorEnvelopeLocator;
-  swfEditorApi: ServerlessWorkflowTextEditorChannelApi | undefined;
+  swfEditorApi: ServerlessWorkflowCombinedEditorChannelApi | undefined;
   validate: () => Promise<Notification[]>;
 } => {
   const swfApi = useApi(swfApiRef);
   const { editor, editorRef } = useEditorRef();
   const [swfFile, setSwfFile] = useState<EmbeddedEditorFile>();
+  const [services, setServices] = useState<SwfServiceCatalogService[]>([]);
+
+  useEffect(() => {
+    swfApi.getActionsSchema().then(schema => {
+      const service = parseApiContent({
+        serviceFileContent: JSON.stringify(schema),
+        serviceFileName: ACTIONS_OPEN_API_FILE,
+        source: {
+          type: SwfCatalogSourceType.LOCAL_FS,
+          absoluteFilePath: `specs/${ACTIONS_OPEN_API_FILE}`,
+        },
+      });
+      setServices([service]);
+    });
+  }, [swfApi]);
 
   const swfLanguageService = useMemo(() => {
     if (!swfFile) {
       return;
     }
-    const devWebAppSwfLanguageService = new SwfLanguageService();
+    const devWebAppSwfLanguageService = new SwfLanguageService(services);
     // eslint-disable-next-line consistent-return
     return devWebAppSwfLanguageService.getLs(swfFile.path!);
-  }, [swfFile]);
+  }, [swfFile, services]);
 
   const stateControl = useMemo(() => new StateControl(), []);
 
@@ -78,10 +99,12 @@ export const useServerlessWorkflowCombinedEditor = (
       new SwfLanguageServiceChannelApiImpl(swfLanguageService);
 
     // eslint-disable-next-line consistent-return
-    return new SwfTextEditorChannelApiImpl({
+    return new SwfCombinedEditorChannelApiImpl(
       defaultApiImpl,
+      undefined,
+      undefined,
       swfLanguageServiceChannelApiImpl,
-    });
+    );
   }, [swfFile, stateControl, swfLanguageService]);
 
   const onValidate = useCallback(async () => {
