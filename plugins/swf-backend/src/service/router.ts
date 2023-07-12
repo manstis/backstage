@@ -280,7 +280,7 @@ async function setupKogitoService(
   logger: Logger,
 ) {
   const kogitoResourcesAbsPath = resolve(`${kogitoResourcesPath}`);
-  const launcher = `docker run --add-host host.docker.internal:host-gateway --rm -p ${kogitoPort}:8080 -v ${kogitoResourcesAbsPath}:/home/kogito/serverless-workflow-project/src/main/resources ${kogitoServiceContainer} -e KOGITO.CODEGEN.PROCESS.FAILONERROR=false`;
+  const launcher = `docker run --add-host host.docker.internal:host-gateway --rm -p ${kogitoPort}:8080 -v ${kogitoResourcesAbsPath}:/home/kogito/serverless-workflow-project/src/main/resources -e KOGITO.CODEGEN.PROCESS.FAILONERROR=false ${kogitoServiceContainer}`;
   exec(
     launcher,
     (error: ExecException | null, stdout: string, stderr: string) => {
