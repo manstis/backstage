@@ -30,7 +30,11 @@ import {
   EnvelopeMapping,
 } from '@kie-tools-core/editor/dist/api';
 import { swfApiRef } from '@backstage/plugin-swf';
-import { empty_definition } from '@backstage/plugin-swf-common';
+import {
+  actions_open_api_file,
+  actions_open_api_file_path,
+  empty_definition,
+} from '@backstage/plugin-swf-common';
 import { SwfLanguageService } from './SwfLanguageService';
 import { Diagnostic, DiagnosticSeverity } from 'vscode-languageserver-types';
 import { Notification } from '@kie-tools-core/notifications/dist/api';
@@ -40,9 +44,6 @@ import { SwfCatalogSourceType } from '@kie-tools/serverless-workflow-service-cat
 import { SwfServiceCatalogService } from '@kie-tools/serverless-workflow-service-catalog/dist/api';
 import { SwfCombinedEditorChannelApiImpl } from '@kie-tools/serverless-workflow-combined-editor/dist/impl';
 import { ServerlessWorkflowCombinedEditorChannelApi } from '@kie-tools/serverless-workflow-combined-editor/dist/api';
-
-// This filename should probably be returned by the backend
-const ACTIONS_OPEN_API_FILE = 'actions-openapi.json';
 
 export const useServerlessWorkflowCombinedEditor = (
   swfId: string | undefined,
@@ -63,10 +64,10 @@ export const useServerlessWorkflowCombinedEditor = (
     swfApi.getActionsSchema().then(schema => {
       const service = parseApiContent({
         serviceFileContent: JSON.stringify(schema),
-        serviceFileName: ACTIONS_OPEN_API_FILE,
+        serviceFileName: actions_open_api_file,
         source: {
           type: SwfCatalogSourceType.LOCAL_FS,
-          absoluteFilePath: `specs/${ACTIONS_OPEN_API_FILE}`,
+          absoluteFilePath: actions_open_api_file_path,
         },
       });
       setServices([service]);

@@ -35,3 +35,6 @@ export const empty_definition = `
   ]
   }
 `;
+
+export const actions_open_api_file = 'actions-openapi.json';
+export const actions_open_api_file_path = `specs/${actions_open_api_file}`;

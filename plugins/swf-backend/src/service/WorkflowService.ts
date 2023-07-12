@@ -16,6 +16,7 @@
 import { resolvePackagePath } from '@backstage/backend-common';
 import fs from 'fs-extra';
 import { OpenApiService } from './OpenApiService';
+import { actions_open_api_file_path } from '@backstage/plugin-swf-common';
 
 export class WorkflowService {
   private openApiService: OpenApiService;
@@ -52,7 +53,7 @@ export class WorkflowService {
   async saveOpenApi(): Promise<any> {
     const path = resolvePackagePath(
       `@backstage/plugin-swf-backend`,
-      `${this.resourcesPath}specs/actions-openapi.json`,
+      `${this.resourcesPath}${actions_open_api_file_path}`,
     );
     return this.openApiService.generateOpenApi().then(data => {
       if (data) {
