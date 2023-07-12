@@ -24,8 +24,6 @@ import { OpenAPIV3 } from 'openapi-types';
 export interface SwfApi {
   getSwf(swfId: string): Promise<SwfItem>;
 
-  getActionsSchema(): Promise<OpenAPIV3.Document>;
-
   listSwfs(): Promise<SwfListResult>;
 
   getInstances(): Promise<ProcessInstance[]>;
@@ -35,6 +33,8 @@ export interface SwfApi {
   createWorkflowDefinition(url: string, content: string): Promise<SwfItem>;
 
   deleteWorkflowDefinition(swfId: string): Promise<any>;
+
+  getActionsSchema(): Promise<OpenAPIV3.Document>;
 }
 
 export const swfApiRef = createApiRef<SwfApi>({
