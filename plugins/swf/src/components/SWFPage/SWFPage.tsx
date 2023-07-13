@@ -25,24 +25,28 @@ import {
   SupportButton,
 } from '@backstage/core-components';
 import { SWFDefinitionsListComponent } from '../SWFDefinitionsListComponent';
+import {
+  workflow_title,
+  workflow_title_plural,
+} from '@backstage/plugin-swf-common';
 
 export const SWFPage = () => {
   return (
     <Page themeId="tool">
       <Header
-        title="Serverless Workflow"
-        subtitle="Where all your SWF needs come to life!"
+        title={workflow_title}
+        subtitle={`Where all your ${workflow_title} needs come to life!`}
       >
         <HeaderLabel label="Owner" value="Team X" />
         <HeaderLabel label="Lifecycle" value="Alpha" />
       </Header>
       <Content>
-        <ContentHeader title="Serverless Workflow">
+        <ContentHeader title={workflow_title}>
           <SupportButton>Orchestrate things with stuff.</SupportButton>
         </ContentHeader>
         <Grid container spacing={3} direction="column">
           <Grid item>
-            <InfoCard title="Workflows">
+            <InfoCard title={workflow_title_plural}>
               <SWFDefinitionsListComponent />
             </InfoCard>
           </Grid>

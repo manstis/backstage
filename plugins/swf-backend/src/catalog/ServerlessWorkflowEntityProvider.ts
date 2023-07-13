@@ -25,7 +25,7 @@ import {
   EventParams,
   EventSubscriber,
 } from '@backstage/plugin-events-node';
-import { SwfItem, topic } from '@backstage/plugin-swf-common';
+import { SwfItem, topic, workflow_type } from '@backstage/plugin-swf-common';
 import {
   TemplateEntityV1beta3,
   TemplateParametersV1beta3,
@@ -184,7 +184,7 @@ export class ServerlessWorkflowEntityProvider
           name: i.id,
           title: i.name,
           description: i.description,
-          tags: ['experimental', 'swf'],
+          tags: ['experimental', workflow_type],
           annotations: {
             'backstage.io/managed-by-location': `url:${this.kogitoServiceUrl}`,
             'backstage.io/managed-by-origin-location': `url:${this.kogitoServiceUrl}`,
@@ -194,7 +194,7 @@ export class ServerlessWorkflowEntityProvider
         },
         spec: {
           owner: this.owner,
-          type: 'serverless-workflow',
+          type: workflow_type,
           steps: [],
           parameters: this.makeBackstageTemplateParameters(
             i,

@@ -39,6 +39,7 @@ import {
   EmbeddedEditor,
   useEditorRef,
 } from '@kie-tools-core/editor/dist/embedded';
+import { workflow_title } from '@backstage/plugin-swf-common';
 
 export const SWFDefinitionViewerPage = () => {
   const { editorRef } = useEditorRef();
@@ -98,14 +99,14 @@ export const SWFDefinitionViewerPage = () => {
   return (
     <Page themeId="tool">
       <Header
-        title="Serverless Workflow"
-        subtitle="Where all your SWF needs come to life!"
+        title={workflow_title}
+        subtitle={`Where all your ${workflow_title} needs come to life!`}
       >
         <HeaderLabel label="Owner" value="Team X" />
         <HeaderLabel label="Lifecycle" value="Alpha" />
       </Header>
       <Content>
-        <ContentHeader title="Serverless Workflow - Definition">
+        <ContentHeader title={`${workflow_title} Definition`}>
           <SupportButton>Orchestrate things with stuff.</SupportButton>
         </ContentHeader>
         <Grid container spacing={3} direction="column">

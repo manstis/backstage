@@ -189,6 +189,8 @@ swf:
   workflow-service:
     path: ../../plugins/swf-backend/workflows
     container: quay.io/kiegroup/kogito-swf-devmode:1.40
+  text:
+    workflow-title: Sonata Workflow
 
 integrations:
   github:

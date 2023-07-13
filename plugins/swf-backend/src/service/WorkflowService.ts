@@ -20,7 +20,7 @@ import { actions_open_api_file_path } from '@backstage/plugin-swf-common';
 
 export class WorkflowService {
   private openApiService: OpenApiService;
-  private readonly resourcesPath = `workflows/`;
+  private readonly resourcesPath = `workflows`;
 
   constructor(openApiService: OpenApiService) {
     this.openApiService = openApiService;
@@ -36,13 +36,14 @@ export class WorkflowService {
   }
 
   private saveFile(path: string, data: any) {
-    return fs.writeFile(path, JSON.stringify(data), 'utf8').then(_ => data);
+    return fs.writeFile(path, JSON.stringify(data), 'utf8').then(() => data);
   }
 
   async saveWorkflowDefinitionFromUrl(url: string): Promise<any> {
-    return this.fetchWorkflowDefinitionFromUrl(url).then(
-      this.saveWorkflowDefinition,
-    );
+    return this.fetchWorkflowDefinitionFromUrl(url).then(content => {
+      this.saveWorkflowDefinition(content);
+      return content;
+    });
   }
 
   async fetchWorkflowDefinitionFromUrl(url: string): Promise<any> {
@@ -53,7 +54,7 @@ export class WorkflowService {
   async saveOpenApi(): Promise<any> {
     const path = resolvePackagePath(
       `@backstage/plugin-swf-backend`,
-      `${this.resourcesPath}${actions_open_api_file_path}`,
+      `${this.resourcesPath}/${actions_open_api_file_path}`,
     );
     return this.openApiService.generateOpenApi().then(data => {
       if (data) {
@@ -65,7 +66,7 @@ export class WorkflowService {
   async deleteWorkflowDefinitionById(swfId: string): Promise<void> {
     const definitionsPath = resolvePackagePath(
       `@backstage/plugin-swf-backend`,
-      `${this.resourcesPath}${swfId}.sw.json`,
+      `${this.resourcesPath}/${swfId}.sw.json`,
     );
     return fs.rm(definitionsPath, { force: true });
   }

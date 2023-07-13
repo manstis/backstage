@@ -27,7 +27,7 @@ import { Grid } from '@material-ui/core';
 import { ProcessVariablesViewer } from './ProcessVariablesViewer';
 import { ProcessGraphViewer } from './ProcessGraphViewer';
 import { ProcessInstancesTable } from './ProcessInstancesTable';
-import { ProcessInstance } from '@backstage/plugin-swf-common';
+import { ProcessInstance, workflow_title } from '@backstage/plugin-swf-common';
 import { ProcessDetailsViewer } from './ProcessDetailsViewer';
 import { ProcessTimeline } from './ProcessTimeline';
 
@@ -42,14 +42,14 @@ export const SWFInstancesViewerPage = () => {
   return (
     <Page themeId="tool">
       <Header
-        title="Serverless Workflow"
-        subtitle="Where all your SWF needs come to life!"
+        title={workflow_title}
+        subtitle={`Where all your ${workflow_title} needs come to life!`}
       >
         <HeaderLabel label="Owner" value="Team X" />
         <HeaderLabel label="Lifecycle" value="Alpha" />
       </Header>
       <Content>
-        <ContentHeader title="Serverless Workflow - Instances">
+        <ContentHeader title={`${workflow_title} Instances`}>
           <SupportButton>Orchestrate things with stuff.</SupportButton>
         </ContentHeader>
         <Grid container direction="row">

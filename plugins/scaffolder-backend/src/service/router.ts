@@ -80,6 +80,7 @@ import {
 import { scaffolderActionRules, scaffolderTemplateRules } from './rules';
 import fs from 'fs-extra';
 import fetch from 'node-fetch';
+import { workflow_type } from '@backstage/plugin-swf-common';
 
 /**
  *
@@ -456,7 +457,7 @@ export async function createRouter(
       const baseUrl = getEntityBaseUrl(template);
 
       // Delegate execution of SWF's to the SWF backend
-      if (template.spec.type === 'serverless-workflow') {
+      if (template.spec.type === workflow_type) {
         logger.info('Delegating execution of Serverless Workflow...');
         const swfId: string = template.metadata.name;
         const swfApiUrl: string = await discovery.getBaseUrl('swf');

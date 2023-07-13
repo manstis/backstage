@@ -43,6 +43,7 @@ import {
   scaffolderTaskRouteRef,
   selectedTemplateRouteRef,
 } from '../../routes';
+import { workflow_type } from '@backstage/plugin-swf-common';
 
 /**
  * @alpha
@@ -80,7 +81,7 @@ export const TemplateWizardPage = (props: TemplateWizardPageProps) => {
       values,
       secrets,
     });
-    if (manifest.type === 'serverless-workflow') {
+    if (manifest.type === workflow_type) {
       alertApi.post({
         severity: 'info',
         message: `Workflow ${taskId} has been started...`,

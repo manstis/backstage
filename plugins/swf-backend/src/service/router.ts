@@ -216,12 +216,11 @@ function setupInternalRoutes(
 
   router.post('/workflows', async (req, res) => {
     const url: any = req.query.url;
-    const swfData = req.body;
-
+    let swfData = req.body;
     if (url && url.includes(`http`)) {
-      await workflowService.saveWorkflowDefinitionFromUrl(url);
+      swfData = await workflowService.saveWorkflowDefinitionFromUrl(url);
     } else {
-      await workflowService.saveWorkflowDefinition(swfData);
+      swfData = await workflowService.saveWorkflowDefinition(swfData);
     }
 
     const swfItem: SwfItem = {
@@ -317,7 +316,7 @@ async function executeWithRetry(
   let errorCount = 0;
   // execute with retry
   const backoff = 5000;
-  const maxErrors = 10;
+  const maxErrors = 15;
   while (errorCount < maxErrors) {
     response = await action();
     if (response.status >= 400) {

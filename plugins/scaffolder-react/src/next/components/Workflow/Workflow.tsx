@@ -28,6 +28,7 @@ import { useTemplateParameterSchema } from '../../hooks/useTemplateParameterSche
 import { Stepper, type StepperProps } from '../Stepper/Stepper';
 import { SecretsContextProvider } from '../../../secrets/SecretsContext';
 import { SWFDialog } from '@backstage/plugin-swf';
+import { workflow_title, workflow_type } from '@backstage/plugin-swf-common';
 
 const useStyles = makeStyles<BackstageTheme>(() => ({
   markdown: {
@@ -105,14 +106,14 @@ export const Workflow = (workflowProps: WorkflowProps): JSX.Element | null => {
           noPadding
           titleTypographyProps={{ component: 'h2' }}
         >
-          {manifest.type === 'serverless-workflow' && manifest.name && (
+          {manifest.type === workflow_type && manifest.name && (
             <>
               <Button
                 variant="contained"
                 color="primary"
                 onClick={_ => setOpen(true)}
               >
-                View Serverless Workflow
+                View {workflow_title}
               </Button>
               <SWFDialog
                 swfId={manifest.name}

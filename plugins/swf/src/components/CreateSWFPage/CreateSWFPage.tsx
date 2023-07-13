@@ -39,7 +39,7 @@ import {
 } from '@backstage/core-plugin-api';
 import { useNavigate } from 'react-router-dom';
 import { definitionsRouteRef, editWorkflowRouteRef } from '../../routes';
-import { to_be_entered } from '@backstage/plugin-swf-common';
+import { to_be_entered, workflow_title } from '@backstage/plugin-swf-common';
 
 export const CreateSWFPage = () => {
   const swfId = useRouteRefParams(editWorkflowRouteRef).swfId;
@@ -114,14 +114,14 @@ export const CreateSWFPage = () => {
   return (
     <Page themeId="tool">
       <Header
-        title="Serverless Workflow"
+        title={workflow_title}
         subtitle="Where all your SWF needs come to life!"
       >
         <HeaderLabel label="Owner" value="Team X" />
         <HeaderLabel label="Lifecycle" value="Alpha" />
       </Header>
       <Content>
-        <ContentHeader title="Serverless Workflow">
+        <ContentHeader title={workflow_title}>
           <SupportButton>Orchestrate things with stuff.</SupportButton>
         </ContentHeader>
         <Grid container spacing={3} direction="column">
@@ -134,6 +134,8 @@ export const CreateSWFPage = () => {
                   </Typography>
                   <Button
                     color="primary"
+                    type="submit"
+                    variant="contained"
                     onClick={() => {
                       swfEditor?.getContent().then(c => handleResult(c));
                     }}

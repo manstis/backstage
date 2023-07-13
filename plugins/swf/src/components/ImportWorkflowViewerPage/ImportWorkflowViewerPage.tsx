@@ -63,36 +63,7 @@ export const ImportWorkflowViewerPage = () => {
   const handleResult = useCallback(
     async ({ url }: FormData) => {
       try {
-        const result = await swfApi.createWorkflowDefinition(
-          url,
-          // just to test
-          JSON.stringify({
-            id: 'swf200',
-            version: '1.0',
-            specVersion: '0.8',
-            name: 'Hello World Workflow',
-            description: 'JSON based hello world workflow',
-            start: 'Inject Hello World',
-            states: [
-              {
-                name: 'Inject Hello World',
-                type: 'inject',
-                data: {
-                  greeting: 'Hello World',
-                },
-                transition: 'Inject Mantra',
-              },
-              {
-                name: 'Inject Mantra',
-                type: 'inject',
-                data: {
-                  mantra: 'Serverless Workflow is awesome!',
-                },
-                end: true,
-              },
-            ],
-          }),
-        );
+        const result = await swfApi.createWorkflowDefinition(url);
 
         if (!result || !result.id) {
           errorApi.post(new Error('error importing workflow'));
