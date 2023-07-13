@@ -53,6 +53,7 @@
     "@backstage/plugin-catalog-react": "workspace:^",
     "@backstage/plugin-scaffolder-common": "workspace:^",
     "@backstage/plugin-swf": "workspace:^",
+    "@backstage/plugin-swf-common": "workspace:^",
     "@backstage/theme": "workspace:^",
     "@backstage/types": "workspace:^",
     "@backstage/version-bridge": "workspace:^",

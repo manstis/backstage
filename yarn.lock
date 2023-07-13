@@ -8369,6 +8369,7 @@ __metadata:
     "@backstage/plugin-permission-node": "workspace:^"
     "@backstage/plugin-scaffolder-common": "workspace:^"
     "@backstage/plugin-scaffolder-node": "workspace:^"
+    "@backstage/plugin-swf-common": "workspace:^"
     "@backstage/types": "workspace:^"
     "@gitbeaker/core": ^35.6.0
     "@gitbeaker/node": ^35.1.0
@@ -8464,6 +8465,11 @@ __metadata:
     "@backstage/plugin-catalog-common": "workspace:^"
     "@backstage/plugin-catalog-react": "workspace:^"
     "@backstage/plugin-scaffolder-common": "workspace:^"
+<<<<<<< HEAD
+=======
+    "@backstage/plugin-swf": "workspace:^"
+    "@backstage/plugin-swf-common": "workspace:^"
+>>>>>>> 9ded6a9a7252 (revert app-config)
     "@backstage/test-utils": "workspace:^"
     "@backstage/theme": "workspace:^"
     "@backstage/types": "workspace:^"
@@ -8528,6 +8534,11 @@ __metadata:
     "@backstage/plugin-permission-react": "workspace:^"
     "@backstage/plugin-scaffolder-common": "workspace:^"
     "@backstage/plugin-scaffolder-react": "workspace:^"
+<<<<<<< HEAD
+=======
+    "@backstage/plugin-swf": "workspace:^"
+    "@backstage/plugin-swf-common": "workspace:^"
+>>>>>>> 9ded6a9a7252 (revert app-config)
     "@backstage/test-utils": "workspace:^"
     "@backstage/theme": "workspace:^"
     "@backstage/types": "workspace:^"

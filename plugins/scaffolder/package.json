@@ -59,6 +59,7 @@
     "@backstage/plugin-scaffolder-common": "workspace:^",
     "@backstage/plugin-scaffolder-react": "workspace:^",
     "@backstage/plugin-swf": "workspace:^",
+    "@backstage/plugin-swf-common": "workspace:^",
     "@backstage/theme": "workspace:^",
     "@backstage/types": "workspace:^",
     "@codemirror/language": "^6.0.0",
