@@ -115,7 +115,7 @@ export const CreateSWFPage = () => {
     <Page themeId="tool">
       <Header
         title={workflow_title}
-        subtitle="Where all your SWF needs come to life!"
+        subtitle={`Where all your ${workflow_title} needs come to life!`}
       >
         <HeaderLabel label="Owner" value="Team X" />
         <HeaderLabel label="Lifecycle" value="Alpha" />
