@@ -24,9 +24,9 @@ import {
   Page,
   SupportButton,
 } from '@backstage/core-components';
-import { EmbeddedEditor } from '@kie-tools-core/editor/dist/embedded';
-import { ChannelType } from '@kie-tools-core/editor/dist/api';
-import { useServerlessWorkflowCombinedEditor } from '../../hooks/useServerlessWorkflowCombinedEditor';
+import { SWFEditor } from '../SWFEditor';
+import { useController } from '@kie-tools-core/react-hooks/dist/useController';
+import { EditorViewKind, SWFEditorRef } from '../SWFEditor/SWFEditor';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { swfApiRef } from '../../api';
@@ -40,18 +40,11 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { definitionsRouteRef, editWorkflowRouteRef } from '../../routes';
 import { to_be_entered, workflow_title } from '@backstage/plugin-swf-common';
+import { Specification } from '@severlessworkflow/sdk-typescript';
 
 export const CreateSWFPage = () => {
   const swfId = useRouteRefParams(editWorkflowRouteRef).swfId;
-  const {
-    swfFile,
-    swfEditor,
-    swfEditorRef,
-    swfEditorEnvelopeLocator,
-    swfEditorApi,
-    validate,
-  } = useServerlessWorkflowCombinedEditor(swfId);
-
+  const [swfEditor, swfEditorRef] = useController<SWFEditorRef>();
   const errorApi = useApi(errorApiRef);
   const alertApi = useApi(alertApiRef);
   const swfApi = useApi(swfApiRef);
@@ -62,22 +55,22 @@ export const CreateSWFPage = () => {
     async (content: string) => {
       try {
         // Check basic details have been entered
-        const json: any = JSON.parse(content);
-        if (json.id === to_be_entered) {
+        const workflow = JSON.parse(content) as Specification.Workflow;
+        if (workflow.id === to_be_entered) {
           errorApi.post(new Error(`The 'id' must be entered.`));
           return;
         }
-        if (json.name === to_be_entered) {
+        if (workflow.name === to_be_entered) {
           errorApi.post(new Error(`The 'name' must be entered.`));
           return;
         }
-        if (json.description === to_be_entered) {
+        if (workflow.description === to_be_entered) {
           errorApi.post(new Error(`The 'description' must be entered.`));
           return;
         }
 
         // Check validate as provided by the Stunner editor
-        validate().then(n => {
+        swfEditor?.validate().then(n => {
           if (!n) {
             errorApi.post(new Error('Error creating workflow'));
             return;
@@ -93,7 +86,7 @@ export const CreateSWFPage = () => {
 
           // Try to save
           swfApi.createWorkflowDefinition('', content).then(swf => {
-            if (!swf || !swf.id) {
+            if (!swf?.id) {
               errorApi.post(new Error('Error creating workflow'));
             } else {
               alertApi.post({
@@ -108,7 +101,7 @@ export const CreateSWFPage = () => {
         errorApi.post(new Error(e));
       }
     },
-    [swfApi, alertApi, errorApi, navigate, definitionLink, validate],
+    [swfEditor, errorApi, swfApi, alertApi, navigate, definitionLink],
   );
 
   return (
@@ -137,7 +130,11 @@ export const CreateSWFPage = () => {
                     type="submit"
                     variant="contained"
                     onClick={() => {
-                      swfEditor?.getContent().then(c => handleResult(c));
+                      swfEditor?.getContent().then(content => {
+                        if (content) {
+                          handleResult(content);
+                        }
+                      });
                     }}
                   >
                     Save...
@@ -146,16 +143,11 @@ export const CreateSWFPage = () => {
               }
             >
               <div style={{ height: '500px', padding: '10px' }}>
-                {swfFile && (
-                  <EmbeddedEditor
-                    ref={swfEditorRef}
-                    file={swfFile}
-                    channelType={ChannelType.ONLINE}
-                    editorEnvelopeLocator={swfEditorEnvelopeLocator}
-                    customChannelApiImpl={swfEditorApi}
-                    locale="en"
-                  />
-                )}
+                <SWFEditor
+                  ref={swfEditorRef}
+                  kind={EditorViewKind.AUTHORING}
+                  swfId={swfId}
+                />
               </div>
             </InfoCard>
           </Grid>

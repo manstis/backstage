@@ -147,7 +147,7 @@
   "scripts": {
     "start": "backstage-cli package start",
     "build": "backstage-cli package build",
-    "build:swf": "webpack --config webpack.config.js",
+    "build:swf": "rm -rf dist/ && webpack --config webpack.config.js",
     "clean": "backstage-cli package clean",
     "test": "backstage-cli package test",
     "lint": "backstage-cli package lint",

@@ -13,9 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { useApi, useRouteRefParams } from '@backstage/core-plugin-api';
-import { swfApiRef } from '../../api';
+import React, { useEffect, useState } from 'react';
+import { useRouteRefParams } from '@backstage/core-plugin-api';
 import { definitionsRouteRef } from '../../routes';
 import {
   Content,
@@ -24,77 +23,25 @@ import {
   HeaderLabel,
   InfoCard,
   Page,
-  Progress,
   SupportButton,
 } from '@backstage/core-components';
 import { Grid } from '@material-ui/core';
-import {
-  ChannelType,
-  EditorEnvelopeLocator,
-  EnvelopeContentType,
-  EnvelopeMapping,
-} from '@kie-tools-core/editor/dist/api';
-import { EmbeddedEditorFile } from '@kie-tools-core/editor/dist/channel';
-import {
-  EmbeddedEditor,
-  useEditorRef,
-} from '@kie-tools-core/editor/dist/embedded';
 import { workflow_title } from '@backstage/plugin-swf-common';
+import { SWFEditor } from '../SWFEditor';
+import { EditorViewKind, SWFEditorRef } from '../SWFEditor/SWFEditor';
+import { useController } from '@kie-tools-core/react-hooks/dist/useController';
 
 export const SWFDefinitionViewerPage = () => {
-  const { editorRef } = useEditorRef();
-  const [embeddedEditorFile, setEmbeddedEditorFile] =
-    useState<EmbeddedEditorFile>();
-
-  const swfApi = useApi(swfApiRef);
   const [name, setName] = useState<string>();
   const { swfId } = useRouteRefParams(definitionsRouteRef);
-
-  const editorEnvelopeLocator = useMemo(
-    () =>
-      new EditorEnvelopeLocator(window.location.origin, [
-        new EnvelopeMapping({
-          type: 'swf',
-          filePathGlob: '*.swf',
-          resourcesPathPrefix: '',
-          envelopeContent: {
-            type: EnvelopeContentType.PATH,
-            path: 'serverless-workflow-diagram-editor-envelope.html',
-          },
-        }),
-      ]),
-    [],
-  );
-
-  const setContent = useCallback((path: string, content: string) => {
-    setEmbeddedEditorFile({
-      path: path,
-      getFileContents: async () => content,
-      isReadOnly: false,
-      fileExtension: 'swf',
-      fileName: 'fileName',
-    });
-  }, []);
-
-  const [loading, setLoading] = useState(true);
-
-  const fetchData = useCallback(async () => {
-    swfApi
-      .getSwf(swfId)
-      .then(value => {
-        setName(value.name);
-        setContent('fileName.swf', value.definition);
-        setLoading(false);
-      })
-      .catch(() => {
-        setContent(`fileName.swf`, `{}`);
-        setLoading(false);
-      });
-  }, [swfApi, swfId, setContent, setLoading]);
+  const [swfEditor, swfEditorRef] = useController<SWFEditorRef>();
 
   useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+    if (!swfEditor?.swfItem) {
+      return;
+    }
+    setName(swfEditor.swfItem.name);
+  }, [swfEditor]);
 
   return (
     <Page themeId="tool">
@@ -111,18 +58,13 @@ export const SWFDefinitionViewerPage = () => {
         </ContentHeader>
         <Grid container spacing={3} direction="column">
           <Grid item>
-            {loading && <Progress />}
             <InfoCard title={name || ''}>
               <div style={{ height: '500px' }}>
-                {embeddedEditorFile && (
-                  <EmbeddedEditor
-                    ref={editorRef}
-                    file={embeddedEditorFile}
-                    channelType={ChannelType.ONLINE}
-                    editorEnvelopeLocator={editorEnvelopeLocator}
-                    locale="en"
-                  />
-                )}
+                <SWFEditor
+                  ref={swfEditorRef}
+                  kind={EditorViewKind.DIAGRAM_VIEWER}
+                  swfId={swfId}
+                />
               </div>
             </InfoCard>
           </Grid>

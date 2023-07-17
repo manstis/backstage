@@ -17,8 +17,7 @@ export const topic = 'kogito-swf-service-ready';
 
 export const to_be_entered = `<Enter>`;
 
-export const empty_definition = `
-  {
+export const empty_definition = `{
     "id": "${to_be_entered}",
     "version": "1.0",
     "specVersion": "0.8",
@@ -26,15 +25,15 @@ export const empty_definition = `
     "description": "${to_be_entered}",
     "start": "Stage1",
     "states": [
-    {
-      "name": "Stage1",
-      "type": "operation",
-      "actions": [],
-      "end": true
-    }
-  ]
+      {
+        "name": "Stage1",
+        "type": "operation",
+        "actions": [],
+        "end": true
+      }
+    ]
   }
-`;
+  `;
 
 export const actions_open_api_file = 'actions-openapi.json';
 export const actions_open_api_file_path = `specs/${actions_open_api_file}`;

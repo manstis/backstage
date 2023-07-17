@@ -34,6 +34,7 @@
     "@kie-tools-core/editor": "^0.30.0",
     "@kie-tools-core/envelope-bus": "^0.30.0",
     "@kie-tools-core/notifications": "^0.30.0",
+    "@kie-tools-core/react-hooks": "^0.30.0",
     "@kie-tools-core/workspace": "^0.30.0",
     "@kie-tools/serverless-workflow-combined-editor": "^0.30.0",
     "@kie-tools/serverless-workflow-diagram-editor-envelope": "^0.30.0",

@@ -9273,6 +9273,7 @@ __metadata:
     "@kie-tools-core/editor": ^0.30.0
     "@kie-tools-core/envelope-bus": ^0.30.0
     "@kie-tools-core/notifications": ^0.30.0
+    "@kie-tools-core/react-hooks": ^0.30.0
     "@kie-tools-core/workspace": ^0.30.0
     "@kie-tools/serverless-workflow-combined-editor": ^0.30.0
     "@kie-tools/serverless-workflow-diagram-editor-envelope": ^0.30.0
@@ -12846,6 +12847,15 @@ __metadata:
   version: 0.30.0
   resolution: "@kie-tools-core/patternfly-base@npm:0.30.0"
   checksum: 7b293bba6b4185a65fd4d5f2bfd164d25bc92988550050da80898804e6841900a08e0fbdd217ef4aa7a731f93d74babdee80c560ace8b64d911e882bf3e73576
+  languageName: node
+  linkType: hard
+
+"@kie-tools-core/react-hooks@npm:^0.30.0":
+  version: 0.30.0
+  resolution: "@kie-tools-core/react-hooks@npm:0.30.0"
+  dependencies:
+    react: ^17.0.2
+  checksum: a3b9ada0533e5e852b061c2dd343fa44e770f20622d439a2d9fd1d16523fc8b36d31b75c0361524e75a238c3f0c98f819ef047d3bec8231ca03f19cc0232e3ca
   languageName: node
   linkType: hard
 
