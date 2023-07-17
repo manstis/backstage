@@ -23,6 +23,7 @@ import {
   HeaderLabel,
   InfoCard,
   Page,
+  Progress,
   SupportButton,
 } from '@backstage/core-components';
 import { Grid } from '@material-ui/core';
@@ -35,11 +36,13 @@ export const SWFDefinitionViewerPage = () => {
   const [name, setName] = useState<string>();
   const { swfId } = useRouteRefParams(definitionsRouteRef);
   const [swfEditor, swfEditorRef] = useController<SWFEditorRef>();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!swfEditor?.swfItem) {
       return;
     }
+    setLoading(false);
     setName(swfEditor.swfItem.name);
   }, [swfEditor]);
 
@@ -58,6 +61,7 @@ export const SWFDefinitionViewerPage = () => {
         </ContentHeader>
         <Grid container spacing={3} direction="column">
           <Grid item>
+            {loading && <Progress />}
             <InfoCard title={name || ''}>
               <div style={{ height: '500px' }}>
                 <SWFEditor
