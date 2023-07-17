@@ -62,7 +62,10 @@ export const SWFInstancesViewerPage = () => {
             </InfoCard>
           </Grid>
           <Grid item xs={12} lg={4}>
-            <ProcessGraphViewer swfId={selectedInstance?.processId} />
+            <ProcessGraphViewer
+              swfId={selectedInstance?.processId}
+              selectedInstance={selectedInstance}
+            />
           </Grid>
           <Grid item xs={12} lg={8}>
             <ProcessVariablesViewer variables={toJsonVariables()} />

@@ -16,31 +16,28 @@
 import React from 'react';
 
 import { InfoCard } from '@backstage/core-components';
-import { EmbeddedEditor } from '@kie-tools-core/editor/dist/embedded';
-import { ChannelType } from '@kie-tools-core/editor/dist/api';
-import { useServerlessWorkflowDiagramEditor } from '../../hooks';
+import { ProcessInstance } from '@backstage/plugin-swf-common';
+import { SWFEditor } from '../SWFEditor';
+import { EditorViewKind } from '../SWFEditor/SWFEditor';
 
 interface ProcessGraphViewerProps {
   swfId: string | undefined;
+  selectedInstance: ProcessInstance | undefined;
 }
 
 export const ProcessGraphViewer = (props: ProcessGraphViewerProps) => {
-  const { swfId } = props;
-
-  const { swfFile, swfEditorRef, swfEditorEnvelopeLocator } =
-    useServerlessWorkflowDiagramEditor(swfId);
+  const { swfId, selectedInstance } = props;
 
   return (
     <InfoCard title="Status">
       <div style={{ height: '500px', padding: '10px' }}>
-        {swfFile === undefined && <p>No instance selected</p>}
-        {swfFile && (
-          <EmbeddedEditor
-            ref={swfEditorRef}
-            file={swfFile}
-            channelType={ChannelType.ONLINE}
-            editorEnvelopeLocator={swfEditorEnvelopeLocator}
-            locale="en"
+        {!swfId || !selectedInstance ? (
+          <p>No instance selected</p>
+        ) : (
+          <SWFEditor
+            kind={EditorViewKind.RUNTIME}
+            processInstance={selectedInstance}
+            swfId={swfId}
           />
         )}
       </div>

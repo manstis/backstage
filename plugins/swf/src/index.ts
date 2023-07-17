@@ -18,8 +18,6 @@ export { SwfClient } from './api/SwfClient';
 export { SWFDialog } from './components/SWFDialog';
 export type { SwfClientOptions } from './api/SwfClient';
 export { swfApiRef } from './api';
-export { useServerlessWorkflowCombinedEditor } from './hooks/useServerlessWorkflowCombinedEditor';
-export { useServerlessWorkflowDiagramEditor } from './hooks/useServerlessWorkflowDiagramEditor';
 export {
   swfInstanceRouteRef,
   swfInstancesRouteRef,

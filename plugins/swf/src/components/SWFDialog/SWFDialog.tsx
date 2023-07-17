@@ -15,9 +15,8 @@
  */
 import React from 'react';
 import { Dialog, DialogTitle } from '@material-ui/core';
-import { ChannelType } from '@kie-tools-core/editor/dist/api';
-import { EmbeddedEditor } from '@kie-tools-core/editor/dist/embedded';
-import { useServerlessWorkflowDiagramEditor } from '@backstage/plugin-swf';
+import { SWFEditor } from '../SWFEditor';
+import { EditorViewKind } from '../SWFEditor/SWFEditor';
 
 type SWFDialogProps = {
   swfId: string;
@@ -28,22 +27,11 @@ type SWFDialogProps = {
 export const SWFDialog = (props: SWFDialogProps): JSX.Element | null => {
   const { swfId, title, open, close } = props;
 
-  const { swfFile, swfEditorRef, swfEditorEnvelopeLocator } =
-    useServerlessWorkflowDiagramEditor(swfId);
-
   return (
     <Dialog onClose={_ => close()} open={open}>
       <DialogTitle>{title}</DialogTitle>
       <div style={{ height: '500px', width: '500px', padding: '10px' }}>
-        {swfFile && (
-          <EmbeddedEditor
-            ref={swfEditorRef}
-            file={swfFile}
-            channelType={ChannelType.ONLINE}
-            editorEnvelopeLocator={swfEditorEnvelopeLocator}
-            locale="en"
-          />
-        )}
+        <SWFEditor kind={EditorViewKind.DIAGRAM_VIEWER} swfId={swfId} />
       </div>
     </Dialog>
   );

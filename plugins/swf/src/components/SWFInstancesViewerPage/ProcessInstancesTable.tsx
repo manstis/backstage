@@ -84,7 +84,7 @@ export const ProcessInstancesTable = (props: ProcessInstancesTableProps) => {
     if (selectedRowData) {
       loadInstance(selectedRowData.pid);
     }
-  }, [loadInstance, data, instanceId]);
+  }, [loadInstance, data, instanceId, selectedInstance]);
 
   return (
     <InfoCard title="Instances">
@@ -92,7 +92,9 @@ export const ProcessInstancesTable = (props: ProcessInstancesTableProps) => {
         data={data}
         columns={[column1, column2, column3]}
         onRowClick={(_, rowData) => {
-          loadInstance(rowData?.pid);
+          if (rowData && rowData.pid !== selectedInstance?.id) {
+            loadInstance(rowData.pid);
+          }
         }}
         options={{
           padding: 'dense',
