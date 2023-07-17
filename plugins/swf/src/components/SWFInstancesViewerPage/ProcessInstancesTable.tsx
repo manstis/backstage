@@ -84,7 +84,7 @@ export const ProcessInstancesTable = (props: ProcessInstancesTableProps) => {
     if (selectedRowData) {
       loadInstance(selectedRowData.pid);
     }
-  }, [loadInstance, data, instanceId, selectedInstance]);
+  }, [loadInstance, data, instanceId]);
 
   return (
     <InfoCard title="Instances">
