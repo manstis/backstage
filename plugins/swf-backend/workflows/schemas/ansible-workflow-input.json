@@ -2,11 +2,15 @@
   "$schema": "http://json-schema.org/draft-04/schema#",
   "title": "ansible-workflow",
   "required": [
-    "url",
     "component_id",
     "namespace",
     "connection_secret",
-    "jobTemplate"
+    "jobTemplate",
+    "githubOrg",
+    "repoName",
+    "owner",
+    "repoUrl",
+    "defaultBranch"
   ],
   "type": "object",
   "properties": {
@@ -41,6 +45,14 @@
     },
     "owner": {
       "title": "Catalogue GitHub Owner",
+      "type": "string"
+    },
+    "repoUrl": {
+      "title": "GitHubPush Repository URL",
+      "type": "string"
+    },
+    "defaultBranch": {
+      "title": "GitHubPush Branch",
       "type": "string"
     },
     "description": {

@@ -9,6 +9,14 @@
     {
       "name": "runActionTemplateFetch",
       "operation": "specs/actions-openapi.json#fetch:template"
+    },
+    {
+      "name": "runActionGitHubRepoPush",
+      "operation": "specs/actions-openapi.json#github:repo:push"
+    },
+    {
+      "name": "runActionCatalogRegister",
+      "operation": "specs/actions-openapi.json#catalog:register"
     }
   ],
   "start": "Generating the Ansible Job component",
@@ -58,6 +66,29 @@
                 "description": ".description"
               }
             }
+          }
+        }
+      ],
+      "transition": "Publish to GitHub"
+    },
+    {
+      "name": "Publish to GitHub",
+      "type": "operation",
+      "actionMode": "sequential",
+      "actions": [
+        {
+          "functionRef": {
+            "refName": "runActionGitHubRepoPush",
+            "arguments": {
+              "id": "$WORKFLOW.instanceId",
+              "repoUrl": ".repoUrl",
+              "defaultBranch": ".defaultBranch",
+              "protectDefaultBranch": false,
+              "protectEnforceAdmins": false
+            }
+          },
+          "actionDataFilter": {
+            "toStateData": ".actionResult"
           }
         }
       ],
