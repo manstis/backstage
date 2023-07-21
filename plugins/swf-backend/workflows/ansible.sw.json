@@ -35,11 +35,11 @@
               "url": "https://github.com/manstis/janus-software-templates/tree/main/scaffolder-templates/ansible-job/skeleton",
               "targetPath": "argo/ansibleJobs/",
               "values": {
-                "component_id": ".component_id",
-                "jobTemplate": ".jobTemplate",
-                "name": ".component_id",
-                "namespace": ".namespace",
-                "connection_secret": ".connection_secret"
+                "component_id": "${.component_id}",
+                "jobTemplate": "${.jobTemplate}",
+                "name": "${.component_id}",
+                "namespace": "${.namespace}",
+                "connection_secret": "${.connection_secret}"
               }
             }
           }
@@ -59,11 +59,12 @@
               "id": "$WORKFLOW.instanceId",
               "url": "https://github.com/manstis/janus-software-templates/tree/main/scaffolder-skeletons/catalog-info-skeleton/",
               "values": {
-                "githubOrg": ".githubOrg",
-                "repoName": ".repoName",
-                "owner": ".owner",
+                "githubOrg": "${.githubOrg}",
+                "repoName": "${.repoName}",
+                "owner": "${.owner}",
                 "applicationType": "api",
-                "description": ".description"
+                "system": "system:default/podcast",
+                "description": "${.description}"
               }
             }
           }
@@ -81,8 +82,8 @@
             "refName": "runActionGitHubRepoPush",
             "arguments": {
               "id": "$WORKFLOW.instanceId",
-              "repoUrl": ".repoUrl",
-              "defaultBranch": ".defaultBranch",
+              "repoUrl": "${.repoUrl}",
+              "defaultBranch": "${.defaultBranch}",
               "protectDefaultBranch": false,
               "protectEnforceAdmins": false
             }
@@ -104,7 +105,7 @@
             "refName": "runActionCatalogRegister",
             "arguments": {
               "id": "$WORKFLOW.instanceId",
-              "repoContentsUrl": ".repoContentsUrl",
+              "repoContentsUrl": "${.repoContentsUrl}",
               "catalogInfoPath": "/catalog-info.yaml"
             }
           },

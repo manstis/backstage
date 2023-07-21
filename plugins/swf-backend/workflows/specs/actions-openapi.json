@@ -1495,6 +1495,27 @@
                 "type": "boolean"
               }
             }
+          },
+          {
+            "type": "object",
+            "required": ["repoContentsUrl"],
+            "properties": {
+              "repoContentsUrl": {
+                "title": "Repository Contents URL",
+                "description": "An absolute URL pointing to the root of a repository directory tree",
+                "type": "string"
+              },
+              "catalogInfoPath": {
+                "title": "Fetch URL",
+                "description": "A relative path from the repo root pointing to the catalog info file, defaults to /catalog-info.yaml",
+                "type": "string"
+              },
+              "optional": {
+                "title": "Optional",
+                "description": "Permit the registered location to optionally exist. Default: false",
+                "type": "boolean"
+              }
+            }
           }
         ]
       },
