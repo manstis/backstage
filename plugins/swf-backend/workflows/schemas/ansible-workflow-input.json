@@ -47,16 +47,16 @@
       "title": "Catalogue GitHub Owner",
       "type": "string"
     },
+    "description": {
+      "title": "Catalogue GitHub commit description",
+      "type": "string"
+    },
     "repoUrl": {
       "title": "GitHubPush Repository URL",
       "type": "string"
     },
     "defaultBranch": {
       "title": "GitHubPush Branch",
-      "type": "string"
-    },
-    "description": {
-      "title": "Catalogue GitHub commit description",
       "type": "string"
     },
     "targetPath": {

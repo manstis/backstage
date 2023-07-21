@@ -88,6 +88,27 @@
             }
           },
           "actionDataFilter": {
+            "results": "."
+          }
+        }
+      ],
+      "transition": "Register Catalog entry"
+    },
+    {
+      "name": "Register Catalog entry",
+      "type": "operation",
+      "actionMode": "sequential",
+      "actions": [
+        {
+          "functionRef": {
+            "refName": "runActionCatalogRegister",
+            "arguments": {
+              "id": "$WORKFLOW.instanceId",
+              "repoContentsUrl": ".repoContentsUrl",
+              "catalogInfoPath": "/catalog-info.yaml"
+            }
+          },
+          "actionDataFilter": {
             "toStateData": ".actionResult"
           }
         }
