@@ -31,6 +31,22 @@
       "title": "AnsibleJob jobTemplate",
       "type": "string"
     },
+    "githubOrg": {
+      "title": "Catalogue GitHub Organisation",
+      "type": "string"
+    },
+    "repoName": {
+      "title": "Catalogue GitHub Repository Name",
+      "type": "string"
+    },
+    "owner": {
+      "title": "Catalogue GitHub Owner",
+      "type": "string"
+    },
+    "description": {
+      "title": "Catalogue GitHub commit description",
+      "type": "string"
+    },
     "targetPath": {
       "title": "Target Path",
       "description": "Target path within the working directory to download the contents to. Defaults to the working directory root.",

@@ -405,7 +405,8 @@ export async function createRouter(
       const action: TemplateAction = await actionRegistry.get(actionId);
       const tmpDirs = new Array<string>();
       const stepOutput: { [outputName: string]: JsonValue } = {};
-      const workspacePath = path.join(workingDirectory, 'check-for-processId');
+      const processInstanceId = req.header('kogitoprocinstanceid') ?? 'unknown';
+      const workspacePath = path.join(workingDirectory, processInstanceId);
       const mockContext: ActionContext<JsonObject> = {
         input: body,
         workspacePath: workspacePath,

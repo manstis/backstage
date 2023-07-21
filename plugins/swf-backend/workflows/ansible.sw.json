@@ -23,19 +23,41 @@
           "functionRef": {
             "refName": "runActionTemplateFetch",
             "arguments": {
+              "id": "$WORKFLOW.instanceId",
               "url": "https://github.com/manstis/janus-software-templates/tree/main/scaffolder-templates/ansible-job/skeleton",
               "targetPath": "argo/ansibleJobs/",
               "values": {
-                "component_id": ".name",
+                "component_id": ".component_id",
                 "jobTemplate": ".jobTemplate",
-                "name": ".name",
+                "name": ".component_id",
                 "namespace": ".namespace",
                 "connection_secret": ".connection_secret"
               }
             }
-          },
-          "actionDataFilter": {
-            "toStateData": ".actionResult"
+          }
+        }
+      ],
+      "transition": "Generating the Catalog Info Component"
+    },
+    {
+      "name": "Generating the Catalog Info Component",
+      "type": "operation",
+      "actionMode": "sequential",
+      "actions": [
+        {
+          "functionRef": {
+            "refName": "runActionTemplateFetch",
+            "arguments": {
+              "id": "$WORKFLOW.instanceId",
+              "url": "https://github.com/manstis/janus-software-templates/tree/main/scaffolder-skeletons/catalog-info-skeleton/",
+              "values": {
+                "githubOrg": ".githubOrg",
+                "repoName": ".repoName",
+                "owner": ".owner",
+                "applicationType": "api",
+                "description": ".description"
+              }
+            }
           }
         }
       ],

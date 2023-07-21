@@ -258,10 +258,16 @@ function setupExternalRoutes(router: express.Router, discovery: DiscoveryApi) {
     const { actionId } = req.params;
     const scaffolderUrl = await discovery.getBaseUrl('scaffolder');
     const requestBody = req.body;
+    const processInstanceId = req.header('kogitoprocinstanceid');
+    const headers = new Headers();
+    headers.set('content-type', 'application/json');
+    if (processInstanceId) {
+      headers.set('kogitoprocinstanceid', processInstanceId);
+    }
     const wsRequest = await fetch(`${scaffolderUrl}/v2/actions/${actionId}`, {
       method: 'POST',
       body: JSON.stringify(requestBody),
-      headers: { 'content-type': 'application/json' },
+      headers: headers,
     });
     const response = await wsRequest.json();
     res.status(wsRequest.status).json(response);
