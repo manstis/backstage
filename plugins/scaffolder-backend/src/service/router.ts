@@ -81,6 +81,8 @@ import { scaffolderActionRules, scaffolderTemplateRules } from './rules';
 import fs from 'fs-extra';
 import fetch from 'node-fetch';
 import { workflow_type } from '@backstage/plugin-swf-common';
+import { PassThrough } from 'stream';
+import path from 'path';
 
 /**
  *
@@ -399,22 +401,33 @@ export async function createRouter(
       console.log('Body request == ');
       const body = req.body;
       console.log(body);
+      const streamLogger = new PassThrough();
       const action: TemplateAction = await actionRegistry.get(actionId);
-      const outputMap: any = {};
+      const tmpDirs = new Array<string>();
+      const stepOutput: { [outputName: string]: JsonValue } = {};
+      const workspacePath = path.join(workingDirectory, 'check-for-processId');
       const mockContext: ActionContext<JsonObject> = {
         input: body,
-        workspacePath: '/tmp/testing',
+        workspacePath: workspacePath,
         logger: logger,
-        logStream: logger.stream(),
+        logStream: streamLogger,
         createTemporaryDirectory: async () => {
-          return await fs.mkdtemp(`${actionId}_step-${0}-`);
+          const tmpDir = await fs.mkdtemp(`${workspacePath}_step-${0}-`);
+          tmpDirs.push(tmpDir);
+          return tmpDir;
         },
         output(name: string, value: JsonValue) {
-          outputMap[name] = value;
+          stepOutput[name] = value;
         },
       };
       await action.handler(mockContext);
-      res.json(outputMap);
+
+      // TODO {manstis} Not sure if we need these "long lived" for the duration of the whole Workflow
+      // Remove all temporary directories that were created when executing the action
+      // for (const tmpDir of tmpDirs) {
+      //   await fs.remove(tmpDir);
+      // }
+      res.json(stepOutput);
     })
     .post('/v2/tasks', async (req, res) => {
       const templateRef: string = req.body.templateRef;
