@@ -161,13 +161,11 @@ function setupInternalRoutes(
       params: { swfId },
     } = req;
     const swfData = req.body;
-    const svcResponse = await executeWithRetry(() =>
-      fetch(`${kogitoBaseUrl}:${kogitoPort}/${swfId}`, {
-        method: 'POST',
-        body: JSON.stringify(swfData),
-        headers: { 'content-type': 'application/json' },
-      }),
-    );
+    const svcResponse = await fetch(`${kogitoBaseUrl}:${kogitoPort}/${swfId}`, {
+      method: 'POST',
+      body: JSON.stringify(swfData),
+      headers: { 'content-type': 'application/json' },
+    });
     const json = await svcResponse.json();
     res.status(svcResponse.status).json(json);
   });
@@ -254,6 +252,7 @@ function setupExternalRoutes(router: express.Router, discovery: DiscoveryApi) {
   });
 
   router.post('/actions/:actionId', async (req, res) => {
+    await delay(3000);
     const { actionId } = req.params;
     const scaffolderUrl = await discovery.getBaseUrl('scaffolder');
     const requestBody = req.body;
