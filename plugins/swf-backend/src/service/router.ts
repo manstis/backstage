@@ -252,7 +252,6 @@ function setupExternalRoutes(router: express.Router, discovery: DiscoveryApi) {
   });
 
   router.post('/actions/:actionId', async (req, res) => {
-    await delay(3000);
     const { actionId } = req.params;
     const scaffolderUrl = await discovery.getBaseUrl('scaffolder');
     const requestBody = req.body;
